@@ -8,9 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class SharedViewModel(
+class SharedViewModel @Inject constructor(
     private val repository: ToDoRepository
 ) : ViewModel() {
 
@@ -19,7 +20,7 @@ class SharedViewModel(
 
     fun getAllTasks() {
         viewModelScope.launch {
-            repository.getAllTasks.collect {tasks ->
+            repository.getAllTasks.collect { tasks ->
                 _allTask.value = tasks
             }
         }
