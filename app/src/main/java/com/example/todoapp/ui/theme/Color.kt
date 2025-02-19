@@ -23,5 +23,9 @@ val TopAppBarContentColor
     get() = if (isSystemInDarkTheme()) LightGray else Color.White
 
 val TopAppBarBackgroundColor
-@Composable
-get() = if (isSystemInDarkTheme()) Color.Black else Purple500
+    @Composable
+    get() = if (isSystemInDarkTheme()) Color.Black else Purple500
+
+val FabBackgroundColor
+    @Composable
+    get() = if (isSystemInDarkTheme()) Purple700 else Teal200

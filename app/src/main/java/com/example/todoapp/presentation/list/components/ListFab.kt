@@ -8,13 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.todoapp.R
+import com.example.todoapp.ui.theme.FabBackgroundColor
 
 @Composable
 fun ListFab(
     onFabClicked: (Int) -> Unit
 ) {
     FloatingActionButton(
-        onClick = { onFabClicked(-1) }
+        onClick = { onFabClicked(-1) },
+        containerColor = FabBackgroundColor
     ) {
         Icon(
             imageVector = Icons.Filled.Add,

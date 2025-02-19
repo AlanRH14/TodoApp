@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TodoApp</string>
     <string name="add_button">Add Button</string>
+    <string name="search_task_button">Search Task Button</string>
 </resources>
