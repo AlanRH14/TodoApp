@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.PRIORITY_INDICATOR_SIZE
-import com.example.todoapp.ui.theme.TextDropMenuColor
+import com.example.todoapp.ui.theme.TextUiSystemColor
 import com.example.todoapp.ui.theme.Typography
 
 @Composable
@@ -28,7 +28,7 @@ fun PriorityItem(
         Text(
             modifier = Modifier.padding(start = LARGE_PADDING),
             text = priority.name,
-            color = TextDropMenuColor,
+            color = TextUiSystemColor,
             style = Typography.bodyMedium
         )
     }

@@ -30,6 +30,6 @@ val FabBackgroundColor
     @Composable
     get() = if (isSystemInDarkTheme()) Purple700 else Teal200
 
-val TextDropMenuColor
+val TextUiSystemColor
     @Composable
     get() = if (isSystemInDarkTheme()) Color.White else Color.Black
