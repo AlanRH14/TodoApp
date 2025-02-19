@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">TodoApp</string>
     <string name="add_button">Add Button</string>
-    <string name="search_task_button">Search Task Button</string>
+    <string name="search_task_action">Search Task</string>
+    <string name="top_app_bar_title_task">Task</string>
+    <string name="sort_task_action">Sort Task</string>
+    <string name="delete_all_action">Delete All</string>
 </resources>

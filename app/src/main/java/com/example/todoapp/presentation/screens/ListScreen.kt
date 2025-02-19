@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.list
+package com.example.todoapp.presentation.screens
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable

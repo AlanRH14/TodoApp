@@ -6,6 +6,8 @@ import com.example.todoapp.presentation.list.components.DefaultListAppBar
 @Composable
 fun ListAppBar() {
     DefaultListAppBar(
-        onSearchClicked = {}
+        onSearchClicked = {},
+        onSortClicked = {},
+        onDeleteClicked = {},
     )
 }
