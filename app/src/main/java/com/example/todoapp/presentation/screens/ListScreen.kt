@@ -21,7 +21,9 @@ fun ListScreen(
             ListAppBar(
                 searchAppBarState = searchAppBarState,
                 searchTextState = searchTextAppBarState,
-                onSearchClicked = { appBarState -> sharedViewModel.setSearchAppBarState(appBarState) }
+                onSearchClicked = { appBarState -> sharedViewModel.setSearchAppBarState(appBarState) },
+                onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
+                onCloseClicked = { appBarState -> sharedViewModel.setSearchAppBarState(appBarState) }
             )
         },
         floatingActionButton = {

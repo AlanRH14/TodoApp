@@ -10,6 +10,8 @@ fun ListAppBar(
     searchAppBarState: SearchAppBarState,
     searchTextState: String,
     onSearchClicked: (SearchAppBarState) -> Unit,
+    onSearchTextChange: (String) -> Unit,
+    onCloseClicked: (SearchAppBarState) -> Unit,
 ) {
     when (searchAppBarState) {
         SearchAppBarState.CLOSED -> {
@@ -24,10 +26,10 @@ fun ListAppBar(
 
         else -> {
             ListSearchAppBar(
-                text = "",
-                onTextChange = {},
+                text = searchTextState,
+                onTextChange = { onSearchTextChange(it) },
                 onSearchClicked = {},
-                onCloseClicked = {}
+                onCloseClicked = { onCloseClicked(SearchAppBarState.CLOSED) }
             )
         }
     }

@@ -34,4 +34,8 @@ class SharedViewModel @Inject constructor(
     fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
         _searchAppBarState.value = searchAppBarState
     }
+
+    fun setSearchTextAppBarState(searchTextAppBarState: String) {
+        _searchTextAppBarState.value = searchTextAppBarState
+    }
 }
