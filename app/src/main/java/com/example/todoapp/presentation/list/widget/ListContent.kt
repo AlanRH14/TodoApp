@@ -14,10 +14,14 @@ fun ListContent(
     toDoTasks: List<ToDoTask>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    Column(
-        modifier = modifier
-    ) {
-        LazyColumn {
+    if (toDoTasks.isEmpty()) {
+        EmptyContent(
+            modifier = modifier
+        )
+    } else {
+        LazyColumn(
+            modifier = modifier
+        ) {
             items(
                 items = toDoTasks,
                 key = { task ->
@@ -31,4 +35,5 @@ fun ListContent(
             }
         }
     }
+
 }
