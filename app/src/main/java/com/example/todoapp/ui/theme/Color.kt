@@ -33,3 +33,11 @@ val FabBackgroundColor
 val TextUiSystemColor
     @Composable
     get() = if (isSystemInDarkTheme()) Color.White else Color.Black
+
+val TaskItemBackgroundColor
+    @Composable
+    get() = if (isSystemInDarkTheme()) DarkGray else Color.White
+
+val TaskItemTextColor
+    @Composable
+    get() = if (isSystemInDarkTheme()) LightGray else DarkGray
