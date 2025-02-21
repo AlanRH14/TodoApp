@@ -18,7 +18,7 @@ fun NavGraph(
     sharedViewModel: SharedViewModel
 ) {
     val screen = remember(navController) {
-        Screens(navController = navController)
+        NavScreens(navController = navController)
     }
 
     NavHost(
