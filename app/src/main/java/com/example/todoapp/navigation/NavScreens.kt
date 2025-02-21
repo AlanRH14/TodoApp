@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants.LIST_SCREEN
 
-class Screens(navController: NavController) {
+class NavScreens(navController: NavController) {
 
     val list: (Action) -> Unit = { action ->
         navController.navigate("list/${action.name}") {

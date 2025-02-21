@@ -1,6 +1,5 @@
 package com.example.todoapp.data.model
 
-
 import androidx.compose.ui.graphics.Color
 import com.example.todoapp.ui.theme.HighPriorityColor
 import com.example.todoapp.ui.theme.LowPriorityColor

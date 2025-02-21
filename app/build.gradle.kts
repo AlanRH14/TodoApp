@@ -59,13 +59,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    ksp(libs.hilt.compiler)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
 
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.compiler)
+    implementation(libs.room.runtime)
     implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.datastore.core)
     implementation(libs.datastore.preferences)

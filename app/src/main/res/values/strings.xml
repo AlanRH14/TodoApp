@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="add_button">Add Button</string>
+    <string name="search_task_action">Search Task</string>
+    <string name="top_app_bar_title_task">Task</string>
+    <string name="sort_task_action">Sort Task</string>
+    <string name="delete_all_action">Delete All</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="search_placeholder">Search…</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="sad_face_icon">Sad Face Icon</string>
+    <string name="empty_task_content">No Tasks Found.</string>
 </resources>
