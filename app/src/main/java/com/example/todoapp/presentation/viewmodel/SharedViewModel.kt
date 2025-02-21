@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.data.repositories.ToDoRepository
+import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,8 +26,14 @@ class SharedViewModel @Inject constructor(
 
     fun getAllTasks() {
         viewModelScope.launch {
-            repository.getAllTasks.collect { tasks ->
-                _allTask.value = tasks
+            repository.getAllTasks().collect { tasks ->
+                when (tasks) {
+                    is RequestState.Success -> {
+                        _allTask.value = tasks.data
+                    }
+
+                    else -> Unit
+                }
             }
         }
     }
