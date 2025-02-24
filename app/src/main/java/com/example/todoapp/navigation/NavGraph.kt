@@ -51,7 +51,10 @@ fun NavGraph(
         ) {
             val taskId = it.arguments?.getInt(TASK_ARGUMENT_KEY)
             Log.d("LordMiau", "TaskId: $taskId")
-            TaskScreen()
+            TaskScreen(
+                sharedViewModel = sharedViewModel,
+                taskId = taskId
+            )
         }
     }
 }

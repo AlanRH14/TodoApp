@@ -20,7 +20,7 @@ import com.example.todoapp.util.Action
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewTaskAppBar(
-    navigationToListScreen: (Action) -> Unit,
+    navigateToListScreen: (Action) -> Unit,
 ) {
     TopAppBar(
         title = {
@@ -31,7 +31,7 @@ fun NewTaskAppBar(
         },
         navigationIcon = {
             IconButton(
-                onClick = { navigationToListScreen(Action.NO_ACTION) }
+                onClick = { navigateToListScreen(Action.NO_ACTION) }
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -42,7 +42,7 @@ fun NewTaskAppBar(
         },
         actions = {
             IconButton(
-                onClick = { navigationToListScreen(Action.ADD) }
+                onClick = { navigateToListScreen(Action.ADD) }
             ) {
                 Icon(
                     imageVector = Icons.Filled.Check,
@@ -62,6 +62,6 @@ fun NewTaskAppBar(
 @Preview
 fun NewTaskAppBarPreview() {
     NewTaskAppBar(
-        navigationToListScreen = {}
+        navigateToListScreen = {}
     )
 }

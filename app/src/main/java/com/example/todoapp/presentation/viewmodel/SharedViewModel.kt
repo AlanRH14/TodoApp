@@ -9,6 +9,7 @@ import com.example.todoapp.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +24,8 @@ class SharedViewModel @Inject constructor(
     val searchTextAppBarState: StateFlow<String> get() = _searchTextAppBarState
     private val _allTask = MutableStateFlow<List<ToDoTask>>(emptyList())
     val allTask: StateFlow<List<ToDoTask>> get() = _allTask
+    private val _selectedTask = MutableStateFlow<ToDoTask?>(null)
+    val selectedTask: StateFlow<ToDoTask?> get() = _selectedTask
 
     fun getAllTasks() {
         viewModelScope.launch {
@@ -44,5 +47,13 @@ class SharedViewModel @Inject constructor(
 
     fun setSearchTextAppBarState(searchTextAppBarState: String) {
         _searchTextAppBarState.value = searchTextAppBarState
+    }
+
+    fun getSelectedTask(taskId: Int) {
+        viewModelScope.launch {
+            repository.getSelectedTask(taskId = taskId).collect { toDoTask ->
+                _selectedTask.value = toDoTask
+            }
+        }
     }
 }
