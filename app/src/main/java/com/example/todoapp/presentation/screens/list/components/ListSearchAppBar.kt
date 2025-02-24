@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.list.components
+package com.example.todoapp.presentation.screens.list.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions

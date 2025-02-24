@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.screens
+package com.example.todoapp.presentation.screens.list
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -7,9 +7,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.example.todoapp.presentation.list.components.ListFab
-import com.example.todoapp.presentation.list.widget.ListAppBar
-import com.example.todoapp.presentation.list.widget.ListContent
+import com.example.todoapp.presentation.screens.list.components.ListFab
+import com.example.todoapp.presentation.screens.list.widgets.ListAppBar
+import com.example.todoapp.presentation.screens.list.widgets.ListContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 
 @Composable

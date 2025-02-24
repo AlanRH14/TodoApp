@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.list.widget
+package com.example.todoapp.presentation.screens.list.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

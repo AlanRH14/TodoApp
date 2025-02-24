@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.list.components
+package com.example.todoapp.presentation.screens.list.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
