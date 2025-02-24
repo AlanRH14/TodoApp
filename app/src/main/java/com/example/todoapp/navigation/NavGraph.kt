@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.todoapp.presentation.screens.list.ListScreen
+import com.example.todoapp.presentation.screens.task.TaskScreen
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Constants.LIST_ARGUMENT_KEY
 import com.example.todoapp.util.Constants.TASK_ARGUMENT_KEY
@@ -50,6 +51,7 @@ fun NavGraph(
         ) {
             val taskId = it.arguments?.getInt(TASK_ARGUMENT_KEY)
             Log.d("LordMiau", "TaskId: $taskId")
+            TaskScreen()
         }
     }
 }
