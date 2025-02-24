@@ -10,4 +10,6 @@
     <string name="search_icon">Search Icon</string>
     <string name="sad_face_icon">Sad Face Icon</string>
     <string name="empty_task_content">No Tasks Found.</string>
+    <string name="back_arrow_button">Back Arrow Button</string>
+    <string name="add_task_title">Add Task</string>
 </resources>
