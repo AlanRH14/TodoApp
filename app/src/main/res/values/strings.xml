@@ -15,4 +15,6 @@
     <string name="update_task_title">Update Task</string>
     <string name="delete_icon">Delete Icon</string>
     <string name="update_icon">Update Icon</string>
+    <string name="drop_down_arrow_icon">Drop-Down Arrow Icon</string>
+    <string name="angle_row">Angle Row</string>
 </resources>
