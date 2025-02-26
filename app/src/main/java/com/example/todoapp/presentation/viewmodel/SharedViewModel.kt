@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.data.repositories.ToDoRepository
+import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
 import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -67,7 +67,9 @@ class SharedViewModel @Inject constructor(
     }
 
     fun setTitleTask(title: String) {
-        _title.value = title
+        if (title.length < MAX_TITLE_LENGTH) {
+            _title.value = title
+        }
     }
 
     fun setDescriptionTask(description: String) {
