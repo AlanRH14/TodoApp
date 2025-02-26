@@ -74,7 +74,7 @@ fun PriorityDropDown(
             modifier = Modifier
                 .weight(weight = 8F),
             text = priority.name,
-            style = Typography.bodyMedium,
+            style = Typography.bodyLarge,
         )
         IconButton(
             modifier = Modifier

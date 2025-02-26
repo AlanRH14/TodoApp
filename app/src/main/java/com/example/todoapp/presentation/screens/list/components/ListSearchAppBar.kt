@@ -52,7 +52,7 @@ fun ListSearchAppBar(
                 },
                 textStyle = TextStyle(
                     color = TopAppBarContentColor,
-                    fontSize = Typography().bodyMedium.fontSize
+                    fontSize = Typography().bodyLarge.fontSize
                 ),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
