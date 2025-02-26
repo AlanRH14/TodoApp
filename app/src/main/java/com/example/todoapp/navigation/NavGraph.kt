@@ -1,5 +1,6 @@
 package com.example.todoapp.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -7,10 +8,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.todoapp.presentation.screens.ListScreen
+import com.example.todoapp.presentation.screens.list.ListScreen
+import com.example.todoapp.presentation.screens.task.TaskScreen
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Constants.LIST_ARGUMENT_KEY
 import com.example.todoapp.util.Constants.TASK_ARGUMENT_KEY
+
+private const val s = "LordMiau"
 
 @Composable
 fun NavGraph(
@@ -32,7 +36,9 @@ fun NavGraph(
             })
         ) {
             ListScreen(
-                navigateToTaskScreen = {},
+                navigateToTaskScreen = { taskId ->
+                    screen.task(taskId)
+                },
                 sharedViewModel = sharedViewModel
             )
         }
@@ -43,7 +49,12 @@ fun NavGraph(
                 type = NavType.IntType
             })
         ) {
-
+            val taskId = it.arguments?.getInt(TASK_ARGUMENT_KEY)
+            Log.d("LordMiau", "TaskId: $taskId")
+            TaskScreen(
+                sharedViewModel = sharedViewModel,
+                taskId = taskId
+            )
         }
     }
 }

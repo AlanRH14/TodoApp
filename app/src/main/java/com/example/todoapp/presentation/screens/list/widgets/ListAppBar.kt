@@ -1,8 +1,8 @@
-package com.example.todoapp.presentation.list.widget
+package com.example.todoapp.presentation.screens.list.widgets
 
 import androidx.compose.runtime.Composable
-import com.example.todoapp.presentation.list.components.DefaultListAppBar
-import com.example.todoapp.presentation.list.components.ListSearchAppBar
+import com.example.todoapp.presentation.screens.list.components.DefaultListAppBar
+import com.example.todoapp.presentation.screens.list.components.ListSearchAppBar
 import com.example.todoapp.util.SearchAppBarState
 
 @Composable
