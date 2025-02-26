@@ -17,4 +17,6 @@
     <string name="update_icon">Update Icon</string>
     <string name="drop_down_arrow_icon">Drop-Down Arrow Icon</string>
     <string name="angle_row">Angle Row</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>

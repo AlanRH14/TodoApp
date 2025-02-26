@@ -4,11 +4,11 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
@@ -38,6 +38,7 @@ import com.example.todoapp.ui.theme.Typography
 
 @Composable
 fun PriorityDropDown(
+    modifier: Modifier = Modifier,
     priority: Priority,
     onPrioritySelected: (Priority) -> Unit
 ) {
@@ -48,13 +49,14 @@ fun PriorityDropDown(
     )
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(PRIORITY_DROP_DOWN_HEIGHT)
             .clickable { expended = true }
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.38F)
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.58f),
+                shape = RoundedCornerShape(4.0.dp),
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -88,7 +90,7 @@ fun PriorityDropDown(
         }
 
         DropdownMenu(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(fraction = 0.94F),
             expanded = expended,
             onDismissRequest = {
                 expended = false
