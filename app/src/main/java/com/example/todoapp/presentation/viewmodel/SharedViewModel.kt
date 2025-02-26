@@ -2,6 +2,7 @@ package com.example.todoapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.data.repositories.ToDoRepository
 import com.example.todoapp.util.RequestState
@@ -18,6 +19,14 @@ class SharedViewModel @Inject constructor(
     private val repository: ToDoRepository
 ) : ViewModel() {
 
+    private val _id = MutableStateFlow(0)
+    val id: StateFlow<Int> get() = _id
+    private val _title = MutableStateFlow("")
+    val title: StateFlow<String> get() = _title
+    private val _description = MutableStateFlow("")
+    val description: StateFlow<String> get() = _description
+    private val _priority = MutableStateFlow(Priority.NONE)
+    val priority: StateFlow<Priority> get() = _priority
     private val _searchAppBarState = MutableStateFlow(SearchAppBarState.CLOSED)
     val searchAppBarState: StateFlow<SearchAppBarState> get() = _searchAppBarState
     private val _searchTextAppBarState = MutableStateFlow("")
@@ -54,6 +63,32 @@ class SharedViewModel @Inject constructor(
             repository.getSelectedTask(taskId = taskId).collect { toDoTask ->
                 _selectedTask.value = toDoTask
             }
+        }
+    }
+
+    fun setTitleTask(title: String) {
+        _title.value = title
+    }
+
+    fun setDescriptionTask(description: String) {
+        _description.value = description
+    }
+
+    fun setPriorityTask(priority: Priority) {
+        _priority.value = priority
+    }
+
+    fun updateTaskFields(selectedTask: ToDoTask?) {
+        if (selectedTask != null) {
+            _id.value = selectedTask.id
+            _title.value = selectedTask.title
+            _description.value = selectedTask.description
+            _priority.value = selectedTask.priority
+        } else {
+            _id.value = 0
+            _title.value = ""
+            _description.value = ""
+            _priority.value = Priority.LOW
         }
     }
 }
