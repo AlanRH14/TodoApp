@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.data.repositories.ToDoRepository
+import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
 import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -21,6 +23,8 @@ class SharedViewModel @Inject constructor(
 
     private val _id = MutableStateFlow(0)
     val id: StateFlow<Int> get() = _id
+    private val _action = MutableStateFlow(Action.NO_ACTION)
+    val action: StateFlow<Action> get() = _action
     private val _title = MutableStateFlow("")
     val title: StateFlow<String> get() = _title
     private val _description = MutableStateFlow("")
@@ -78,6 +82,42 @@ class SharedViewModel @Inject constructor(
 
     fun setPriorityTask(priority: Priority) {
         _priority.value = priority
+    }
+
+    fun handleDatabaseActions(action: Action) {
+        when (action) {
+            Action.ADD -> {
+                addTask()
+            }
+
+            Action.UPDATE -> {
+
+            }
+
+            Action.DELETE -> {
+
+            }
+
+            Action.DELETE_ALL -> {
+
+            }
+
+            Action.UNDO -> {}
+
+            else -> Unit
+        }
+    }
+
+    fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val toDoTask = ToDoTask(
+                title = _title.value,
+                description = _description.value,
+                priority = _priority.value
+            )
+
+            repository.addTask(toDoTask = toDoTask)
+        }
     }
 
     fun updateTaskFields(selectedTask: ToDoTask?) {
