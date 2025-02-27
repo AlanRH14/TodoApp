@@ -13,6 +13,7 @@ import com.example.todoapp.presentation.screens.task.TaskScreen
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Constants.LIST_ARGUMENT_KEY
 import com.example.todoapp.util.Constants.TASK_ARGUMENT_KEY
+import com.example.todoapp.util.toAction
 
 private const val s = "LordMiau"
 
@@ -34,7 +35,9 @@ fun NavGraph(
             arguments = listOf(navArgument(LIST_ARGUMENT_KEY) {
                 type = NavType.StringType
             })
-        ) {
+        ) { navBackStackEntry ->
+            val action = navBackStackEntry.arguments?.getString(LIST_ARGUMENT_KEY).toAction()
+            Log.d("LordMiau", "Action: ${action.name}")
             ListScreen(
                 navigateToTaskScreen = screen.task,
                 sharedViewModel = sharedViewModel
@@ -48,7 +51,6 @@ fun NavGraph(
             })
         ) { navBackStackEntry ->
             val taskId = navBackStackEntry.arguments?.getInt(TASK_ARGUMENT_KEY)
-            Log.d("LordMiau", "TaskId: $taskId")
             TaskScreen(
                 sharedViewModel = sharedViewModel,
                 taskId = taskId,
