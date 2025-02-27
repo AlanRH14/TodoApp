@@ -10,11 +10,13 @@ import androidx.compose.ui.Modifier
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
+import com.example.todoapp.util.Action
 
 @Composable
 fun TaskScreen(
     sharedViewModel: SharedViewModel,
-    taskId: Int? = null
+    taskId: Int? = null,
+    navigateToListScreen: (Action) -> Unit
 ) {
     val title by sharedViewModel.title.collectAsState()
     val description by sharedViewModel.description.collectAsState()
@@ -31,7 +33,10 @@ fun TaskScreen(
 
     Scaffold(
         topBar = {
-            TaskAppBar(task = selectedTask)
+            TaskAppBar(
+                task = selectedTask,
+                navigateToListScreen = { navigateToListScreen(it) }
+            )
         }
     ) { paddingValues ->
         TaskContent(

@@ -29,7 +29,7 @@ fun ListContent(
             ) { task ->
                 TaskItem(
                     toDoTask = task,
-                    navigationToTaskScreen = { navigateToTaskScreen(task.id) }
+                    navigationToTaskScreen = navigateToTaskScreen
                 )
             }
         }

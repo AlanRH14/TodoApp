@@ -36,9 +36,7 @@ fun NavGraph(
             })
         ) {
             ListScreen(
-                navigateToTaskScreen = { taskId ->
-                    screen.task(taskId)
-                },
+                navigateToTaskScreen = screen.task,
                 sharedViewModel = sharedViewModel
             )
         }
@@ -48,12 +46,13 @@ fun NavGraph(
             arguments = listOf(navArgument(TASK_ARGUMENT_KEY) {
                 type = NavType.IntType
             })
-        ) {
-            val taskId = it.arguments?.getInt(TASK_ARGUMENT_KEY)
+        ) { navBackStackEntry ->
+            val taskId = navBackStackEntry.arguments?.getInt(TASK_ARGUMENT_KEY)
             Log.d("LordMiau", "TaskId: $taskId")
             TaskScreen(
                 sharedViewModel = sharedViewModel,
-                taskId = taskId
+                taskId = taskId,
+                navigateToListScreen = { screen.list }
             )
         }
     }

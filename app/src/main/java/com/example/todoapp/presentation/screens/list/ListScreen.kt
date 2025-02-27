@@ -41,8 +41,7 @@ fun ListScreen(
         ListContent(
             modifier = Modifier.padding(paddingValues),
             toDoTasks = allTask,
-        ) { idTask ->
-            navigateToTaskScreen(idTask)
-        }
+            navigateToTaskScreen = navigateToTaskScreen
+        )
     }
 }
