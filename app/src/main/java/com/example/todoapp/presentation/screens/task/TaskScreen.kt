@@ -35,7 +35,7 @@ fun TaskScreen(
         topBar = {
             TaskAppBar(
                 task = selectedTask,
-                navigateToListScreen = { navigateToListScreen(it) }
+                navigateToListScreen = navigateToListScreen
             )
         }
     ) { paddingValues ->

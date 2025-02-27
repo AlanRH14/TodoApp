@@ -52,7 +52,7 @@ fun NavGraph(
             TaskScreen(
                 sharedViewModel = sharedViewModel,
                 taskId = taskId,
-                navigateToListScreen = { screen.list }
+                navigateToListScreen = screen.list
             )
         }
     }
