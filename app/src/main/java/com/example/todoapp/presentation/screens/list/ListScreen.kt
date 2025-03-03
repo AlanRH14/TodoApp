@@ -11,18 +11,26 @@ import com.example.todoapp.presentation.screens.list.components.ListFab
 import com.example.todoapp.presentation.screens.list.widgets.ListAppBar
 import com.example.todoapp.presentation.screens.list.widgets.ListContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
+import com.example.todoapp.util.Action
 
 @Composable
 fun ListScreen(
+    mAction: Action,
     navigateToTaskScreen: (Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
     LaunchedEffect(key1 = true) {
         sharedViewModel.getAllTasks()
     }
+    LaunchedEffect(key1 = mAction) {
+        sharedViewModel.updateAction(mAction)
+    }
+    val action by sharedViewModel.action.collectAsState()
     val allTask by sharedViewModel.allTask.collectAsState()
     val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
     val searchTextAppBarState by sharedViewModel.searchTextAppBarState.collectAsState()
+
+    sharedViewModel.handleDatabaseActions(action = action)
 
     Scaffold(
         topBar = {

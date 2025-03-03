@@ -84,6 +84,18 @@ class SharedViewModel @Inject constructor(
         _priority.value = priority
     }
 
+    private fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val toDoTask = ToDoTask(
+                title = _title.value,
+                description = _description.value,
+                priority = _priority.value
+            )
+
+            repository.addTask(toDoTask = toDoTask)
+        }
+    }
+
     fun handleDatabaseActions(action: Action) {
         when (action) {
             Action.ADD -> {
@@ -106,18 +118,8 @@ class SharedViewModel @Inject constructor(
 
             else -> Unit
         }
-    }
 
-    fun addTask() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val toDoTask = ToDoTask(
-                title = _title.value,
-                description = _description.value,
-                priority = _priority.value
-            )
-
-            repository.addTask(toDoTask = toDoTask)
-        }
+        _action.value = Action.NO_ACTION
     }
 
     fun updateTaskFields(selectedTask: ToDoTask?) {
@@ -136,5 +138,9 @@ class SharedViewModel @Inject constructor(
 
     fun validateFields(): Boolean {
         return _title.value.isNotEmpty() && _description.value.isNotEmpty()
+    }
+
+    fun updateAction(action: Action) {
+        _action.value = action
     }
 }

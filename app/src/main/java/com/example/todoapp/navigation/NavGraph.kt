@@ -1,6 +1,5 @@
 package com.example.todoapp.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -14,8 +13,6 @@ import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Constants.LIST_ARGUMENT_KEY
 import com.example.todoapp.util.Constants.TASK_ARGUMENT_KEY
 import com.example.todoapp.util.toAction
-
-private const val s = "LordMiau"
 
 @Composable
 fun NavGraph(
@@ -36,11 +33,11 @@ fun NavGraph(
                 type = NavType.StringType
             })
         ) { navBackStackEntry ->
-            val action = navBackStackEntry.arguments?.getString(LIST_ARGUMENT_KEY).toAction()
-            Log.d("LordMiau", "Action: ${action.name}")
+            val mAction = navBackStackEntry.arguments?.getString(LIST_ARGUMENT_KEY).toAction()
             ListScreen(
+                mAction = mAction,
                 navigateToTaskScreen = screen.task,
-                sharedViewModel = sharedViewModel
+                sharedViewModel = sharedViewModel,
             )
         }
 
