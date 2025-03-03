@@ -10,12 +10,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun DisplaySnackBar(
     scaffoldState: SnackbarHostState,
-    handleDatabaseAction: () -> Unit,
     taskTitle: String,
     action: Action
 ) {
-    handleDatabaseAction()
-
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = action) {
         if (action != Action.NO_ACTION) {

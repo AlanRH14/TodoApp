@@ -40,7 +40,6 @@ fun ListScreen(
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
-        handleDatabaseAction = { sharedViewModel.handleDatabaseActions(action) },
         taskTitle = title,
         action = action,
     )
