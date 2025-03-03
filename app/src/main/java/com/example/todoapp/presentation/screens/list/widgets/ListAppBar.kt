@@ -9,15 +9,15 @@ import com.example.todoapp.util.SearchAppBarState
 fun ListAppBar(
     searchAppBarState: SearchAppBarState,
     searchTextState: String,
-    onSearchClicked: (SearchAppBarState) -> Unit,
+    onSearch: (String) -> Unit,
     onSearchTextChange: (String) -> Unit,
-    onCloseClicked: (SearchAppBarState) -> Unit,
+    onActionClicked: (SearchAppBarState) -> Unit,
 ) {
     when (searchAppBarState) {
         SearchAppBarState.CLOSED -> {
             DefaultListAppBar(
                 onSearchClicked = {
-                    onSearchClicked(SearchAppBarState.OPENED)
+                    onActionClicked(SearchAppBarState.OPENED)
                 },
                 onSortClicked = {},
                 onDeleteClicked = {},
@@ -28,8 +28,8 @@ fun ListAppBar(
             ListSearchAppBar(
                 text = searchTextState,
                 onTextChange = { onSearchTextChange(it) },
-                onSearchClicked = {},
-                onCloseClicked = { onCloseClicked(SearchAppBarState.CLOSED) }
+                onSearchActionClicked = onSearch,
+                onCloseClicked = { onActionClicked(SearchAppBarState.CLOSED) }
             )
         }
     }

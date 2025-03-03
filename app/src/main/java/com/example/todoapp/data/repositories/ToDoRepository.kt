@@ -45,7 +45,14 @@ class ToDoRepository @Inject constructor(private val toDoDao: ToDoDao) {
         toDoDao.deleteAllTasks()
     }
 
-    suspend fun searchTask(searchQuery: String): Flow<List<ToDoTask>> {
-        return toDoDao.searchDatabase(searchQuery = searchQuery)
+    fun searchTask(searchQuery: String): Flow<RequestState<List<ToDoTask>>> = flow {
+        emit(RequestState.Loading)
+        try {
+            toDoDao.searchDatabase(searchQuery = searchQuery).collect {
+                emit(RequestState.Success(it))
+            }
+        }catch (e: Exception) {
+            emit(RequestState.Error(e))
+        }
     }
 }

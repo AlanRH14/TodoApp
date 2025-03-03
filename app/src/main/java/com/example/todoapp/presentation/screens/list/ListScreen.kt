@@ -31,6 +31,7 @@ fun ListScreen(
     }
     val action by sharedViewModel.action.collectAsState()
     val allTask by sharedViewModel.allTask.collectAsState()
+    val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
     val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
     val searchTextAppBarState by sharedViewModel.searchTextAppBarState.collectAsState()
     val title by sharedViewModel.title.collectAsState()
@@ -55,9 +56,9 @@ fun ListScreen(
             ListAppBar(
                 searchAppBarState = searchAppBarState,
                 searchTextState = searchTextAppBarState,
-                onSearchClicked = { appBarState -> sharedViewModel.setSearchAppBarState(appBarState) },
+                onSearch = { query -> sharedViewModel.searchTasks(query) },
                 onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
-                onCloseClicked = { appBarState -> sharedViewModel.setSearchAppBarState(appBarState) }
+                onActionClicked = { appBarState -> sharedViewModel.setSearchAppBarState(appBarState) }
             )
         },
         floatingActionButton = {
@@ -66,7 +67,9 @@ fun ListScreen(
     ) { paddingValues ->
         ListContent(
             modifier = Modifier.padding(paddingValues),
-            toDoTasks = allTask,
+            allTasks = allTask,
+            searchedTasks = searchedTasks,
+            searchAppBarState = searchAppBarState,
             navigateToTaskScreen = navigateToTaskScreen
         )
     }

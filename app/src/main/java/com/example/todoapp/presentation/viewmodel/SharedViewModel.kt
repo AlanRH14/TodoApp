@@ -22,7 +22,6 @@ class SharedViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _id = MutableStateFlow(0)
-    val id: StateFlow<Int> get() = _id
     private val _action = MutableStateFlow(Action.NO_ACTION)
     val action: StateFlow<Action> get() = _action
     private val _title = MutableStateFlow("")
@@ -39,6 +38,8 @@ class SharedViewModel @Inject constructor(
     val allTask: StateFlow<List<ToDoTask>> get() = _allTask
     private val _selectedTask = MutableStateFlow<ToDoTask?>(null)
     val selectedTask: StateFlow<ToDoTask?> get() = _selectedTask
+    private val _searchedTasks = MutableStateFlow<List<ToDoTask>>(emptyList())
+    val searchedTasks: StateFlow<List<ToDoTask>> get() = _searchedTasks
 
     fun getAllTasks() {
         viewModelScope.launch {
@@ -54,34 +55,19 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
-        _searchAppBarState.value = searchAppBarState
-    }
+    fun searchTasks(searchQuery: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.searchTask(searchQuery = "%$searchQuery%").collect { searchTasks ->
+                when (searchTasks) {
+                    is RequestState.Success -> {
+                        _searchedTasks.value = searchTasks.data
+                    }
 
-    fun setSearchTextAppBarState(searchTextAppBarState: String) {
-        _searchTextAppBarState.value = searchTextAppBarState
-    }
-
-    fun getSelectedTask(taskId: Int) {
-        viewModelScope.launch {
-            repository.getSelectedTask(taskId = taskId).collect { toDoTask ->
-                _selectedTask.value = toDoTask
+                    else -> Unit
+                }
             }
+            _searchAppBarState.value = SearchAppBarState.TRIGGERED
         }
-    }
-
-    fun setTitleTask(title: String) {
-        if (title.length < MAX_TITLE_LENGTH) {
-            _title.value = title
-        }
-    }
-
-    fun setDescriptionTask(description: String) {
-        _description.value = description
-    }
-
-    fun setPriorityTask(priority: Priority) {
-        _priority.value = priority
     }
 
     private fun addTask() {
@@ -162,6 +148,36 @@ class SharedViewModel @Inject constructor(
             _description.value = ""
             _priority.value = Priority.LOW
         }
+    }
+
+    fun getSelectedTask(taskId: Int) {
+        viewModelScope.launch {
+            repository.getSelectedTask(taskId = taskId).collect { toDoTask ->
+                _selectedTask.value = toDoTask
+            }
+        }
+    }
+
+    fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
+        _searchAppBarState.value = searchAppBarState
+    }
+
+    fun setSearchTextAppBarState(searchTextAppBarState: String) {
+        _searchTextAppBarState.value = searchTextAppBarState
+    }
+
+    fun setTitleTask(title: String) {
+        if (title.length < MAX_TITLE_LENGTH) {
+            _title.value = title
+        }
+    }
+
+    fun setDescriptionTask(description: String) {
+        _description.value = description
+    }
+
+    fun setPriorityTask(priority: Priority) {
+        _priority.value = priority
     }
 
     fun validateFields(): Boolean {

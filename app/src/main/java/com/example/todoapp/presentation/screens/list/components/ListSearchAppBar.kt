@@ -30,7 +30,7 @@ import com.example.todoapp.ui.theme.TopAppBarContentColor
 fun ListSearchAppBar(
     text: String,
     onTextChange: (String) -> Unit,
-    onSearchClicked: (String) -> Unit,
+    onSearchActionClicked: (String) -> Unit,
     onCloseClicked: () -> Unit,
 ) {
     TopAppBar(
@@ -60,7 +60,7 @@ fun ListSearchAppBar(
                 ),
                 keyboardActions = KeyboardActions(
                     onSearch = {
-                        onSearchClicked(text)
+                        onSearchActionClicked(text)
                     }
                 ),
                 colors = TextFieldDefaults.colors(
