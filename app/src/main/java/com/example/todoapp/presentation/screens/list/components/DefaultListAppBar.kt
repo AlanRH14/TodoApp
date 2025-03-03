@@ -110,7 +110,7 @@ fun DefaultListAppBar(
                             Text(
                                 modifier = Modifier.padding(start = LARGE_PADDING),
                                 text = stringResource(R.string.delete_all_action),
-                                style = Typography.bodyMedium
+                                style = Typography.bodyLarge
                             )
                         },
                         onClick = {

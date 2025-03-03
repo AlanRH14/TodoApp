@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.example.todoapp.R
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.presentation.screens.list.components.PriorityItem
+import com.example.todoapp.ui.theme.BORDER_RADIUS_DROPDOWN
 import com.example.todoapp.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
 import com.example.todoapp.ui.theme.PRIORITY_INDICATOR_SIZE
 import com.example.todoapp.ui.theme.Typography
@@ -56,7 +57,7 @@ fun PriorityDropDown(
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.58f),
-                shape = RoundedCornerShape(4.0.dp),
+                shape = RoundedCornerShape(BORDER_RADIUS_DROPDOWN),
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -74,7 +75,7 @@ fun PriorityDropDown(
             modifier = Modifier
                 .weight(weight = 8F),
             text = priority.name,
-            style = Typography.bodyMedium,
+            style = Typography.bodyLarge,
         )
         IconButton(
             modifier = Modifier
