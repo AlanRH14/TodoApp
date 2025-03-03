@@ -16,6 +16,7 @@ import com.example.todoapp.presentation.screens.list.widgets.ListAppBar
 import com.example.todoapp.presentation.screens.list.widgets.ListContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
+import com.example.todoapp.util.SearchAppBarState
 
 @Composable
 fun ListScreen(
@@ -56,9 +57,17 @@ fun ListScreen(
             ListAppBar(
                 searchAppBarState = searchAppBarState,
                 searchTextState = searchTextAppBarState,
-                onSearch = { query -> sharedViewModel.searchTasks(query) },
+                onSearch = { query ->
+                    sharedViewModel.setSearchAppBarState(SearchAppBarState.TRIGGERED)
+                    sharedViewModel.searchTasks(query)
+                },
                 onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
-                onActionClicked = { appBarState -> sharedViewModel.setSearchAppBarState(appBarState) }
+                onSearchActionClicked = { appBarState ->
+                    sharedViewModel.setSearchAppBarState(
+                        appBarState
+                    )
+                },
+                onBarActionClicked = { action -> sharedViewModel.updateAction(action) }
             )
         },
         floatingActionButton = {

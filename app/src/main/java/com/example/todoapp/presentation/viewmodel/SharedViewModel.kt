@@ -10,7 +10,6 @@ import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
 import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -56,7 +55,7 @@ class SharedViewModel @Inject constructor(
     }
 
     fun searchTasks(searchQuery: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.searchTask(searchQuery = "%$searchQuery%").collect { searchTasks ->
                 when (searchTasks) {
                     is RequestState.Success -> {
@@ -66,12 +65,11 @@ class SharedViewModel @Inject constructor(
                     else -> Unit
                 }
             }
-            _searchAppBarState.value = SearchAppBarState.TRIGGERED
         }
     }
 
     private fun addTask() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val toDoTask = ToDoTask(
                 title = _title.value,
                 description = _description.value,
@@ -83,7 +81,7 @@ class SharedViewModel @Inject constructor(
     }
 
     private fun updateTask() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val toDoTask = ToDoTask(
                 id = _id.value,
                 title = _title.value,
@@ -96,7 +94,7 @@ class SharedViewModel @Inject constructor(
     }
 
     private fun deleteTask() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val toDoTask = ToDoTask(
                 id = _id.value,
                 title = _title.value,
@@ -105,6 +103,12 @@ class SharedViewModel @Inject constructor(
             )
 
             repository.deleteTask(toDoTask = toDoTask)
+        }
+    }
+
+    private fun deleteAllTask() {
+        viewModelScope.launch {
+            repository.deleteAllTasks()
         }
     }
 
@@ -123,7 +127,7 @@ class SharedViewModel @Inject constructor(
             }
 
             Action.DELETE_ALL -> {
-
+                deleteAllTask()
             }
 
             Action.UNDO -> {
