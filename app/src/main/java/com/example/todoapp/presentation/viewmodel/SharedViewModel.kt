@@ -140,7 +140,9 @@ class SharedViewModel @Inject constructor(
 
             }
 
-            Action.UNDO -> {}
+            Action.UNDO -> {
+                addTask()
+            }
 
             else -> Unit
         }

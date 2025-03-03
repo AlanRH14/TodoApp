@@ -40,6 +40,9 @@ fun ListScreen(
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
+        onUndoClicked = {
+            sharedViewModel.updateAction(it)
+        },
         taskTitle = title,
         action = action,
     )
