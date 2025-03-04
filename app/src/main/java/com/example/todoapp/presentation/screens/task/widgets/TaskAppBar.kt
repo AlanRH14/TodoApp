@@ -18,21 +18,19 @@ fun TaskAppBar(
     task: ToDoTask?,
     navigateToListScreen: (Action) -> Unit,
 ) {
-    var openDialog by remember { mutableStateOf(false) }
-
     if (task == null) {
         NewTaskAppBar(
             navigateToListScreen = navigateToListScreen
         )
     } else {
+        var openDialog by remember { mutableStateOf(false) }
+
         DisplayAlertDialog(
             title = stringResource(R.string.delete_task, task.title),
             message = stringResource(R.string.delete_task_confirmation, task.title),
             openDialog = openDialog,
-            closeDialog = {
-                openDialog = false
-            },
-            onConfirmClicked = { navigateToListScreen (Action.DELETE)}
+            closeDialog = { openDialog = false },
+            onConfirmClicked = { navigateToListScreen(Action.DELETE) }
         )
 
         ExistingTaskAppBar(

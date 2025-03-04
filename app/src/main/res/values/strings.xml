@@ -23,4 +23,6 @@
     <string name="confirm_btn">Confirm</string>
     <string name="delete_task">Remove \'%1$s\'?</string>
     <string name="delete_task_confirmation">Are you sure you want to remove \'%1$s\'?</string>
+    <string name="delete_all_tasks">Remove All Task?</string>
+    <string name="delete_all_tasks_confirmation">Are you sure you want to remove all Task? There is no going back after this action</string>
 </resources>
