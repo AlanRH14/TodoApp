@@ -19,4 +19,8 @@
     <string name="angle_row">Angle Row</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="confirm_btn">Confirm</string>
+    <string name="delete_task">Remove \'%1$s\'?</string>
+    <string name="delete_task_confirmation">Are you sure you want to remove \'%1$s\'?</string>
 </resources>

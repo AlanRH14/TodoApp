@@ -25,7 +25,8 @@ import com.example.todoapp.util.Action
 @Composable
 fun ExistingTaskAppBar(
     task: ToDoTask,
-    navigateToListScreen: (Action) -> Unit
+    navigateToListScreen: (Action) -> Unit,
+    onDeleteClicked: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -49,7 +50,7 @@ fun ExistingTaskAppBar(
         },
         actions = {
             IconButton(
-                onClick = { navigateToListScreen(Action.DELETE) }
+                onClick = onDeleteClicked
             ) {
                 Icon(
                     imageVector = Icons.Filled.Delete,
@@ -79,6 +80,7 @@ fun ExistingTaskAppBar(
 fun ExistingTaskAppBarPreview() {
     ExistingTaskAppBar(
         task = taskItemTest,
-        navigateToListScreen = {}
+        navigateToListScreen = {},
+        onDeleteClicked = {}
     )
 }
