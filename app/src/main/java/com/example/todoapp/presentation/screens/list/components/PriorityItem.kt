@@ -29,7 +29,7 @@ fun PriorityItem(
             modifier = Modifier.padding(start = LARGE_PADDING),
             text = priority.name,
             color = TextUiSystemColor,
-            style = Typography.bodyLarge
+            style = Typography.bodyMedium
         )
     }
 }

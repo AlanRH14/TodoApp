@@ -23,15 +23,17 @@ fun TaskScreen(
     val title by sharedViewModel.title.collectAsState()
     val description by sharedViewModel.description.collectAsState()
     val priority by sharedViewModel.priority.collectAsState()
-
-    if (taskId != null) {
-        sharedViewModel.getSelectedTask(taskId = taskId)
-    }
     val selectedTask by sharedViewModel.selectedTask.collectAsState()
     val mContext = LocalContext.current
 
+    LaunchedEffect(key1 = taskId) {
+        if (taskId != null) {
+            sharedViewModel.getSelectedTask(taskId = taskId)
+        }
+    }
+
     LaunchedEffect(key1 = selectedTask) {
-        if (selectedTask != null || taskId == - 1) {
+        if (selectedTask != null || taskId == -1) {
             sharedViewModel.updateTaskFields(selectedTask)
         }
     }

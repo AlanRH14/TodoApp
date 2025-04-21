@@ -11,8 +11,27 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class ToDoRepository @Inject constructor(private val toDoDao: ToDoDao) {
-    val sortByLowPriority: Flow<List<ToDoTask>> = toDoDao.sortByLowPriority()
-    val sortByHighPriority: Flow<List<ToDoTask>> = toDoDao.sortByHighPriority()
+    fun sortByLowPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
+        emit(RequestState.Loading)
+        try {
+            toDoDao.sortByLowPriority().collect {
+                emit(RequestState.Success(it))
+            }
+        } catch (e: Exception) {
+            emit(RequestState.Error(e))
+        }
+    }
+
+    fun sortByHighPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
+        emit(RequestState.Loading)
+        try {
+            toDoDao.sortByHighPriority().collect {
+                emit(RequestState.Success(it))
+            }
+        } catch (e: Exception) {
+            emit(RequestState.Error(e))
+        }
+    }
 
     fun getAllTasks(): Flow<RequestState<List<ToDoTask>>> = flow {
         emit(RequestState.Loading)
@@ -51,7 +70,7 @@ class ToDoRepository @Inject constructor(private val toDoDao: ToDoDao) {
             toDoDao.searchDatabase(searchQuery = searchQuery).collect {
                 emit(RequestState.Success(it))
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             emit(RequestState.Error(e))
         }
     }

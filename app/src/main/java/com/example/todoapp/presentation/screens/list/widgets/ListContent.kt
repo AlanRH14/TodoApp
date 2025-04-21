@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.presentation.screens.list.components.TaskItem
 import com.example.todoapp.util.SearchAppBarState
@@ -12,22 +13,45 @@ import com.example.todoapp.util.SearchAppBarState
 fun ListContent(
     modifier: Modifier = Modifier,
     allTasks: List<ToDoTask>,
+    lowPriorityTasks: List<ToDoTask>,
+    highPriorityTasks: List<ToDoTask>,
+    sortState: Priority,
     searchedTasks: List<ToDoTask>,
     searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
-        HandleListContent(
-            modifier = modifier,
-            tasks = searchedTasks,
-            navigateToTaskScreen = navigateToTaskScreen
-        )
-    } else {
-        HandleListContent(
-            modifier = modifier,
-            tasks = allTasks,
-            navigateToTaskScreen = navigateToTaskScreen
-        )
+    when {
+        searchAppBarState == SearchAppBarState.TRIGGERED -> {
+            HandleListContent(
+                modifier = modifier,
+                tasks = searchedTasks,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+
+        sortState == Priority.NONE -> {
+            HandleListContent(
+                modifier = modifier,
+                tasks = allTasks,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+
+        sortState == Priority.LOW -> {
+            HandleListContent(
+                modifier = modifier,
+                tasks = lowPriorityTasks,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+
+        sortState == Priority.HIGH -> {
+            HandleListContent(
+                modifier = modifier,
+                tasks = highPriorityTasks,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
     }
 }
 
