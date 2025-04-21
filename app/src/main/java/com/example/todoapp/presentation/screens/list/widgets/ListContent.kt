@@ -2,6 +2,8 @@ package com.example.todoapp.presentation.screens.list.widgets
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.todoapp.data.model.Priority
@@ -75,10 +77,17 @@ private fun HandleListContent(
                     task.id
                 }
             ) { task ->
-                TaskItem(
+                /*TaskItem(
                     toDoTask = task,
                     navigationToTaskScreen = navigateToTaskScreen
-                )
+                )*/
+
+                val dismissState = rememberSwipeToDismissBoxState()
+
+                SwipeToDismissBox(
+                    state = dismissState,
+                    enableDismissFromEndToStart = true,
+                ) { }
             }
         }
     }
