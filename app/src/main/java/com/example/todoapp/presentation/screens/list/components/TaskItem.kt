@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
@@ -18,8 +19,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.todoapp.data.mock_data.TaskProvider.taskItemTest
 import com.example.todoapp.data.model.ToDoTask
+import com.example.todoapp.presentation.screens.list.widgets.RedBackground
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.PRIORITY_INDICATOR_SIZE
 import com.example.todoapp.ui.theme.TASK_ITEM_ELEVATION
@@ -91,8 +94,16 @@ fun TaskItem(
 
 @Composable
 @Preview
-fun TaskItemPreview() {
+private fun TaskItemPreview() {
     TaskItem(
         toDoTask = taskItemTest
     ) { }
+}
+
+@Composable
+@Preview
+private fun RedBackgroundPreview() {
+    Column(modifier = Modifier.height(85.dp)) {
+        RedBackground( degrees = 0F)
+    }
 }
