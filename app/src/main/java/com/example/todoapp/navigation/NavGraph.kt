@@ -8,9 +8,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.todoapp.presentation.screens.list.ListScreen
+import com.example.todoapp.presentation.screens.splash.SplashScreen
 import com.example.todoapp.presentation.screens.task.TaskScreen
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Constants.LIST_ARGUMENT_KEY
+import com.example.todoapp.util.Constants.SPLASH_SCREEN
 import com.example.todoapp.util.Constants.TASK_ARGUMENT_KEY
 import com.example.todoapp.util.toAction
 
@@ -25,8 +27,14 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.LIST.route,
+        startDestination = Screen.SPLASH.route,
     ) {
+        composable(route = SPLASH_SCREEN) {
+            SplashScreen(
+                navigateToListScreen = screen.splash
+            )
+        }
+
         composable(
             route = Screen.LIST.route,
             arguments = listOf(navArgument(LIST_ARGUMENT_KEY) {
@@ -36,8 +44,8 @@ fun NavGraph(
             val mAction = navBackStackEntry.arguments?.getString(LIST_ARGUMENT_KEY).toAction()
             ListScreen(
                 mAction = mAction,
-                navigateToTaskScreen = screen.task,
                 sharedViewModel = sharedViewModel,
+                navigateToTaskScreen = screen.list,
             )
         }
 
@@ -51,7 +59,7 @@ fun NavGraph(
             TaskScreen(
                 sharedViewModel = sharedViewModel,
                 taskId = taskId,
-                navigateToListScreen = screen.list
+                navigateToListScreen = screen.task
             )
         }
     }

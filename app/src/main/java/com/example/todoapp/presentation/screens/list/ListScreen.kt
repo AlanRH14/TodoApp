@@ -21,8 +21,8 @@ import com.example.todoapp.util.SearchAppBarState
 @Composable
 fun ListScreen(
     mAction: Action,
+    sharedViewModel: SharedViewModel,
     navigateToTaskScreen: (Int) -> Unit,
-    sharedViewModel: SharedViewModel
 ) {
     LaunchedEffect(key1 = true) {
         sharedViewModel.getAllTasks()
