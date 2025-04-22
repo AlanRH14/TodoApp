@@ -1,5 +1,8 @@
 package com.example.todoapp.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -29,7 +32,17 @@ fun NavGraph(
         navController = navController,
         startDestination = Screen.SPLASH.route,
     ) {
-        composable(route = SPLASH_SCREEN) {
+        composable(
+            route = SPLASH_SCREEN,
+            exitTransition = {
+                slideOutVertically(
+                    targetOffsetY = { -it },
+                    animationSpec = tween(
+                        durationMillis = 300
+                    )
+                )
+            },
+        ) {
             SplashScreen(
                 navigateToListScreen = screen.splash
             )
@@ -53,7 +66,15 @@ fun NavGraph(
             route = Screen.TASK.route,
             arguments = listOf(navArgument(TASK_ARGUMENT_KEY) {
                 type = NavType.IntType
-            })
+            }),
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { -it },
+                    animationSpec = tween(
+                        durationMillis = 300
+                    )
+                )
+            }
         ) { navBackStackEntry ->
             val taskId = navBackStackEntry.arguments?.getInt(TASK_ARGUMENT_KEY)
             TaskScreen(
