@@ -1,12 +1,18 @@
 package com.example.todoapp.presentation.screens.task
 
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
@@ -25,6 +31,8 @@ fun TaskScreen(
     val priority by sharedViewModel.priority.collectAsState()
     val selectedTask by sharedViewModel.selectedTask.collectAsState()
     val mContext = LocalContext.current
+
+    BackHandler(onBackPressed = { navigateToListScreen(Action.NO_ACTION) })
 
     LaunchedEffect(key1 = taskId) {
         if (taskId != null) {
@@ -65,5 +73,28 @@ fun TaskScreen(
             priority = priority,
             onPrioritySelected = { sharedViewModel.setPriorityTask(it) }
         )
+    }
+}
+
+@Composable
+private fun BackHandler(
+    backDispatcher: OnBackPressedDispatcher? = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
+    onBackPressed: () -> Unit
+) {
+    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
+    val backCallback = remember {
+        object : OnBackPressedCallback(enabled = true) {
+            override fun handleOnBackPressed() {
+                currentOnBackPressed()
+            }
+        }
+    }
+
+    DisposableEffect(key1 = backDispatcher) {
+        backDispatcher?.addCallback(backCallback)
+
+        onDispose {
+            backCallback.remove()
+        }
     }
 }
