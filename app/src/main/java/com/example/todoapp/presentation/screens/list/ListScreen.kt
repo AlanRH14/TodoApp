@@ -24,13 +24,10 @@ fun ListScreen(
     sharedViewModel: SharedViewModel,
     navigateToTaskScreen: (Int) -> Unit,
 ) {
-    LaunchedEffect(key1 = true) {
-        sharedViewModel.getAllTasks()
-        sharedViewModel.readSortState()
-    }
     LaunchedEffect(key1 = mAction) {
         sharedViewModel.updateAction(mAction)
     }
+
     val action by sharedViewModel.action.collectAsState()
     val allTask by sharedViewModel.allTask.collectAsState()
     val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
@@ -42,12 +39,20 @@ fun ListScreen(
     val highPriority by sharedViewModel.highPriorityTasks.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
 
+    LaunchedEffect(key1 = true) {
+        sharedViewModel.getAllTasks()
+        sharedViewModel.readSortState()
+    }
+
     sharedViewModel.handleDatabaseActions(action = action)
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
-        onUndoClicked = {
-            sharedViewModel.updateAction(it)
+        onUndoClicked = { newAction ->
+            sharedViewModel.updateAction(newAction)
+        },
+        onCompleteAction = { newAction ->
+            sharedViewModel.updateAction(newAction)
         },
         taskTitle = title,
         action = action,

@@ -11,12 +11,9 @@ import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
 import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -176,8 +173,6 @@ class SharedViewModel @Inject constructor(
 
             else -> Unit
         }
-
-        _action.value = Action.NO_ACTION
     }
 
     fun updateTaskFields(selectedTask: ToDoTask?) {
