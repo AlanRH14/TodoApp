@@ -37,10 +37,9 @@ fun ListScreen(
     val sortState by sharedViewModel.sortState.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
 
-    LaunchedEffect(key1 = true) {
-        sharedViewModel.readSortState()
+    LaunchedEffect(key1 = sortState) {
+        sharedViewModel.getTasks(sortState = sortState)
     }
-    sharedViewModel.getTasks(sortState = sortState)
     sharedViewModel.handleDatabaseActions(action = action)
 
     DisplaySnackBar(

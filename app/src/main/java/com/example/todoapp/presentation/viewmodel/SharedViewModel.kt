@@ -1,5 +1,6 @@
 package com.example.todoapp.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
@@ -45,7 +46,12 @@ class SharedViewModel @Inject constructor(
     private val _sortState = MutableStateFlow(Priority.NONE)
     val sortState: StateFlow<Priority> get() = _sortState
 
+    init {
+        readSortState()
+    }
+
     fun getTasks(sortState: Priority) {
+        Log.d("getTasks", "TRIGGERED")
         when (sortState) {
             Priority.LOW -> {
                 getLowPriorityTask()
@@ -241,7 +247,8 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun readSortState() {
+    private fun readSortState() {
+        Log.d("readSortState", "TRIGGERED")
         viewModelScope.launch {
             dataStoreRepository.readSortState
                 .map { Priority.valueOf(it) }
