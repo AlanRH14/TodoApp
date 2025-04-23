@@ -8,7 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.todoapp.presentation.screens.list.components.DisplaySnackBar
 import com.example.todoapp.presentation.screens.list.components.ListFab
@@ -24,8 +27,13 @@ fun ListScreen(
     sharedViewModel: SharedViewModel,
     navigateToTaskScreen: (Int) -> Unit,
 ) {
-    LaunchedEffect(key1 = mAction) {
-        sharedViewModel.updateAction(mAction)
+    var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
+
+    LaunchedEffect(key1 = rememberAction) {
+        if (rememberAction != mAction) {
+            rememberAction = mAction
+            sharedViewModel.updateAction(mAction)
+        }
     }
 
     val action by sharedViewModel.action.collectAsState()

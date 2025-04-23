@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.SwipeToDismissBox
@@ -38,6 +39,7 @@ fun ListContent(
     } else {
         LazyColumn(
             modifier = modifier
+                .fillMaxSize()
         ) {
             items(
                 items = tasks,
