@@ -67,29 +67,15 @@ fun DefaultListAppBar(
                     onDismissRequest = { expandedSort = false }
                 ) {
 
-                    DropdownMenuItem(
-                        text = { PriorityItem(Priority.LOW) },
-                        onClick = {
-                            expandedSort = false
-                            onSortClicked(Priority.LOW)
-                        },
-                    )
-
-                    DropdownMenuItem(
-                        text = { PriorityItem(Priority.HIGH) },
-                        onClick = {
-                            expandedSort = false
-                            onSortClicked(Priority.HIGH)
-                        }
-                    )
-
-                    DropdownMenuItem(
-                        text = { PriorityItem(Priority.NONE) },
-                        onClick = {
-                            expandedSort = false
-                            onSortClicked(Priority.NONE)
-                        }
-                    )
+                    Priority.entries.slice(setOf(0, 2, 3)).forEach { priority ->
+                        DropdownMenuItem(
+                            text = { PriorityItem(priority) },
+                            onClick = {
+                                expandedSort = false
+                                onSortClicked(priority)
+                            },
+                        )
+                    }
                 }
             }
 
