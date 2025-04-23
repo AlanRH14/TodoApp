@@ -29,21 +29,18 @@ fun ListScreen(
     }
 
     val action by sharedViewModel.action.collectAsState()
-    val allTask by sharedViewModel.allTask.collectAsState()
-    val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
+    val allTask by sharedViewModel.tasks.collectAsState()
+    val searchTasks by sharedViewModel.searchTasks.collectAsState()
     val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
     val searchTextAppBarState by sharedViewModel.searchTextAppBarState.collectAsState()
     val title by sharedViewModel.title.collectAsState()
     val sortState by sharedViewModel.sortState.collectAsState()
-    val lowPriority by sharedViewModel.lowPriorityTasks.collectAsState()
-    val highPriority by sharedViewModel.highPriorityTasks.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = true) {
-        sharedViewModel.getAllTasks()
         sharedViewModel.readSortState()
     }
-
+    sharedViewModel.getTasks(sortState = sortState)
     sharedViewModel.handleDatabaseActions(action = action)
 
     DisplaySnackBar(
@@ -72,9 +69,7 @@ fun ListScreen(
                 },
                 onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
                 onSearchActionClicked = { appBarState ->
-                    sharedViewModel.setSearchAppBarState(
-                        appBarState
-                    )
+                    sharedViewModel.setSearchAppBarState(appBarState)
                 },
                 onSortClicked = { sharedViewModel.persistSortState(it) },
                 onBarActionClicked = { action -> sharedViewModel.updateAction(action) }
@@ -86,12 +81,11 @@ fun ListScreen(
     ) { paddingValues ->
         ListContent(
             modifier = Modifier.padding(paddingValues),
-            allTasks = allTask,
-            lowPriorityTasks = lowPriority,
-            highPriorityTasks = highPriority,
-            sortState = sortState,
-            searchedTasks = searchedTasks,
-            searchAppBarState = searchAppBarState,
+            tasks = if (searchAppBarState == SearchAppBarState.TRIGGERED) {
+                searchTasks
+            } else {
+                allTask
+            },
             onSwipeToDelete = { action, task ->
                 sharedViewModel.updateAction(action = action)
                 sharedViewModel.updateTaskFields(selectedTask = task)
