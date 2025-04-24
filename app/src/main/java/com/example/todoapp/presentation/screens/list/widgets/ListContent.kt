@@ -64,9 +64,11 @@ fun ListContent(
                     },
                     positionalThreshold = { it * .30f }
                 )
-
+                val dismissDirection = dismissState.dismissDirection
+                val isDismissed = dismissDirection == SwipeToDismissBoxValue.EndToStart
+                        && dismissState.progress == 1F
                 val degrees by animateFloatAsState(
-                    if (dismissState.targetValue == SwipeToDismissBoxValue.Settled) {
+                    if (dismissState.progress in 0F .. 0.5F) {
                         0F
                     } else {
                         -45F
@@ -79,7 +81,7 @@ fun ListContent(
                 }
 
                 AnimatedVisibility(
-                    visible = itemAppeared && dismissState.targetValue != SwipeToDismissBoxValue.EndToStart,
+                    visible = itemAppeared && !isDismissed,
                     enter = expandVertically(
                         animationSpec = tween(
                             durationMillis = 300
