@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 fun DisplaySnackBar(
     scaffoldState: SnackbarHostState,
     onUndoClicked: (Action) -> Unit,
+    onCompleteAction: (Action) -> Unit,
     taskTitle: String,
     action: Action
 ) {
@@ -30,6 +31,7 @@ fun DisplaySnackBar(
                     onUndoClicked = onUndoClicked
                 )
             }
+            onCompleteAction(Action.NO_ACTION)
         }
     }
 }

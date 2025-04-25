@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.SwipeToDismissBox
@@ -18,67 +19,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.presentation.screens.list.components.TaskItem
 import com.example.todoapp.util.Action
-import com.example.todoapp.util.SearchAppBarState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun ListContent(
-    modifier: Modifier = Modifier,
-    allTasks: List<ToDoTask>,
-    lowPriorityTasks: List<ToDoTask>,
-    highPriorityTasks: List<ToDoTask>,
-    sortState: Priority,
-    searchedTasks: List<ToDoTask>,
-    searchAppBarState: SearchAppBarState,
-    onSwipeToDelete: (Action, ToDoTask) -> Unit,
-    navigateToTaskScreen: (taskId: Int) -> Unit
-) {
-    when {
-        searchAppBarState == SearchAppBarState.TRIGGERED -> {
-            HandleListContent(
-                modifier = modifier,
-                tasks = searchedTasks,
-                onSwipeToDelete = onSwipeToDelete,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
-        }
-
-        sortState == Priority.NONE -> {
-            HandleListContent(
-                modifier = modifier,
-                tasks = allTasks,
-                onSwipeToDelete = onSwipeToDelete,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
-        }
-
-        sortState == Priority.LOW -> {
-            HandleListContent(
-                modifier = modifier,
-                tasks = lowPriorityTasks,
-                onSwipeToDelete = onSwipeToDelete,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
-        }
-
-        sortState == Priority.HIGH -> {
-            HandleListContent(
-                modifier = modifier,
-                tasks = highPriorityTasks,
-                onSwipeToDelete = onSwipeToDelete,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
-        }
-    }
-}
-
-@Composable
-private fun HandleListContent(
     modifier: Modifier = Modifier,
     tasks: List<ToDoTask>,
     onSwipeToDelete: (Action, ToDoTask) -> Unit,
@@ -91,6 +39,7 @@ private fun HandleListContent(
     } else {
         LazyColumn(
             modifier = modifier
+                .fillMaxSize()
         ) {
             items(
                 items = tasks,
@@ -115,9 +64,11 @@ private fun HandleListContent(
                     },
                     positionalThreshold = { it * .30f }
                 )
-
+                val dismissDirection = dismissState.dismissDirection
+                val isDismissed = dismissDirection == SwipeToDismissBoxValue.EndToStart
+                        && dismissState.progress == 1F
                 val degrees by animateFloatAsState(
-                    if (dismissState.targetValue == SwipeToDismissBoxValue.Settled) {
+                    if (dismissState.progress in 0F .. 0.5F) {
                         0F
                     } else {
                         -45F
@@ -130,7 +81,7 @@ private fun HandleListContent(
                 }
 
                 AnimatedVisibility(
-                    visible = itemAppeared && dismissState.targetValue != SwipeToDismissBoxValue.EndToStart,
+                    visible = itemAppeared && !isDismissed,
                     enter = expandVertically(
                         animationSpec = tween(
                             durationMillis = 300

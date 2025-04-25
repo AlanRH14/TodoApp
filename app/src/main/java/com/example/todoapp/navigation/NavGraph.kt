@@ -2,71 +2,36 @@ package com.example.todoapp.navigation
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.example.todoapp.presentation.screens.list.ListScreen
-import com.example.todoapp.presentation.screens.splash.SplashScreen
 import com.example.todoapp.presentation.screens.task.TaskScreen
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
-import com.example.todoapp.util.Constants.LIST_ARGUMENT_KEY
-import com.example.todoapp.util.Constants.SPLASH_SCREEN
-import com.example.todoapp.util.Constants.TASK_ARGUMENT_KEY
-import com.example.todoapp.util.toAction
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
     sharedViewModel: SharedViewModel
 ) {
-    val screen = remember(navController) {
-        NavScreens(navController = navController)
-    }
-
     NavHost(
         navController = navController,
-        startDestination = Screen.SPLASH.route,
+        startDestination = Screen.List(),
     ) {
-        composable(
-            route = SPLASH_SCREEN,
-            exitTransition = {
-                slideOutVertically(
-                    targetOffsetY = { -it },
-                    animationSpec = tween(
-                        durationMillis = 300
-                    )
-                )
-            },
-        ) {
-            SplashScreen(
-                navigateToListScreen = screen.splash
-            )
-        }
-
-        composable(
-            route = Screen.LIST.route,
-            arguments = listOf(navArgument(LIST_ARGUMENT_KEY) {
-                type = NavType.StringType
-            })
-        ) { navBackStackEntry ->
-            val mAction = navBackStackEntry.arguments?.getString(LIST_ARGUMENT_KEY).toAction()
+        composable<Screen.List>{ navBackStackEntry ->
+            val mAction = navBackStackEntry.toRoute<Screen.List>().action
             ListScreen(
                 mAction = mAction,
                 sharedViewModel = sharedViewModel,
-                navigateToTaskScreen = screen.list,
+                navigateToTaskScreen = { taskId ->
+                    navController.navigate(Screen.Task(taskId = taskId))
+                },
             )
         }
 
-        composable(
-            route = Screen.TASK.route,
-            arguments = listOf(navArgument(TASK_ARGUMENT_KEY) {
-                type = NavType.IntType
-            }),
+        composable<Screen.Task>(
             enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { -it },
@@ -76,11 +41,15 @@ fun NavGraph(
                 )
             }
         ) { navBackStackEntry ->
-            val taskId = navBackStackEntry.arguments?.getInt(TASK_ARGUMENT_KEY)
+            val taskId = navBackStackEntry.toRoute<Screen.Task>().taskId
             TaskScreen(
                 sharedViewModel = sharedViewModel,
                 taskId = taskId,
-                navigateToListScreen = screen.task
+                navigateToListScreen = { action ->
+                    navController.navigate(Screen.List(action = action)) {
+                        popUpTo(Screen.List()) { inclusive = true }
+                    }
+                }
             )
         }
     }

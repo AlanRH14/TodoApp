@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -26,8 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.example.todoapp.R
 import com.example.todoapp.data.model.Priority
@@ -48,6 +52,7 @@ fun PriorityDropDown(
         targetValue = if (expended) 180F else 0F,
         label = stringResource(R.string.angle_row)
     )
+    var parentSize by remember { mutableStateOf(IntSize.Zero) }
 
     Row(
         modifier = modifier
@@ -58,7 +63,8 @@ fun PriorityDropDown(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.58f),
                 shape = RoundedCornerShape(BORDER_RADIUS_DROPDOWN),
-            ),
+            )
+            .onGloballyPositioned { parentSize = it.size },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Canvas(
@@ -91,7 +97,10 @@ fun PriorityDropDown(
         }
 
         DropdownMenu(
-            modifier = Modifier.fillMaxWidth(fraction = 0.94F),
+            modifier = Modifier
+                .width(
+                    with(LocalDensity.current) { parentSize.width.toDp() }
+                ),
             expanded = expended,
             onDismissRequest = {
                 expended = false

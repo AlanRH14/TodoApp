@@ -1,6 +1,7 @@
 package com.example.todoapp.presentation.screens.task
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -25,6 +26,10 @@ fun TaskScreen(
     val priority by sharedViewModel.priority.collectAsState()
     val selectedTask by sharedViewModel.selectedTask.collectAsState()
     val mContext = LocalContext.current
+
+    BackHandler(
+        onBack = { navigateToListScreen(Action.NO_ACTION) }
+    )
 
     LaunchedEffect(key1 = taskId) {
         if (taskId != null) {

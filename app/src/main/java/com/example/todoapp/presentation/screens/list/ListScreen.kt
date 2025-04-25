@@ -8,7 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.todoapp.presentation.screens.list.components.DisplaySnackBar
 import com.example.todoapp.presentation.screens.list.components.ListFab
@@ -24,30 +27,36 @@ fun ListScreen(
     sharedViewModel: SharedViewModel,
     navigateToTaskScreen: (Int) -> Unit,
 ) {
-    LaunchedEffect(key1 = true) {
-        sharedViewModel.getAllTasks()
-        sharedViewModel.readSortState()
+    var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
+
+    LaunchedEffect(key1 = rememberAction) {
+        if (rememberAction != mAction) {
+            rememberAction = mAction
+            sharedViewModel.updateAction(mAction)
+        }
     }
-    LaunchedEffect(key1 = mAction) {
-        sharedViewModel.updateAction(mAction)
-    }
+
     val action by sharedViewModel.action.collectAsState()
-    val allTask by sharedViewModel.allTask.collectAsState()
-    val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
+    val allTask by sharedViewModel.tasks.collectAsState()
+    val searchTasks by sharedViewModel.searchTasks.collectAsState()
     val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
     val searchTextAppBarState by sharedViewModel.searchTextAppBarState.collectAsState()
     val title by sharedViewModel.title.collectAsState()
     val sortState by sharedViewModel.sortState.collectAsState()
-    val lowPriority by sharedViewModel.lowPriorityTasks.collectAsState()
-    val highPriority by sharedViewModel.highPriorityTasks.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
 
+    LaunchedEffect(key1 = sortState) {
+        sharedViewModel.getTasks(sortState = sortState)
+    }
     sharedViewModel.handleDatabaseActions(action = action)
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
-        onUndoClicked = {
-            sharedViewModel.updateAction(it)
+        onUndoClicked = { newAction ->
+            sharedViewModel.updateAction(newAction)
+        },
+        onCompleteAction = { newAction ->
+            sharedViewModel.updateAction(newAction)
         },
         taskTitle = title,
         action = action,
@@ -67,9 +76,7 @@ fun ListScreen(
                 },
                 onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
                 onSearchActionClicked = { appBarState ->
-                    sharedViewModel.setSearchAppBarState(
-                        appBarState
-                    )
+                    sharedViewModel.setSearchAppBarState(appBarState)
                 },
                 onSortClicked = { sharedViewModel.persistSortState(it) },
                 onBarActionClicked = { action -> sharedViewModel.updateAction(action) }
@@ -81,15 +88,15 @@ fun ListScreen(
     ) { paddingValues ->
         ListContent(
             modifier = Modifier.padding(paddingValues),
-            allTasks = allTask,
-            lowPriorityTasks = lowPriority,
-            highPriorityTasks = highPriority,
-            sortState = sortState,
-            searchedTasks = searchedTasks,
-            searchAppBarState = searchAppBarState,
+            tasks = if (searchAppBarState == SearchAppBarState.TRIGGERED) {
+                searchTasks
+            } else {
+                allTask
+            },
             onSwipeToDelete = { action, task ->
                 sharedViewModel.updateAction(action = action)
                 sharedViewModel.updateTaskFields(selectedTask = task)
+                scaffoldState.currentSnackbarData?.dismiss()
             },
             navigateToTaskScreen = navigateToTaskScreen,
         )
