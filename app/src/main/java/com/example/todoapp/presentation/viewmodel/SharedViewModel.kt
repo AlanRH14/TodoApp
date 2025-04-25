@@ -54,9 +54,11 @@ class SharedViewModel @Inject constructor(
             Priority.LOW -> {
                 getLowPriorityTask()
             }
+
             Priority.HIGH -> {
                 getHighPriorityTask()
             }
+
             else -> getAllTasks()
         }
     }
@@ -202,9 +204,12 @@ class SharedViewModel @Inject constructor(
     }
 
     fun getSelectedTask(taskId: Int) {
-        viewModelScope.launch {
-            repository.getSelectedTask(taskId = taskId).collect { toDoTask ->
-                _selectedTask.value = toDoTask
+        if (taskId > -1) {
+            viewModelScope.launch {
+
+                repository.getSelectedTask(taskId = taskId).collect { toDoTask ->
+                    _selectedTask.value = toDoTask
+                }
             }
         }
     }
