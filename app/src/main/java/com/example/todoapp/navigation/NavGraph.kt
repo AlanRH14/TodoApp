@@ -20,22 +20,6 @@ fun NavGraph(
         navController = navController,
         startDestination = Screen.List(),
     ) {
-        /*composable(
-            route = SPLASH_SCREEN,
-            exitTransition = {
-                slideOutVertically(
-                    targetOffsetY = { -it },
-                    animationSpec = tween(
-                        durationMillis = 300
-                    )
-                )
-            },
-        ) {
-            SplashScreen(
-                navigateToListScreen = screen.splash
-            )
-        }*/
-
         composable<Screen.List>{ navBackStackEntry ->
             val mAction = navBackStackEntry.toRoute<Screen.List>().action
             ListScreen(

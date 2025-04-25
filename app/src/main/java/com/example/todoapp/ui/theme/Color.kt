@@ -41,7 +41,3 @@ val TaskItemBackgroundColor
 val TaskItemTextColor
     @Composable
     get() = if (isSystemInDarkTheme()) LightGray else DarkGray
-
-val SplashColor
-    @Composable
-    get() = if (isSystemInDarkTheme()) Color.Black else Purple700
