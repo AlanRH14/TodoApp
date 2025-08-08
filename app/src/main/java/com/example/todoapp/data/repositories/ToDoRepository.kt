@@ -9,8 +9,7 @@ import kotlinx.coroutines.flow.flow
 
 import javax.inject.Inject
 
-@ViewModelScoped
-class ToDoRepository @Inject constructor(private val toDoDao: ToDoDao) {
+class ToDoRepository(private val toDoDao: ToDoDao) {
     fun sortByLowPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
         emit(RequestState.Loading)
         try {
