@@ -20,11 +20,12 @@ import com.example.todoapp.presentation.screens.list.widgets.ListContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.SearchAppBarState
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ListScreen(
     mAction: Action,
-    sharedViewModel: SharedViewModel,
+    sharedViewModel: SharedViewModel = koinViewModel(),
     navigateToTaskScreen: (Int) -> Unit,
 ) {
     var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }

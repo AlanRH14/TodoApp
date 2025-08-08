@@ -14,10 +14,11 @@ import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TaskScreen(
-    sharedViewModel: SharedViewModel,
+    sharedViewModel: SharedViewModel = koinViewModel(),
     taskId: Int? = null,
     navigateToListScreen: (Action) -> Unit
 ) {
