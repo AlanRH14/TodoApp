@@ -50,8 +50,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersi
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
 
-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastore" }
-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+data-store = { module = "androidx.datastore:datastore-preferences", name = "data-store", version.ref = "datastore" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
