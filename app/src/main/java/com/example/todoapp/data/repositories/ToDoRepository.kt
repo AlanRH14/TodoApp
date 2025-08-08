@@ -3,14 +3,10 @@ package com.example.todoapp.data.repositories
 import com.example.todoapp.data.ToDoDao
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.util.RequestState
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-import javax.inject.Inject
-
-@ViewModelScoped
-class ToDoRepository @Inject constructor(private val toDoDao: ToDoDao) {
+class ToDoRepository(private val toDoDao: ToDoDao) {
     fun sortByLowPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
         emit(RequestState.Loading)
         try {

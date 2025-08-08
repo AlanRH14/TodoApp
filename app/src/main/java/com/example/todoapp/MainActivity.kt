@@ -9,12 +9,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.navigation.NavGraph
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.ui.theme.TodoAppTheme
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.compose.koinViewModel
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,10 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoAppTheme {
                 val navController = rememberNavController()
-                NavGraph(
-                    navController = navController,
-                    sharedViewModel = sharedViewModel
-                )
+                NavGraph(navController = navController)
             }
         }
     }

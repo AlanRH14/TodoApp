@@ -10,11 +10,12 @@ import androidx.navigation.toRoute
 import com.example.todoapp.presentation.screens.list.ListScreen
 import com.example.todoapp.presentation.screens.task.TaskScreen
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel = koinViewModel()
 ) {
     NavHost(
         navController = navController,
