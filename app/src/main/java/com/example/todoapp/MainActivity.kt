@@ -9,9 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.navigation.NavGraph
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.ui.theme.TodoAppTheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val sharedViewModel: SharedViewModel by viewModels()
