@@ -1,6 +1,7 @@
 package com.example.todoapp
 
 import android.app.Application
+import com.example.todoapp.di.appModule
 import com.example.todoapp.di.databaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -12,7 +13,10 @@ class ToDoApplication : Application() {
 
         startKoin {
             androidContext(this@ToDoApplication)
-            modules(databaseModule)
+            modules(
+                databaseModule,
+                appModule
+            )
         }
     }
 }
