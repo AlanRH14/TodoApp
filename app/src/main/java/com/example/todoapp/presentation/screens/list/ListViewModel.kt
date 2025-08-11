@@ -29,6 +29,7 @@ class ListViewModel(
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
 
+            is ListUIEvent.OnClickActionSnackBar -> {}
         }
     }
 
@@ -45,4 +46,6 @@ class ListViewModel(
             }
         }
     }
+
+
 }
