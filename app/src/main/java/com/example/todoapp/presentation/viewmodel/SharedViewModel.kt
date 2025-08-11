@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
+import com.example.todoapp.data.preferences.ConstantsPreferences
 import com.example.todoapp.data.repositories.ToDoRepository
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.util.Action
@@ -243,7 +244,10 @@ class SharedViewModel(
 
     fun persistSortState(priority: Priority) {
         viewModelScope.launch {
-            dataStoreRepository.saveState(priority = priority)
+            dataStoreRepository.saveState(
+                key = ConstantsPreferences.PriorityPreferences,
+                value = priority.name
+            )
         }
     }
 
