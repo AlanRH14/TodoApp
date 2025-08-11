@@ -1,4 +1,4 @@
-package com.example.todoapp.data.preferences
+package com.example.todoapp.data.local.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException

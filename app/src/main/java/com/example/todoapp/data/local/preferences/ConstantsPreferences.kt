@@ -1,4 +1,4 @@
-package com.example.todoapp.data.preferences
+package com.example.todoapp.data.local.preferences
 
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey

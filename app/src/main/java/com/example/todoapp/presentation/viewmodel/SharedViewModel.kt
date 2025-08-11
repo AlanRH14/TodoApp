@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
-import com.example.todoapp.data.preferences.ConstantsPreferences
+import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.util.Action
