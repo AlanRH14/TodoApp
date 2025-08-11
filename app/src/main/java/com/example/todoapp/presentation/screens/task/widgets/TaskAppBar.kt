@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.example.todoapp.R
-import com.example.todoapp.data.model.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.presentation.components.DisplayAlertDialog
 import com.example.todoapp.presentation.screens.task.components.ExistingTaskAppBar
 import com.example.todoapp.presentation.screens.task.components.NewTaskAppBar
@@ -15,7 +15,7 @@ import com.example.todoapp.util.Action
 
 @Composable
 fun TaskAppBar(
-    task: ToDoTask?,
+    task: ToDoTaskEntity?,
     navigateToListScreen: (Action) -> Unit,
 ) {
     if (task == null) {

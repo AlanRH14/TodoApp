@@ -2,6 +2,7 @@ package com.example.todoapp
 
 import android.app.Application
 import com.example.todoapp.di.appModule
+import com.example.todoapp.di.dataStoreModule
 import com.example.todoapp.di.databaseModule
 import com.example.todoapp.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
@@ -16,6 +17,7 @@ class ToDoApplication : Application() {
             androidContext(this@ToDoApplication)
             modules(
                 databaseModule,
+                dataStoreModule,
                 repositoryModule,
                 appModule
             )
