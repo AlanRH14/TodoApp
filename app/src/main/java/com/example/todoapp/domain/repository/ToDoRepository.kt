@@ -6,6 +6,12 @@ import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.flow.Flow
 
 interface ToDoRepository {
+    fun sortByLowPriority(): Flow<RequestState<List<ToDoTaskEntity>>>
+
+    fun sortByHighPriority(): Flow<RequestState<List<ToDoTaskEntity>>>
+
+    fun getAllTasks(): Flow<RequestState<List<ToDoTaskEntity>>>
+
     fun getTasksByPriority(sortTasks: Priority): Flow<RequestState<List<ToDoTaskEntity>>>
 
     fun getSelectedTask(taskId: Int): Flow<ToDoTaskEntity>

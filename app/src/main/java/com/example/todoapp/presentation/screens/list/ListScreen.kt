@@ -28,10 +28,10 @@ import org.koin.androidx.compose.koinViewModel
 fun ListScreen(
     mAction: Action,
     sharedViewModel: SharedViewModel = koinViewModel(),
-    viewModel: ListViewModel = koinViewModel(),
+    //viewModel: ListViewModel = koinViewModel(),
     navigateToTaskScreen: (Int) -> Unit,
 ) {
-    LaunchedEffect(key1 = true) {
+    /*LaunchedEffect(key1 = true) {
         viewModel.onEvent(ListUIEvent.GetTasks(priority = Priority.NONE))
 
         viewModel.effect.collectLatest { effect ->
@@ -41,7 +41,7 @@ fun ListScreen(
                 else -> Unit
             }
         }
-    }
+    }*/
 
 
     var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
