@@ -5,7 +5,6 @@ import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.flow.Flow
 
 interface ToDoRepository {
-
     fun sortByLowPriority(): Flow<RequestState<List<ToDoTask>>>
 
     fun sortByHighPriority(): Flow<RequestState<List<ToDoTask>>>
