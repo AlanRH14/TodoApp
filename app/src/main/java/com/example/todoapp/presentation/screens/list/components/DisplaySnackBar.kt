@@ -11,8 +11,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DisplaySnackBar(
     scaffoldState: SnackbarHostState,
-    onUndoClicked: (Action) -> Unit,
-    onCompleteAction: (Action) -> Unit,
+    onActionClicked: (Action) -> Unit,
     taskTitle: String,
     action: Action
 ) {
@@ -28,10 +27,10 @@ fun DisplaySnackBar(
                 undoDeletedTask(
                     action = action,
                     snackBarResult = snackBarResult,
-                    onUndoClicked = onUndoClicked
+                    onUndoClicked = onActionClicked
                 )
             }
-            onCompleteAction(Action.NO_ACTION)
+            onActionClicked(Action.NO_ACTION)
         }
     }
 }
