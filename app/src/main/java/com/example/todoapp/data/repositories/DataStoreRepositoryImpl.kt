@@ -31,25 +31,4 @@ class DataStoreRepositoryImpl(
         }.map { preferences ->
             preferences[key.preferencesKey] ?: key.default
         }
-
-    /*private object PreferenceKey {
-        val sortKey = stringPreferencesKey(name = PREFERENCE_KEY)
-    }
-
-    suspend fun persistStore(priority: Priority) {
-        dataStore.edit { preference ->
-            preference[PreferenceKey.sortKey] = priority.name
-        }
-    }
-
-    val readSortState: Flow<String> = dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }.map { preferences ->
-            preferences[PreferenceKey.sortKey] ?: Priority.NONE.name
-        }*/
 }
