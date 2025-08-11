@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.todoapp.common.PreferencesKey
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.util.PreferencesConstants.PREFERENCE_KEY
-import com.example.todoapp.util.PreferencesConstants.PRIORITY
 
 internal sealed interface ConstantsPreferences<T>: PreferencesKey<T> {
 
