@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
-import com.example.todoapp.data.repositories.DataRepositoryImpl
 import com.example.todoapp.data.repositories.ToDoRepository
+import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
 import com.example.todoapp.util.RequestState
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class SharedViewModel(
     private val repository: ToDoRepository,
-    private val dataStoreRepository: DataRepositoryImpl
+    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private val _id = MutableStateFlow(0)
@@ -243,7 +243,7 @@ class SharedViewModel(
 
     fun persistSortState(priority: Priority) {
         viewModelScope.launch {
-            dataStoreRepository.persistStore(priority = priority)
+            dataStoreRepository.saveState(priority = priority)
         }
     }
 
