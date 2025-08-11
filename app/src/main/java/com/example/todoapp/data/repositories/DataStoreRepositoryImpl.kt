@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
-class DataRepositoryImpl(
+class DataStoreRepositoryImpl(
     private val dataStore: DataStore<Preferences>
 ) : DataStoreRepository {
 
