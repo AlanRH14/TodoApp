@@ -6,7 +6,7 @@ import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class ToDoRepository(private val toDoDao: ToDoDao) {
+class ToDoRepositoryImpl(private val toDoDao: ToDoDao) {
     fun sortByLowPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
         emit(RequestState.Loading)
         try {

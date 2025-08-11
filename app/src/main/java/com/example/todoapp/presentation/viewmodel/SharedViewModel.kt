@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.data.preferences.ConstantsPreferences
-import com.example.todoapp.data.repositories.ToDoRepository
+import com.example.todoapp.data.repositories.ToDoRepositoryImpl
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class SharedViewModel(
-    private val repository: ToDoRepository,
+    private val repository: ToDoRepositoryImpl,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
