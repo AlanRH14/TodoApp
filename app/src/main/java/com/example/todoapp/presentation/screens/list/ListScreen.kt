@@ -35,21 +35,13 @@ fun ListScreen(
         viewModel.onEvent(ListUIEvent.GetTasks(priority = Priority.NONE))
 
         viewModel.effect.collectLatest { effect ->
-            when(effect) {
+            when (effect) {
                 is ListEffect.SortTasks -> {}
 
                 else -> Unit
             }
         }
     }
-
-
-
-
-
-
-
-
 
 
     var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
@@ -77,10 +69,7 @@ fun ListScreen(
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
-        onUndoClicked = { newAction ->
-            sharedViewModel.updateAction(newAction)
-        },
-        onCompleteAction = { newAction ->
+        onActionClicked = { newAction ->
             sharedViewModel.updateAction(newAction)
         },
         taskTitle = title,
