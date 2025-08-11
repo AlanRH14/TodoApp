@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.example.todoapp.common.PreferencesKey
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.util.Constants.PREFERENCE_KEY
@@ -15,13 +16,13 @@ import kotlinx.coroutines.flow.map
 
 class DataRepositoryImpl(
     private val dataStore: DataStore<Preferences>
-): DataStoreRepository {
+) : DataStoreRepository {
 
-    override suspend fun <T> saveState(key: String, value: T) {
+    override suspend fun <T> saveState(key: PreferencesKey<T>, value: T) {
         TODO("Not yet implemented")
     }
 
-    override fun <T> readSate(key: String): Flow<T> {
+    override fun <T> readSate(key: PreferencesKey<T>): Flow<T> {
         TODO("Not yet implemented")
     }
 
