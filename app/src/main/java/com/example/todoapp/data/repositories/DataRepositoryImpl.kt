@@ -5,11 +5,8 @@ import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.todoapp.common.PreferencesKey
-import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
-import com.example.todoapp.util.Constants.PREFERENCE_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
