@@ -15,8 +15,6 @@ navigationCompose = "2.9.3"
 ksp = "2.1.21-2.0.1"
 
 koinAndroid = "4.1.0"
-hiltVersion = "2.57"
-hiltAndroidxNavigationCompose = "1.2.0"
 
 roomVersion = "2.7.2"
 
@@ -46,10 +44,6 @@ androidx-compose-navigation = { group = "androidx.navigation", name = "navigatio
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroid" }
 
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltVersion" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltAndroidxNavigationCompose" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
-
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
@@ -64,6 +58,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
