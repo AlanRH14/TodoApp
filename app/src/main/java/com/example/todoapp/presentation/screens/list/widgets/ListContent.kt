@@ -19,7 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.todoapp.data.local.database.entities.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.presentation.screens.list.components.TaskItem
 import com.example.todoapp.util.Action
 import kotlinx.coroutines.delay
@@ -28,8 +28,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListContent(
     modifier: Modifier = Modifier,
-    tasks: List<ToDoTask>,
-    onSwipeToDelete: (Action, ToDoTask) -> Unit,
+    tasks: List<ToDoTaskEntity>,
+    onSwipeToDelete: (Action, ToDoTaskEntity) -> Unit,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     if (tasks.isEmpty()) {
@@ -98,7 +98,7 @@ fun ListContent(
                         backgroundContent = { RedBackground(degrees) }
                     ) {
                         TaskItem(
-                            toDoTask = task,
+                            toDoTaskEntity = task,
                             navigationToTaskScreen = navigateToTaskScreen
                         )
                     }

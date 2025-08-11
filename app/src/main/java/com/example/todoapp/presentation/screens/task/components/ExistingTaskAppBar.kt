@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.R
 import com.example.todoapp.data.local.mock_data.TaskProvider.taskItemTest
-import com.example.todoapp.data.local.database.entities.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.ui.theme.TopAppBarBackgroundColor
 import com.example.todoapp.ui.theme.TopAppBarContentColor
 import com.example.todoapp.util.Action
@@ -24,7 +24,7 @@ import com.example.todoapp.util.Action
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExistingTaskAppBar(
-    task: ToDoTask,
+    task: ToDoTaskEntity,
     navigateToListScreen: (Action) -> Unit,
     onDeleteClicked: () -> Unit
 ) {

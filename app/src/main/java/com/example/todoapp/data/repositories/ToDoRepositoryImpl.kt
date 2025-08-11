@@ -1,14 +1,14 @@
 package com.example.todoapp.data.repositories
 
 import com.example.todoapp.data.local.database.dao.ToDoDao
-import com.example.todoapp.data.local.database.entities.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class ToDoRepositoryImpl(private val toDoDao: ToDoDao): ToDoRepository {
-    override fun sortByLowPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
+    override fun sortByLowPriority(): Flow<RequestState<List<ToDoTaskEntity>>> = flow {
         emit(RequestState.Loading)
         try {
             toDoDao.sortByLowPriority().collect {
@@ -19,7 +19,7 @@ class ToDoRepositoryImpl(private val toDoDao: ToDoDao): ToDoRepository {
         }
     }
 
-    override fun sortByHighPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
+    override fun sortByHighPriority(): Flow<RequestState<List<ToDoTaskEntity>>> = flow {
         emit(RequestState.Loading)
         try {
             toDoDao.sortByHighPriority().collect {
@@ -30,7 +30,7 @@ class ToDoRepositoryImpl(private val toDoDao: ToDoDao): ToDoRepository {
         }
     }
 
-    override fun getAllTasks(): Flow<RequestState<List<ToDoTask>>> = flow {
+    override fun getAllTasks(): Flow<RequestState<List<ToDoTaskEntity>>> = flow {
         emit(RequestState.Loading)
         try {
             toDoDao.getAllTasks().collect {
@@ -41,27 +41,27 @@ class ToDoRepositoryImpl(private val toDoDao: ToDoDao): ToDoRepository {
         }
     }
 
-    override fun getSelectedTask(taskId: Int): Flow<ToDoTask> {
+    override fun getSelectedTask(taskId: Int): Flow<ToDoTaskEntity> {
         return toDoDao.getSelectedTask(taskId = taskId)
     }
 
-    override suspend fun addTask(toDoTask: ToDoTask) {
-        toDoDao.addTask(toDoTask = toDoTask)
+    override suspend fun addTask(toDoTaskEntity: ToDoTaskEntity) {
+        toDoDao.addTask(toDoTaskEntity = toDoTaskEntity)
     }
 
-    override suspend fun updateTask(toDoTask: ToDoTask) {
-        toDoDao.updateTask(toDoTask = toDoTask)
+    override suspend fun updateTask(toDoTaskEntity: ToDoTaskEntity) {
+        toDoDao.updateTask(toDoTaskEntity = toDoTaskEntity)
     }
 
-    override suspend fun deleteTask(toDoTask: ToDoTask) {
-        toDoDao.deleteTask(toDoTask = toDoTask)
+    override suspend fun deleteTask(toDoTaskEntity: ToDoTaskEntity) {
+        toDoDao.deleteTask(toDoTaskEntity = toDoTaskEntity)
     }
 
     override suspend fun deleteAllTasks() {
         toDoDao.deleteAllTasks()
     }
 
-    override fun searchTask(searchQuery: String): Flow<RequestState<List<ToDoTask>>> = flow {
+    override fun searchTask(searchQuery: String): Flow<RequestState<List<ToDoTaskEntity>>> = flow {
         emit(RequestState.Loading)
         try {
             toDoDao.searchDatabase(searchQuery = searchQuery).collect {

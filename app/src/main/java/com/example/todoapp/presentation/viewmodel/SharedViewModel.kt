@@ -3,7 +3,7 @@ package com.example.todoapp.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
-import com.example.todoapp.data.local.database.entities.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
@@ -34,12 +34,12 @@ class SharedViewModel(
     val searchAppBarState: StateFlow<SearchAppBarState> get() = _searchAppBarState
     private val _searchTextAppBarState = MutableStateFlow("")
     val searchTextAppBarState: StateFlow<String> get() = _searchTextAppBarState
-    private val _tasks = MutableStateFlow<List<ToDoTask>>(emptyList())
-    val tasks: StateFlow<List<ToDoTask>> get() = _tasks
-    private val _searchTasks = MutableStateFlow<List<ToDoTask>>(emptyList())
-    val searchTasks: StateFlow<List<ToDoTask>> get() = _searchTasks
-    private val _selectedTask = MutableStateFlow<ToDoTask?>(null)
-    val selectedTask: StateFlow<ToDoTask?> get() = _selectedTask
+    private val _tasks = MutableStateFlow<List<ToDoTaskEntity>>(emptyList())
+    val tasks: StateFlow<List<ToDoTaskEntity>> get() = _tasks
+    private val _searchTasks = MutableStateFlow<List<ToDoTaskEntity>>(emptyList())
+    val searchTasks: StateFlow<List<ToDoTaskEntity>> get() = _searchTasks
+    private val _selectedTask = MutableStateFlow<ToDoTaskEntity?>(null)
+    val selectedTask: StateFlow<ToDoTaskEntity?> get() = _selectedTask
     private val _sortState = MutableStateFlow(Priority.NONE)
     val sortState: StateFlow<Priority> get() = _sortState
 
@@ -119,39 +119,39 @@ class SharedViewModel(
 
     private fun addTask() {
         viewModelScope.launch {
-            val toDoTask = ToDoTask(
+            val toDoTaskEntity = ToDoTaskEntity(
                 title = _title.value,
                 description = _description.value,
                 priority = _priority.value
             )
 
-            repository.addTask(toDoTask = toDoTask)
+            repository.addTask(toDoTaskEntity = toDoTaskEntity)
         }
     }
 
     private fun updateTask() {
         viewModelScope.launch {
-            val toDoTask = ToDoTask(
+            val toDoTaskEntity = ToDoTaskEntity(
                 id = _id.value,
                 title = _title.value,
                 description = _description.value,
                 priority = _priority.value
             )
 
-            repository.updateTask(toDoTask = toDoTask)
+            repository.updateTask(toDoTaskEntity = toDoTaskEntity)
         }
     }
 
     private fun deleteTask() {
         viewModelScope.launch {
-            val toDoTask = ToDoTask(
+            val toDoTaskEntity = ToDoTaskEntity(
                 id = _id.value,
                 title = _title.value,
                 description = _description.value,
                 priority = _priority.value
             )
 
-            repository.deleteTask(toDoTask = toDoTask)
+            repository.deleteTask(toDoTaskEntity = toDoTaskEntity)
         }
     }
 
@@ -187,7 +187,7 @@ class SharedViewModel(
         }
     }
 
-    fun updateTaskFields(selectedTask: ToDoTask?) {
+    fun updateTaskFields(selectedTask: ToDoTaskEntity?) {
         if (selectedTask != null) {
             _id.value = selectedTask.id
             _title.value = selectedTask.title
