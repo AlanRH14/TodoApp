@@ -67,7 +67,7 @@ fun DefaultListAppBar(
                     onDismissRequest = { expandedSort = false }
                 ) {
 
-                    Priority.entries.slice(setOf(0, 2, 3)).forEach { priority ->
+                    Priority.entries.slice(setOf(0, 1, 2)).forEach { priority ->
                         DropdownMenuItem(
                             text = { PriorityItem(priority) },
                             onClick = {
