@@ -1,6 +1,6 @@
 package com.example.todoapp.data.repositories
 
-import com.example.todoapp.data.local.database.ToDoDao
+import com.example.todoapp.data.local.database.dao.ToDoDao
 import com.example.todoapp.data.local.database.ToDoTask
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.util.RequestState
