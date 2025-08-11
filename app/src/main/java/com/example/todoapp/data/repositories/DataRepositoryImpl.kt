@@ -19,14 +19,23 @@ class DataRepositoryImpl(
 ) : DataStoreRepository {
 
     override suspend fun <T> saveState(key: PreferencesKey<T>, value: T) {
-        TODO("Not yet implemented")
+        dataStore.edit { preferences ->
+            preferences[key.preferencesKey] = value
+        }
     }
 
-    override fun <T> readSate(key: PreferencesKey<T>): Flow<T> {
-        TODO("Not yet implemented")
-    }
+    override fun <T> readSate(key: PreferencesKey<T>): Flow<T> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map { preferences ->
+            preferences[key.preferencesKey] ?: key.default
+        }
 
-    private object PreferenceKey {
+    /*private object PreferenceKey {
         val sortKey = stringPreferencesKey(name = PREFERENCE_KEY)
     }
 
@@ -45,5 +54,5 @@ class DataRepositoryImpl(
             }
         }.map { preferences ->
             preferences[PreferenceKey.sortKey] ?: Priority.NONE.name
-        }
+        }*/
 }
