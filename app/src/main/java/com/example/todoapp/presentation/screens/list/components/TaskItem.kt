@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.todoapp.data.mock_data.TaskProvider.taskItemTest
+import com.example.todoapp.data.local.mock_data.TaskProvider.taskItemTest
 import com.example.todoapp.data.model.ToDoTask
 import com.example.todoapp.presentation.screens.list.widgets.RedBackground
 import com.example.todoapp.ui.theme.LARGE_PADDING
