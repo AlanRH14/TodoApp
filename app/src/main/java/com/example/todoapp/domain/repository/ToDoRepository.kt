@@ -1,6 +1,6 @@
 package com.example.todoapp.domain.repository
 
-import com.example.todoapp.data.model.ToDoTask
+import com.example.todoapp.data.local.database.ToDoTask
 import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.flow.Flow
 

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.R
 import com.example.todoapp.data.local.mock_data.TaskProvider.taskItemTest
-import com.example.todoapp.data.model.ToDoTask
+import com.example.todoapp.data.local.database.ToDoTask
 import com.example.todoapp.ui.theme.TopAppBarBackgroundColor
 import com.example.todoapp.ui.theme.TopAppBarContentColor
 import com.example.todoapp.util.Action

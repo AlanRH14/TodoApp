@@ -1,10 +1,11 @@
-package com.example.todoapp.data.model
+package com.example.todoapp.data.local.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.todoapp.util.Constants.DATABASE_TABLE
+import com.example.todoapp.data.model.Priority
+import com.example.todoapp.util.Constants
 
-@Entity(tableName = DATABASE_TABLE)
+@Entity(tableName = Constants.DATABASE_TABLE)
 data class ToDoTask(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
