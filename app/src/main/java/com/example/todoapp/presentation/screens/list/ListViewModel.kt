@@ -9,7 +9,5 @@ class ListViewModel : ViewModel() {
     private val _state = MutableStateFlow(ListState())
     val state = _state.asStateFlow()
 
-
     fun onEvent() {}
-
 }
