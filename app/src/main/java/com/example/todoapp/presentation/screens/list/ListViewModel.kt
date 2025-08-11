@@ -27,35 +27,14 @@ class ListViewModel(
 
     fun onEvent(event: ListUIEvent) {
         when (event) {
-            is ListUIEvent.GetTasks -> {
-                getTaskByPriority(priority = event.priority)
-            }
+            is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
+
         }
     }
 
-    private fun getTaskByPriority(priority: Priority) {
-        when (priority) {
-            Priority.LOW -> {
-
-            }
-
-            Priority.MEDIUM -> {
-
-            }
-
-            Priority.HIGH -> {
-
-            }
-
-            else -> {
-                getTasks()
-            }
-        }
-    }
-
-    private fun getTasks() {
+    private fun getTasks(priority: Priority) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllTasks().collect { tasks ->
+            repository.getTasksByPriority(sortTasks = priority).collect { tasks ->
                 when (tasks) {
                     is RequestState.Success -> {
                         _state.update { it.copy(tasks = tasks.data) }
