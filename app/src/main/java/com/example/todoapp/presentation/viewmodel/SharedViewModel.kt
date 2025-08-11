@@ -253,7 +253,7 @@ class SharedViewModel(
 
     private fun readSortState() {
         viewModelScope.launch {
-            dataStoreRepository.readSortState
+            dataStoreRepository.readSate(key = ConstantsPreferences.PriorityPreferences)
                 .map { Priority.valueOf(it) }
                 .collect { priority ->
                     _sortState.value = priority
