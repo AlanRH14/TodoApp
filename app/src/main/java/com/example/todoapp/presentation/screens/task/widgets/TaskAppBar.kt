@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.example.todoapp.R
-import com.example.todoapp.data.local.database.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTask
 import com.example.todoapp.presentation.components.DisplayAlertDialog
 import com.example.todoapp.presentation.screens.task.components.ExistingTaskAppBar
 import com.example.todoapp.presentation.screens.task.components.NewTaskAppBar

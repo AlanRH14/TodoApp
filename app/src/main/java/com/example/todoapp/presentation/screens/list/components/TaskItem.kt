@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todoapp.data.local.mock_data.TaskProvider.taskItemTest
-import com.example.todoapp.data.local.database.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTask
 import com.example.todoapp.presentation.screens.list.widgets.RedBackground
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.PRIORITY_INDICATOR_SIZE

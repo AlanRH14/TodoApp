@@ -1,7 +1,7 @@
 package com.example.todoapp.data.local.mock_data
 
 import com.example.todoapp.data.model.Priority
-import com.example.todoapp.data.local.database.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTask
 
 object TaskProvider {
 

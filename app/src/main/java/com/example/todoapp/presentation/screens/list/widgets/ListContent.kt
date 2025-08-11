@@ -19,7 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.todoapp.data.local.database.ToDoTask
+import com.example.todoapp.data.local.database.entities.ToDoTask
 import com.example.todoapp.presentation.screens.list.components.TaskItem
 import com.example.todoapp.util.Action
 import kotlinx.coroutines.delay
