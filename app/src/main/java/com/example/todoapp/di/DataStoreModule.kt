@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.example.todoapp.util.Constants.PREFERENCE_KEY
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -20,7 +21,7 @@ val dataStoreModule = module {
             ),
             migrations = listOf(),
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
-            produceFile = { androidContext().preferencesDataStoreFile("") },
+            produceFile = { androidContext().preferencesDataStoreFile(PREFERENCE_KEY) },
         )
     }
 }
