@@ -1,12 +1,18 @@
 package com.example.todoapp.presentation.screens.list
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
+import com.example.todoapp.util.RequestState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class ListViewModel(
     private val repository: ToDoRepository,
@@ -20,6 +26,44 @@ class ListViewModel(
     val effect = _effect.asSharedFlow()
 
     fun onEvent(event: ListUIEvent) {
+        when (event) {
+            is ListUIEvent.GetTasks -> {
+                getTaskByPriority(priority = event.priority)
+            }
+        }
+    }
 
+    private fun getTaskByPriority(priority: Priority) {
+        when (priority) {
+            Priority.LOW -> {
+
+            }
+
+            Priority.MEDIUM -> {
+
+            }
+
+            Priority.HIGH -> {
+
+            }
+
+            else -> {
+                getTasks()
+            }
+        }
+    }
+
+    private fun getTasks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getAllTasks().collect { tasks ->
+                when (tasks) {
+                    is RequestState.Success -> {
+                        _state.update { it.copy(tasks = tasks.data) }
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
     }
 }
