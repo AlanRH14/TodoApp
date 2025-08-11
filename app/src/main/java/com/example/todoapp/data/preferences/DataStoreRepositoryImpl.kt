@@ -1,4 +1,4 @@
-package com.example.todoapp.data.repositories
+package com.example.todoapp.data.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
