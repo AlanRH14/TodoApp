@@ -29,7 +29,7 @@ fun ListAppBar(
                 message = stringResource(R.string.delete_all_tasks_confirmation),
                 openDialog = openDialog,
                 closeDialog = { openDialog = false },
-                onConfirmClicked = { onEvent(ListUIEvent.OnClickActionSnackBar(Action.DELETE_ALL)) }
+                onConfirmClicked = { onEvent(ListUIEvent.OnSnackBarActionClicked(Action.DELETE_ALL)) }
             )
 
             DefaultListAppBar(

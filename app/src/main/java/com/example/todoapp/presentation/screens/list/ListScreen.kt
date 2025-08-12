@@ -63,9 +63,7 @@ fun ListScreen(
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
-        onActionClicked = { newAction ->
-            sharedViewModel.updateAction(newAction)
-        },
+        onEvent = viewModel::onEvent,
         taskTitle = title,
         action = action,
     )

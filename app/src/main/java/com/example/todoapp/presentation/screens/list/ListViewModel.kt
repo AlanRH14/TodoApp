@@ -37,7 +37,7 @@ class ListViewModel(
 
             is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
 
-            is ListUIEvent.OnClickActionSnackBar -> Unit
+            is ListUIEvent.OnSnackBarActionClicked -> handleDatabaseActions(action = event.action)
 
             is ListUIEvent.OnSortTasksClicked -> getTasks(priority = event.priority)
 
@@ -61,33 +61,35 @@ class ListViewModel(
         }
     }
 
-    private fun handleDatabaseActions(
-        action: Action,
-        id: Int,
-        title: String,
-        description: String,
-        priority: Priority
-    ) {
+    private fun handleDatabaseActions(action: Action) {
         when (action) {
-            Action.ADD -> addTask(title = title, description = description, priority = priority)
+            Action.ADD -> addTask(
+                title = _state.value.titleTask,
+                description = _state.value.description,
+                priority = _state.value.priority
+            )
 
             Action.UPDATE -> updateTask(
-                id = id,
-                title = title,
-                description = description,
-                priority = priority
+                id = _state.value.idTask,
+                title = _state.value.titleTask,
+                description = _state.value.description,
+                priority = _state.value.priority
             )
 
             Action.DELETE -> deleteTask(
-                id = id,
-                title = title,
-                description = description,
-                priority = priority
+                id = _state.value.idTask,
+                title = _state.value.titleTask,
+                description = _state.value.description,
+                priority = _state.value.priority
             )
 
             Action.DELETE_ALL -> deleteAllTask()
 
-            Action.UNDO -> addTask(title = title, description = description, priority = priority)
+            Action.UNDO -> addTask(
+                title = _state.value.titleTask,
+                description = _state.value.description,
+                priority = _state.value.priority
+            )
 
             else -> Unit
         }
