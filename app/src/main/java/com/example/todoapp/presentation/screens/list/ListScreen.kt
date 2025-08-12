@@ -81,7 +81,7 @@ fun ListScreen(
         topBar = {
             ListAppBar(
                 searchAppBarState = searchAppBarState,
-                searchTextState = searchTextAppBarState,
+                searchText = searchTextAppBarState,
                 onSearch = { query ->
                     sharedViewModel.setSearchAppBarState(SearchAppBarState.TRIGGERED)
                     sharedViewModel.searchTasks(query)

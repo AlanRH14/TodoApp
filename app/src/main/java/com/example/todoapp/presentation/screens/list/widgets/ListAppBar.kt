@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.example.todoapp.R
-import com.example.todoapp.data.model.Priority
 import com.example.todoapp.presentation.components.DisplayAlertDialog
 import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.DefaultListAppBar
@@ -19,8 +18,7 @@ import com.example.todoapp.util.SearchAppBarState
 fun ListAppBar(
     searchAppBarState: SearchAppBarState,
     onEvent: (ListUIEvent) -> Unit,
-    searchTextState: String,
-    onSearch: (String) -> Unit,
+    searchText: String,
     onSearchActionClicked: (SearchAppBarState) -> Unit,
 ) {
     when (searchAppBarState) {
@@ -48,10 +46,10 @@ fun ListAppBar(
 
         else -> {
             ListSearchAppBar(
-                text = searchTextState,
+                text = searchText,
                 onTextChange = { onEvent(ListUIEvent.OnSearchTextUpdate(searchText = it)) },
-                onSearchActionClicked = onSearch,
-                onCloseClicked = { onSearchActionClicked(SearchAppBarState.CLOSED) }
+                onSearchActionClicked = { onEvent(ListUIEvent.OnSearchKeyAction) },
+                onCloseClicked = { onEvent(ListUIEvent.OnClickActionSnackBar(SearchAppBarState.CLOSED)) }
             )
         }
     }
