@@ -101,7 +101,7 @@ class ListViewModel(
     }
 
     private fun searchTask() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.searchTask(searchQuery = "%${_state.value.searchBarState}%")
                 .collect { searchTasks ->
                     when (searchTasks) {
