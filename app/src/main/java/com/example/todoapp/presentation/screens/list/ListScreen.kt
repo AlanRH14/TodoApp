@@ -27,7 +27,6 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ListScreen(
     mAction: Action,
-    sharedViewModel: SharedViewModel = koinViewModel(),
     viewModel: ListViewModel = koinViewModel(),
     navigateToTaskScreen: (Int) -> Unit,
 ) {
@@ -48,12 +47,9 @@ fun ListScreen(
     LaunchedEffect(key1 = rememberAction) {
         if (rememberAction != mAction) {
             rememberAction = mAction
-            sharedViewModel.updateAction(mAction)
+            viewModel.onEvent(ListUIEvent.OnActionUpdate(action = mAction))
         }
     }
-
-
-    val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
 
     DisplaySnackBar(
@@ -69,7 +65,7 @@ fun ListScreen(
         },
         topBar = {
             ListAppBar(
-                searchAppBarState = searchAppBarState,
+                searchAppBarState = state.searchAppBarState,
                 searchText = state.searchBarState,
                 onEvent = viewModel::onEvent,
             )
@@ -80,33 +76,17 @@ fun ListScreen(
     ) { paddingValues ->
         ListContent(
             modifier = Modifier.padding(paddingValues),
-            tasks = if (searchAppBarState == SearchAppBarState.TRIGGERED) {
+            tasks = if (state.searchAppBarState == SearchAppBarState.TRIGGERED) {
                 state.searchTasks
             } else {
                 state.tasks
             },
             onSwipeToDelete = { action, task ->
-                sharedViewModel.updateAction(action = action)
-                sharedViewModel.updateTaskFields(selectedTask = task)
+                viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))
+                //sharedViewModel.updateTaskFields(selectedTask = task)
                 scaffoldState.currentSnackbarData?.dismiss()
             },
             navigateToTaskScreen = navigateToTaskScreen,
         )
-
-        /*
-        * ListAppBar(
-                searchAppBarState = searchAppBarState,
-                searchTextState = searchTextAppBarState,
-                onSearch = { query ->
-                    sharedViewModel.setSearchAppBarState(SearchAppBarState.TRIGGERED)
-                    sharedViewModel.searchTasks(query)
-                },
-                onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
-                onSearchActionClicked = { appBarState ->
-                    sharedViewModel.setSearchAppBarState(appBarState)
-                },
-                onSortClicked = { sharedViewModel.persistSortState(it) },
-                onBarActionClicked = { action -> sharedViewModel.updateAction(action) }
-            )*/
     }
 }
