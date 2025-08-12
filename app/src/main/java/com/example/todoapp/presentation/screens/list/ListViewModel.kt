@@ -169,4 +169,8 @@ class ListViewModel(
             }
         }
     }
+
+    private fun onSearchBarUpdate(searchBar: String) {
+        _state.update { it.copy(searchBarQuery = searchBar) }
+    }
 }
