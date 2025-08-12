@@ -18,7 +18,6 @@ import com.example.todoapp.presentation.screens.list.components.DisplaySnackBar
 import com.example.todoapp.presentation.screens.list.components.ListFab
 import com.example.todoapp.presentation.screens.list.widgets.ListAppBar
 import com.example.todoapp.presentation.screens.list.widgets.ListContent
-import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.SearchAppBarState
 import kotlinx.coroutines.flow.collectLatest
