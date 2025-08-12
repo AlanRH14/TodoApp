@@ -5,13 +5,14 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.util.Action
 import kotlinx.coroutines.launch
 
 @Composable
 fun DisplaySnackBar(
     scaffoldState: SnackbarHostState,
-    onActionClicked: (Action) -> Unit,
+    onEvent: (ListUIEvent) -> Unit,
     taskTitle: String,
     action: Action
 ) {
@@ -27,10 +28,10 @@ fun DisplaySnackBar(
                 undoDeletedTask(
                     action = action,
                     snackBarResult = snackBarResult,
-                    onUndoClicked = onActionClicked
+                    onUndoClicked = { onEvent(ListUIEvent.OnSnackBarActionClicked(action = it)) }
                 )
             }
-            onActionClicked(Action.NO_ACTION)
+            onEvent(ListUIEvent.OnSnackBarActionClicked(Action.NO_ACTION))
         }
     }
 }
