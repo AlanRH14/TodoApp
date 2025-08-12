@@ -52,7 +52,6 @@ class ListViewModel(
         }
     }
 
-
     private fun handleDatabaseActions(
         action: Action,
         id: Int,
