@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -208,6 +209,16 @@ class ListViewModel(
                 key = ConstantsPreferences.PriorityPreferences,
                 value = priority.name
             )
+        }
+    }
+
+    private fun readSortState() {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.readSate(key = ConstantsPreferences.PriorityPreferences)
+                .map { Priority.valueOf(it) }
+                .collect { priority ->
+                    _state.update { it.copy(sortState = priority) }
+                }
         }
     }
 }

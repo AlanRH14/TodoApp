@@ -16,5 +16,6 @@ data class ListState(
     val idTask: Int = 0,
     val titleTask: String = "",
     val description: String = "",
-    val priority: Priority = Priority.NONE
+    val priority: Priority = Priority.NONE,
+    val sortState: Priority = Priority.NONE
 )
