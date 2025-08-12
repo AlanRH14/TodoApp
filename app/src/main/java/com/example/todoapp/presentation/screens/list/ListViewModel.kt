@@ -3,6 +3,7 @@ package com.example.todoapp.presentation.screens.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
+import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
@@ -199,5 +200,14 @@ class ListViewModel(
 
     private fun onActionUpdate(action: Action) {
         _state.update { it.copy(action = action) }
+    }
+
+    private fun saveSortState(priority: Priority) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.saveState(
+                key = ConstantsPreferences.PriorityPreferences,
+                value = priority.name
+            )
+        }
     }
 }
