@@ -139,4 +139,34 @@ class ListViewModel(
             repository.deleteAllTasks()
         }
     }
+
+    private fun updateTaskFields(selectedTask: ToDoTaskEntity?) {
+        if (selectedTask != null) {
+            _state.update {
+                it.copy(
+                    idTask = selectedTask.id,
+                    titleTask = selectedTask.title,
+                    description = selectedTask.description,
+                    priority = selectedTask.priority
+                )
+            }
+        } else {
+            _state.update {
+                it.copy(
+                    idTask = 0,
+                    titleTask = "",
+                    description = "",
+                    priority = Priority.LOW
+                )
+            }
+        }
+    }
+
+    private fun getSelectedTask(taskID: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getSelectedTask(taskId = taskID).collect { task ->
+                _state.update { it.copy(taskSelected = task) }
+            }
+        }
+    }
 }
