@@ -10,6 +10,7 @@ import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
 import com.example.todoapp.util.RequestState
+import com.example.todoapp.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,9 +35,15 @@ class ListViewModel(
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
 
-            is ListUIEvent.OnClickActionSnackBar -> {}
+            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
+
+            is ListUIEvent.OnClickActionSnackBar -> Unit
 
             is ListUIEvent.OnSortTasksClicked -> getTasks(priority = event.priority)
+
+            is ListUIEvent.OnSearchKeyAction -> searchTask()
+
+            is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
         }
     }
 
@@ -83,6 +90,21 @@ class ListViewModel(
             Action.UNDO -> addTask(title = title, description = description, priority = priority)
 
             else -> Unit
+        }
+    }
+
+    private fun searchTask() {
+        viewModelScope.launch {
+            repository.searchTask(searchQuery = "%${_state.value.searchBarQuery}%")
+                .collect { searchTasks ->
+                    when (searchTasks) {
+                        is RequestState.Success -> {
+                            _state.update { it.copy(searchTask = searchTasks.data) }
+                        }
+
+                        else -> Unit
+                    }
+                }
         }
     }
 
@@ -174,11 +196,11 @@ class ListViewModel(
         }
     }
 
-    private fun setSearchAppBarState() {
-        _state.update { it.copy() }
+    private fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
+        _state.update { it.copy(searchAppBarState = searchAppBarState) }
     }
 
-    private fun onSearchBarUpdate(searchBar: String) {
+    private fun onSearchTextUpdate(searchBar: String) {
         _state.update { it.copy(searchBarQuery = searchBar) }
     }
 

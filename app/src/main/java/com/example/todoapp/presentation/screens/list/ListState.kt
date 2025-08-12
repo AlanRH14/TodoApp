@@ -17,5 +17,6 @@ data class ListState(
     val titleTask: String = "",
     val description: String = "",
     val priority: Priority = Priority.NONE,
-    val sortState: Priority = Priority.NONE
+    val sortState: Priority = Priority.NONE,
+    val searchTask: List<ToDoTaskEntity> = emptyList()
 )

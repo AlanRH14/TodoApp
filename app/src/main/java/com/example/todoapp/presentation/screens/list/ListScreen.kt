@@ -57,12 +57,8 @@ fun ListScreen(
     val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
     val searchTextAppBarState by sharedViewModel.searchTextAppBarState.collectAsState()
     val title by sharedViewModel.title.collectAsState()
-    //val sortState by sharedViewModel.sortState.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
 
-    /*LaunchedEffect(key1 = sortState) {
-        sharedViewModel.getTasks(sortState = sortState)
-    }*/
     sharedViewModel.handleDatabaseActions(action = action)
 
     DisplaySnackBar(
@@ -82,16 +78,7 @@ fun ListScreen(
             ListAppBar(
                 searchAppBarState = searchAppBarState,
                 searchText = searchTextAppBarState,
-                onSearch = { query ->
-                    sharedViewModel.setSearchAppBarState(SearchAppBarState.TRIGGERED)
-                    sharedViewModel.searchTasks(query)
-                },
-                onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
-                onSearchActionClicked = { appBarState ->
-                    sharedViewModel.setSearchAppBarState(appBarState)
-                },
-                onSortClicked = { sharedViewModel.persistSortState(it) },
-                onBarActionClicked = { action -> sharedViewModel.updateAction(action) }
+                onEvent = viewModel::onEvent,
             )
         },
         floatingActionButton = {

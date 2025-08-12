@@ -19,7 +19,6 @@ fun ListAppBar(
     searchAppBarState: SearchAppBarState,
     onEvent: (ListUIEvent) -> Unit,
     searchText: String,
-    onSearchActionClicked: (SearchAppBarState) -> Unit,
 ) {
     when (searchAppBarState) {
         SearchAppBarState.CLOSED -> {
@@ -35,7 +34,7 @@ fun ListAppBar(
 
             DefaultListAppBar(
                 onSearchClicked = {
-                    onSearchActionClicked(SearchAppBarState.OPENED)
+                    onEvent(ListUIEvent.OnSearchBarActionClicked(action = SearchAppBarState.OPENED))
                 },
                 onSortClicked = { onEvent(ListUIEvent.OnSortTasksClicked(priority = it)) },
                 onDeleteClicked = {
@@ -49,7 +48,7 @@ fun ListAppBar(
                 text = searchText,
                 onTextChange = { onEvent(ListUIEvent.OnSearchTextUpdate(searchText = it)) },
                 onSearchActionClicked = { onEvent(ListUIEvent.OnSearchKeyAction) },
-                onCloseClicked = { onEvent(ListUIEvent.OnClickActionSnackBar(SearchAppBarState.CLOSED)) }
+                onCloseClicked = { onEvent(ListUIEvent.OnSearchBarActionClicked(action = SearchAppBarState.CLOSED)) }
             )
         }
     }
