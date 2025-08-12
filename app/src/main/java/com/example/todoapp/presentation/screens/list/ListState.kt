@@ -10,7 +10,7 @@ data class ListState(
     val isError: String = "",
     val action: Action = Action.NO_ACTION,
     val tasks: List<ToDoTaskEntity> = emptyList(),
-    val searchBarQuery: String = "",
+    val searchBarState: String = "",
     val taskSelected: ToDoTaskEntity? = null,
     val searchAppBarState: SearchAppBarState = SearchAppBarState.CLOSED,
     val idTask: Int = 0,
@@ -18,5 +18,5 @@ data class ListState(
     val description: String = "",
     val priority: Priority = Priority.NONE,
     val sortState: Priority = Priority.NONE,
-    val searchTask: List<ToDoTaskEntity> = emptyList()
+    val searchTasks: List<ToDoTaskEntity> = emptyList()
 )

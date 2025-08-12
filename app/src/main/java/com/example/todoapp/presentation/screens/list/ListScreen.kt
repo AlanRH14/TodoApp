@@ -31,6 +31,7 @@ fun ListScreen(
     viewModel: ListViewModel = koinViewModel(),
     navigateToTaskScreen: (Int) -> Unit,
 ) {
+    val state by viewModel.state.collectAsState()
     LaunchedEffect(key1 = true) {
         viewModel.onEvent(ListUIEvent.GetTasks(priority = Priority.NONE))
 
@@ -51,21 +52,15 @@ fun ListScreen(
         }
     }
 
-    val action by sharedViewModel.action.collectAsState()
-    val allTask by sharedViewModel.tasks.collectAsState()
-    val searchTasks by sharedViewModel.searchTasks.collectAsState()
-    val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
-    val searchTextAppBarState by sharedViewModel.searchTextAppBarState.collectAsState()
-    val title by sharedViewModel.title.collectAsState()
-    val scaffoldState = remember { SnackbarHostState() }
 
-    sharedViewModel.handleDatabaseActions(action = action)
+    val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
+    val scaffoldState = remember { SnackbarHostState() }
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
         onEvent = viewModel::onEvent,
-        taskTitle = title,
-        action = action,
+        taskTitle = state.titleTask,
+        action = state.action,
     )
 
     Scaffold(
@@ -75,7 +70,7 @@ fun ListScreen(
         topBar = {
             ListAppBar(
                 searchAppBarState = searchAppBarState,
-                searchText = searchTextAppBarState,
+                searchText = state.searchBarState,
                 onEvent = viewModel::onEvent,
             )
         },
@@ -86,9 +81,9 @@ fun ListScreen(
         ListContent(
             modifier = Modifier.padding(paddingValues),
             tasks = if (searchAppBarState == SearchAppBarState.TRIGGERED) {
-                searchTasks
+                state.searchTasks
             } else {
-                allTask
+                state.tasks
             },
             onSwipeToDelete = { action, task ->
                 sharedViewModel.updateAction(action = action)
@@ -97,5 +92,21 @@ fun ListScreen(
             },
             navigateToTaskScreen = navigateToTaskScreen,
         )
+
+        /*
+        * ListAppBar(
+                searchAppBarState = searchAppBarState,
+                searchTextState = searchTextAppBarState,
+                onSearch = { query ->
+                    sharedViewModel.setSearchAppBarState(SearchAppBarState.TRIGGERED)
+                    sharedViewModel.searchTasks(query)
+                },
+                onSearchTextChange = { text -> sharedViewModel.setSearchTextAppBarState(text) },
+                onSearchActionClicked = { appBarState ->
+                    sharedViewModel.setSearchAppBarState(appBarState)
+                },
+                onSortClicked = { sharedViewModel.persistSortState(it) },
+                onBarActionClicked = { action -> sharedViewModel.updateAction(action) }
+            )*/
     }
 }

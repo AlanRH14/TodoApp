@@ -39,7 +39,10 @@ class ListViewModel(
 
             is ListUIEvent.OnSnackBarActionClicked -> handleDatabaseActions(action = event.action)
 
-            is ListUIEvent.OnSortTasksClicked -> getTasks(priority = event.priority)
+            is ListUIEvent.OnSortTasksClicked -> {
+                saveSortState(priority = event.priority)
+                getTasks(priority = event.priority)
+            }
 
             is ListUIEvent.OnSearchKeyAction -> searchTask()
 
@@ -97,11 +100,11 @@ class ListViewModel(
 
     private fun searchTask() {
         viewModelScope.launch {
-            repository.searchTask(searchQuery = "%${_state.value.searchBarQuery}%")
+            repository.searchTask(searchQuery = "%${_state.value.searchBarState}%")
                 .collect { searchTasks ->
                     when (searchTasks) {
                         is RequestState.Success -> {
-                            _state.update { it.copy(searchTask = searchTasks.data) }
+                            _state.update { it.copy(searchTasks = searchTasks.data) }
                         }
 
                         else -> Unit
@@ -203,7 +206,7 @@ class ListViewModel(
     }
 
     private fun onSearchTextUpdate(searchBar: String) {
-        _state.update { it.copy(searchBarQuery = searchBar) }
+        _state.update { it.copy(searchBarState = searchBar) }
     }
 
     private fun onTitleUpdate(title: String) {
