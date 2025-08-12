@@ -184,4 +184,20 @@ class ListViewModel(
             _state.update { it.copy(titleTask = title) }
         }
     }
+
+    private fun onDescriptionUpdate(description: String) {
+        _state.update { it.copy(description = description) }
+    }
+
+    private fun onPriorityUpdate(priority: Priority) {
+        _state.update { it.copy(priority = priority) }
+    }
+
+    private fun validateFields(): Boolean {
+        return _state.value.titleTask.isNotEmpty() && _state.value.description.isNotEmpty()
+    }
+
+    private fun onActionUpdate(action: Action) {
+        _state.update { it.copy(action = action) }
+    }
 }
