@@ -7,6 +7,7 @@ import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.util.Action
+import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
 import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -176,5 +177,11 @@ class ListViewModel(
 
     private fun onSearchBarUpdate(searchBar: String) {
         _state.update { it.copy(searchBarQuery = searchBar) }
+    }
+
+    private fun onTitleUpdate(title: String) {
+        if (title.length < MAX_TITLE_LENGTH) {
+            _state.update { it.copy(titleTask = title) }
+        }
     }
 }
