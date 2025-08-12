@@ -28,20 +28,18 @@ import org.koin.androidx.compose.koinViewModel
 fun ListScreen(
     mAction: Action,
     sharedViewModel: SharedViewModel = koinViewModel(),
-    //viewModel: ListViewModel = koinViewModel(),
+    viewModel: ListViewModel = koinViewModel(),
     navigateToTaskScreen: (Int) -> Unit,
 ) {
-    /*LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = true) {
         viewModel.onEvent(ListUIEvent.GetTasks(priority = Priority.NONE))
 
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                is ListEffect.SortTasks -> {}
-
                 else -> Unit
             }
         }
-    }*/
+    }
 
 
     var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
@@ -59,12 +57,12 @@ fun ListScreen(
     val searchAppBarState by sharedViewModel.searchAppBarState.collectAsState()
     val searchTextAppBarState by sharedViewModel.searchTextAppBarState.collectAsState()
     val title by sharedViewModel.title.collectAsState()
-    val sortState by sharedViewModel.sortState.collectAsState()
+    //val sortState by sharedViewModel.sortState.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
 
-    LaunchedEffect(key1 = sortState) {
+    /*LaunchedEffect(key1 = sortState) {
         sharedViewModel.getTasks(sortState = sortState)
-    }
+    }*/
     sharedViewModel.handleDatabaseActions(action = action)
 
     DisplaySnackBar(

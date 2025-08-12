@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.todoapp.R
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.presentation.components.DisplayAlertDialog
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.DefaultListAppBar
 import com.example.todoapp.presentation.screens.list.components.ListSearchAppBar
 import com.example.todoapp.util.Action
@@ -17,12 +18,10 @@ import com.example.todoapp.util.SearchAppBarState
 @Composable
 fun ListAppBar(
     searchAppBarState: SearchAppBarState,
+    onEvent: (ListUIEvent) -> Unit,
     searchTextState: String,
     onSearch: (String) -> Unit,
-    onSearchTextChange: (String) -> Unit,
     onSearchActionClicked: (SearchAppBarState) -> Unit,
-    onSortClicked: (Priority) -> Unit,
-    onBarActionClicked: (Action) -> Unit
 ) {
     when (searchAppBarState) {
         SearchAppBarState.CLOSED -> {
@@ -33,14 +32,14 @@ fun ListAppBar(
                 message = stringResource(R.string.delete_all_tasks_confirmation),
                 openDialog = openDialog,
                 closeDialog = { openDialog = false },
-                onConfirmClicked = { onBarActionClicked(Action.DELETE_ALL) }
+                onConfirmClicked = { onEvent(ListUIEvent.OnClickActionSnackBar(Action.DELETE_ALL)) }
             )
 
             DefaultListAppBar(
                 onSearchClicked = {
                     onSearchActionClicked(SearchAppBarState.OPENED)
                 },
-                onSortClicked = onSortClicked,
+                onSortClicked = { onEvent(ListUIEvent.OnSortTasksClicked(priority = it)) },
                 onDeleteClicked = {
                     openDialog = true
                 },
@@ -50,7 +49,7 @@ fun ListAppBar(
         else -> {
             ListSearchAppBar(
                 text = searchTextState,
-                onTextChange = { onSearchTextChange(it) },
+                onTextChange = { onEvent(ListUIEvent.OnSearchTextUpdate(searchText = it)) },
                 onSearchActionClicked = onSearch,
                 onCloseClicked = { onSearchActionClicked(SearchAppBarState.CLOSED) }
             )

@@ -35,6 +35,8 @@ class ListViewModel(
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
 
             is ListUIEvent.OnClickActionSnackBar -> {}
+
+            is ListUIEvent.OnSortTasksClicked -> getTasks(priority = event.priority)
         }
     }
 
