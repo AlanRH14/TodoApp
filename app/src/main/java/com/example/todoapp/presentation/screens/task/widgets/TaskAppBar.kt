@@ -26,8 +26,8 @@ fun TaskAppBar(
         var openDialog by remember { mutableStateOf(false) }
 
         DisplayAlertDialog(
-            title = stringResource(R.string.delete_task, task.title ?: ""),
-            message = stringResource(R.string.delete_task_confirmation, task.title ?: ""),
+            title = stringResource(R.string.delete_task, task.title),
+            message = stringResource(R.string.delete_task_confirmation, task.title),
             openDialog = openDialog,
             closeDialog = { openDialog = false },
             onConfirmClicked = { navigateToListScreen(Action.DELETE) }
