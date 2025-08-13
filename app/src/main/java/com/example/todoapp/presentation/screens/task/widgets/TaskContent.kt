@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.R
 import com.example.todoapp.data.model.Priority
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.task.components.PriorityDropDown
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.MEDIUM_PADDING
@@ -23,11 +24,9 @@ import com.example.todoapp.ui.theme.Typography
 fun TaskContent(
     modifier: Modifier = Modifier,
     title: String,
-    onTitleChange: (String) -> Unit,
+    onEvent: (ListUIEvent) -> Unit,
     description: String,
-    onDescriptionChange: (String) -> Unit,
     priority: Priority,
-    onPrioritySelected: (Priority) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -39,7 +38,7 @@ fun TaskContent(
                 .fillMaxWidth()
                 .padding(bottom = MEDIUM_PADDING),
             value = title,
-            onValueChange = { onTitleChange(it) },
+            onValueChange = { onEvent(ListUIEvent.OnTaskTitleUpdate(taskTile = it)) },
             label = { Text(text = stringResource(R.string.add_task_title)) },
             textStyle = Typography.bodyLarge,
             singleLine = true
@@ -51,7 +50,8 @@ fun TaskContent(
         )
 
         PriorityDropDown(
-            priority = priority, onPrioritySelected = { onPrioritySelected(it) }
+            priority = priority,
+            onPrioritySelected = { onEvent(ListUIEvent.OnPriorityUpdate(priority = it)) }
         )
 
         HorizontalDivider(
@@ -62,7 +62,7 @@ fun TaskContent(
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
             value = description,
-            onValueChange = { onDescriptionChange(it) },
+            onValueChange = { onEvent(ListUIEvent.OnDescriptionUpdate(description = it)) },
             label = { Text(text = stringResource(R.string.description)) },
             textStyle = Typography.bodyLarge
         )
@@ -74,10 +74,8 @@ fun TaskContent(
 fun TaskContentPreview() {
     TaskContent(
         title = "Lord Miau",
-        onTitleChange = {},
+        onEvent = {},
         description = "Some ramdom text",
-        onDescriptionChange = {},
         priority = Priority.HIGH,
-        onPrioritySelected = {}
     )
 }

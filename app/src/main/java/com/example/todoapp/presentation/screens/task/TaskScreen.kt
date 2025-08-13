@@ -10,66 +10,71 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.example.todoapp.presentation.screens.list.ListEffect
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
-import com.example.todoapp.presentation.viewmodel.SharedViewModel
+import com.example.todoapp.presentation.viewmodel.ListViewModel
 import com.example.todoapp.util.Action
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TaskScreen(
-    sharedViewModel: SharedViewModel = koinViewModel(),
+    viewModel: ListViewModel = koinViewModel(),
     taskId: Int? = null,
     navigateToListScreen: (Action) -> Unit
 ) {
-    val title by sharedViewModel.title.collectAsState()
-    val description by sharedViewModel.description.collectAsState()
-    val priority by sharedViewModel.priority.collectAsState()
-    val selectedTask by sharedViewModel.selectedTask.collectAsState()
+    val state by viewModel.state.collectAsState()
     val mContext = LocalContext.current
 
     BackHandler(
         onBack = { navigateToListScreen(Action.NO_ACTION) }
     )
 
-    LaunchedEffect(key1 = taskId) {
-        if (taskId != null) {
-            sharedViewModel.getSelectedTask(taskId = taskId)
+    LaunchedEffect(key1 = true) {
+        viewModel.onEvent(ListUIEvent.OnReadSortState)
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is ListEffect.ShowMessage -> {
+                    Toast.makeText(mContext, effect.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is ListEffect.NavigateToListScreen -> {
+                    navigateToListScreen(effect.action)
+                }
+            }
         }
     }
 
-    LaunchedEffect(key1 = selectedTask) {
-        if (selectedTask != null || taskId == -1) {
-            sharedViewModel.updateTaskFields(selectedTask)
+    LaunchedEffect(key1 = taskId) {
+        if (taskId != null) {
+            viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskId))
+        }
+    }
+
+    LaunchedEffect(key1 = state.taskSelected) {
+        if (state.taskSelected != null || taskId == -1) {
+            viewModel.onEvent(ListUIEvent.OnTaskFieldsUpdate(taskSelected = state.taskSelected))
         }
     }
 
     Scaffold(
         topBar = {
             TaskAppBar(
-                task = selectedTask,
+                task = state.taskSelected,
                 navigateToListScreen = { action ->
-                    if (action == Action.NO_ACTION) {
-                        navigateToListScreen(action)
-                    } else {
-                        if (sharedViewModel.validateFields()) {
-                            navigateToListScreen(action)
-                        } else {
-                            Toast.makeText(mContext, "Fields Empty.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    viewModel.onEvent(ListUIEvent.OnNavigateToListScreen(action = action))
                 }
             )
         }
     ) { paddingValues ->
         TaskContent(
             modifier = Modifier.padding(paddingValues),
-            title = title,
-            onTitleChange = { sharedViewModel.setTitleTask(it) },
-            description = description,
-            onDescriptionChange = { sharedViewModel.setDescriptionTask(it) },
-            priority = priority,
-            onPrioritySelected = { sharedViewModel.setPriorityTask(it) }
+            title = state.titleTask,
+            onEvent = viewModel::onEvent,
+            description = state.description,
+            priority = state.priority,
         )
     }
 }

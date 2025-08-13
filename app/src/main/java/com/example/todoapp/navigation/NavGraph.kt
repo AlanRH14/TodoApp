@@ -9,14 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.todoapp.presentation.screens.list.ListScreen
 import com.example.todoapp.presentation.screens.task.TaskScreen
-import com.example.todoapp.presentation.viewmodel.SharedViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun NavGraph(
-    navController: NavHostController,
-    sharedViewModel: SharedViewModel = koinViewModel()
-) {
+fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Screen.List(),
@@ -43,7 +38,6 @@ fun NavGraph(
         ) { navBackStackEntry ->
             val taskId = navBackStackEntry.toRoute<Screen.Task>().taskId
             TaskScreen(
-                sharedViewModel = sharedViewModel,
                 taskId = taskId,
                 navigateToListScreen = { action ->
                     navController.navigate(Screen.List(action = action)) {

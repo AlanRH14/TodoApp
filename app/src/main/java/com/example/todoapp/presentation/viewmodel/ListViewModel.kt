@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.screens.list
+package com.example.todoapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,8 +7,11 @@ import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
+import com.example.todoapp.presentation.screens.list.ListEffect
+import com.example.todoapp.presentation.screens.list.ListState
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.util.Action
-import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
+import com.example.todoapp.util.Constants
 import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
@@ -49,6 +52,16 @@ class ListViewModel(
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
 
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
+
+            is ListUIEvent.OnReadSortState -> readSortState()
+
+            is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
+            is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
+            is ListUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
+            is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
+            is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
+            is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
+
         }
     }
 
@@ -155,7 +168,7 @@ class ListViewModel(
         description: String,
         priority: Priority
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 id = id,
                 title = title,
@@ -173,14 +186,14 @@ class ListViewModel(
         }
     }
 
-    private fun updateTaskFields(selectedTask: ToDoTaskEntity?) {
-        if (selectedTask != null) {
+    private fun updateTaskFields(taskSelected: ToDoTaskEntity?) {
+        if (taskSelected != null) {
             _state.update {
                 it.copy(
-                    idTask = selectedTask.id,
-                    titleTask = selectedTask.title,
-                    description = selectedTask.description,
-                    priority = selectedTask.priority
+                    idTask = taskSelected.id,
+                    titleTask = taskSelected.title,
+                    description = taskSelected.description,
+                    priority = taskSelected.priority,
                 )
             }
         } else {
@@ -212,7 +225,7 @@ class ListViewModel(
     }
 
     private fun onTitleUpdate(title: String) {
-        if (title.length < MAX_TITLE_LENGTH) {
+        if (title.length < Constants.MAX_TITLE_LENGTH) {
             _state.update { it.copy(titleTask = title) }
         }
     }
@@ -249,6 +262,20 @@ class ListViewModel(
                 .collect { priority ->
                     _state.update { it.copy(sortState = priority) }
                 }
+        }
+    }
+
+    private fun navigateToListScreen(action: Action) {
+        viewModelScope.launch {
+            if (action == Action.NO_ACTION) {
+                _effect.emit(ListEffect.NavigateToListScreen(action = action))
+            } else {
+                if (validateFields()) {
+                    _effect.emit(ListEffect.NavigateToListScreen(action = action))
+                } else {
+                    _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
+                }
+            }
         }
     }
 }
