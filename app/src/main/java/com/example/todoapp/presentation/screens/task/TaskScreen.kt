@@ -9,11 +9,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.example.todoapp.presentation.screens.list.ListEffect
 import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
 import com.example.todoapp.presentation.viewmodel.ListViewModel
 import com.example.todoapp.util.Action
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -33,6 +35,21 @@ fun TaskScreen(
         if (taskId != null) {
             viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskId))
         }
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is ListEffect.ShowMessage -> {
+
+                }
+
+                is ListEffect.NavigateToListScreen -> {
+
+                }
+            }
+        }
+
     }
 
     LaunchedEffect(key1 = state.taskSelected) {
