@@ -26,7 +26,6 @@ fun TaskContent(
     title: String,
     onEvent: (ListUIEvent) -> Unit,
     description: String,
-    onDescriptionChange: (String) -> Unit,
     priority: Priority,
     onPrioritySelected: (Priority) -> Unit
 ) {
@@ -40,7 +39,7 @@ fun TaskContent(
                 .fillMaxWidth()
                 .padding(bottom = MEDIUM_PADDING),
             value = title,
-            onValueChange = { onEvent() },
+            onValueChange = { onEvent(ListUIEvent.OnTaskTitleUpdate(taskTile = it)) },
             label = { Text(text = stringResource(R.string.add_task_title)) },
             textStyle = Typography.bodyLarge,
             singleLine = true
@@ -52,7 +51,8 @@ fun TaskContent(
         )
 
         PriorityDropDown(
-            priority = priority, onPrioritySelected = { onPrioritySelected(it) }
+            priority = priority,
+            onPrioritySelected = { onEvent(ListUIEvent.OnPriorityUpdate(priority = it)) }
         )
 
         HorizontalDivider(
@@ -63,7 +63,7 @@ fun TaskContent(
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
             value = description,
-            onValueChange = { onDescriptionChange(it) },
+            onValueChange = { onEvent(ListUIEvent.OnDescriptionUpdate(description = it)) },
             label = { Text(text = stringResource(R.string.description)) },
             textStyle = Typography.bodyLarge
         )
