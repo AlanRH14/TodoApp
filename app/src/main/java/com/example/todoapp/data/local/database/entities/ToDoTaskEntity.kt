@@ -9,7 +9,7 @@ import com.example.todoapp.util.Constants
 data class ToDoTaskEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val title: String,
-    val description: String,
-    val priority: Priority
+    val title: String? = null,
+    val description: String? = null,
+    val priority: Priority? = null
 )

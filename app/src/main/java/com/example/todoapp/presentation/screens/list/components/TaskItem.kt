@@ -56,7 +56,7 @@ fun TaskItem(
             Row {
                 Text(
                     modifier = Modifier.weight(8F),
-                    text = toDoTaskEntity.title,
+                    text = toDoTaskEntity.title ?: "",
                     color = TaskItemTextColor,
                     style = Typography().headlineSmall,
                     fontWeight = FontWeight.Bold,
