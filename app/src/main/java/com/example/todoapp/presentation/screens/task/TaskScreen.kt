@@ -14,14 +14,14 @@ import com.example.todoapp.presentation.screens.list.ListEffect
 import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
-import com.example.todoapp.presentation.viewmodel.ListViewModel
+import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TaskScreen(
-    viewModel: ListViewModel = koinViewModel(),
+    viewModel: SharedViewModel = koinViewModel(),
     taskId: Int? = null,
     navigateToListScreen: (Action) -> Unit
 ) {
