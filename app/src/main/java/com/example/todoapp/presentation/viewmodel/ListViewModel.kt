@@ -53,15 +53,15 @@ class ListViewModel(
 
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
 
+            is ListUIEvent.OnReadSortState -> readSortState()
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
-
             is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
-
             is ListUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
             is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
             is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
             is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
+
         }
     }
 

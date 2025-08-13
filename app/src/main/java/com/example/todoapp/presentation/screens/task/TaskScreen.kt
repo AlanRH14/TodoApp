@@ -32,13 +32,8 @@ fun TaskScreen(
         onBack = { navigateToListScreen(Action.NO_ACTION) }
     )
 
-    LaunchedEffect(key1 = taskId) {
-        if (taskId != null) {
-            viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskId))
-        }
-    }
-
     LaunchedEffect(key1 = true) {
+        viewModel.onEvent(ListUIEvent.OnReadSortState)
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 is ListEffect.ShowMessage -> {
@@ -50,7 +45,12 @@ fun TaskScreen(
                 }
             }
         }
+    }
 
+    LaunchedEffect(key1 = taskId) {
+        if (taskId != null) {
+            viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskId))
+        }
     }
 
     LaunchedEffect(key1 = state.taskSelected) {

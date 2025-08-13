@@ -43,7 +43,6 @@ fun NavGraph(
         ) { navBackStackEntry ->
             val taskId = navBackStackEntry.toRoute<Screen.Task>().taskId
             TaskScreen(
-                sharedViewModel = sharedViewModel,
                 taskId = taskId,
                 navigateToListScreen = { action ->
                     navController.navigate(Screen.List(action = action)) {

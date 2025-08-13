@@ -33,7 +33,7 @@ fun ListScreen(
     val state by viewModel.state.collectAsState()
     LaunchedEffect(key1 = true) {
         viewModel.onEvent(ListUIEvent.GetTasks(priority = Priority.NONE))
-
+        viewModel.onEvent(ListUIEvent.OnReadSortState)
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 else -> Unit

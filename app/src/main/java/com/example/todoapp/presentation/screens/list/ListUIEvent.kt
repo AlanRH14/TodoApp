@@ -21,4 +21,5 @@ sealed interface ListUIEvent {
     data class OnTaskTitleUpdate(val taskTile: String) : ListUIEvent
     data class OnDescriptionUpdate(val description: String) : ListUIEvent
     data class OnPriorityUpdate(val priority: Priority) : ListUIEvent
+    data object OnReadSortState: ListUIEvent
 }
