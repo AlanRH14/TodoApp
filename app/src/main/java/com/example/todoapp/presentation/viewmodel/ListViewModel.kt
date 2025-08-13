@@ -58,7 +58,7 @@ class ListViewModel(
 
             is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
 
-            is ListUIEvent.OnNavigateToListScreen -> validateFields()
+            is ListUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
         }
     }
 
@@ -259,6 +259,20 @@ class ListViewModel(
                 .collect { priority ->
                     _state.update { it.copy(sortState = priority) }
                 }
+        }
+    }
+
+    private fun navigateToListScreen(action: Action) {
+        viewModelScope.launch {
+            if (action == Action.NO_ACTION) {
+                _effect.emit(ListEffect.NavigateToListScreen(action = action))
+            } else {
+                if (validateFields()) {
+                    _effect.emit(ListEffect.NavigateToListScreen(action = action))
+                } else {
+                    _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
+                }
+            }
         }
     }
 }

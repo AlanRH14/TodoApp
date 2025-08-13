@@ -17,5 +17,5 @@ sealed interface ListUIEvent {
 
     data class OnGetTaskSelected(val taskID: Int) : ListUIEvent
     data class OnTaskFieldsUpdate(val taskSelected: ToDoTaskEntity?): ListUIEvent
-    data object OnNavigateToListScreen: ListUIEvent
+    data class OnNavigateToListScreen(val action: Action): ListUIEvent
 }

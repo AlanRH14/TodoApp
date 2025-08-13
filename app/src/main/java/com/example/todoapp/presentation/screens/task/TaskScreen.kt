@@ -48,15 +48,7 @@ fun TaskScreen(
             TaskAppBar(
                 task = state.taskSelected,
                 navigateToListScreen = { action ->
-                    if (action == Action.NO_ACTION) {
-                        navigateToListScreen(action)
-                    } else {
-                        if (sharedViewModel.validateFields()) {
-                            navigateToListScreen(action)
-                        } else {
-                            Toast.makeText(mContext, "Fields Empty.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    viewModel.onEvent(ListUIEvent.OnNavigateToListScreen(action = action))
                 }
             )
         }
