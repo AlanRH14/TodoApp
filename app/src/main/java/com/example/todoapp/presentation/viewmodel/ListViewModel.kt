@@ -209,9 +209,11 @@ class ListViewModel(
     }
 
     private fun getSelectedTask(taskID: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getSelectedTask(taskId = taskID).collect { task ->
-                _state.update { it.copy(taskSelected = task) }
+        if (taskID > -1) {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.getSelectedTask(taskId = taskID).collect { task ->
+                    _state.update { it.copy(taskSelected = task) }
+                }
             }
         }
     }
