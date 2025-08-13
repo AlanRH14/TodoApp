@@ -209,9 +209,11 @@ class ListViewModel(
     }
 
     private fun getSelectedTask(taskID: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getSelectedTask(taskId = taskID).collect { task ->
-                _state.update { it.copy(taskSelected = task) }
+        if (taskID > -1) {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.getSelectedTask(taskId = taskID).collect { task ->
+                    _state.update { it.copy(taskSelected = task) }
+                }
             }
         }
     }
@@ -268,9 +270,11 @@ class ListViewModel(
     private fun navigateToListScreen(action: Action) {
         viewModelScope.launch {
             if (action == Action.NO_ACTION) {
+                handleDatabaseActions(action = action)
                 _effect.emit(ListEffect.NavigateToListScreen(action = action))
             } else {
                 if (validateFields()) {
+                    handleDatabaseActions(action = action)
                     _effect.emit(ListEffect.NavigateToListScreen(action = action))
                 } else {
                     _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))

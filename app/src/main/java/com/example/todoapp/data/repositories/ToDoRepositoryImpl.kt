@@ -1,5 +1,6 @@
 package com.example.todoapp.data.repositories
 
+import android.util.Log
 import com.example.todoapp.data.local.database.dao.ToDoDao
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.data.model.Priority
@@ -8,7 +9,7 @@ import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class ToDoRepositoryImpl(private val toDoDao: ToDoDao): ToDoRepository {
+class ToDoRepositoryImpl(private val toDoDao: ToDoDao) : ToDoRepository {
     override fun sortByLowPriority(): Flow<RequestState<List<ToDoTaskEntity>>> = flow {
         emit(RequestState.Loading)
         try {
@@ -62,9 +63,15 @@ class ToDoRepositoryImpl(private val toDoDao: ToDoDao): ToDoRepository {
             }
         }
 
-    override fun getSelectedTask(taskId: Int): Flow<ToDoTaskEntity> {
-        return toDoDao.getSelectedTask(taskId = taskId)
-    }
+    override fun getSelectedTask(taskId: Int): Flow<ToDoTaskEntity> = flow {
+            try {
+                toDoDao.getSelectedTask(taskId = taskId).collect {
+                    emit(it)
+                }
+            } catch (e: Exception) {
+                Log.d("LordMiau", "Error: ${e.message} ID: $taskId")
+            }
+        }
 
     override suspend fun addTask(toDoTaskEntity: ToDoTaskEntity) {
         toDoDao.addTask(toDoTaskEntity = toDoTaskEntity)
