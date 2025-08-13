@@ -52,6 +52,13 @@ class ListViewModel(
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
 
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
+
+
+            is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
+
+            is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
+
+            is ListUIEvent.OnNavigateToListScreen -> validateFields()
         }
     }
 
@@ -158,7 +165,7 @@ class ListViewModel(
         description: String,
         priority: Priority
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 id = id,
                 title = title,
@@ -176,14 +183,14 @@ class ListViewModel(
         }
     }
 
-    private fun updateTaskFields(selectedTask: ToDoTaskEntity?) {
-        if (selectedTask != null) {
+    private fun updateTaskFields(taskSelected: ToDoTaskEntity?) {
+        if (taskSelected != null) {
             _state.update {
                 it.copy(
-                    idTask = selectedTask.id,
-                    titleTask = selectedTask.title,
-                    description = selectedTask.description,
-                    priority = selectedTask.priority
+                    idTask = taskSelected.id,
+                    titleTask = taskSelected.title,
+                    description = taskSelected.description,
+                    priority = taskSelected.priority
                 )
             }
         } else {

@@ -10,22 +10,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
+import com.example.todoapp.presentation.viewmodel.ListViewModel
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TaskScreen(
-    sharedViewModel: SharedViewModel = koinViewModel(),
+    viewModel: ListViewModel = koinViewModel(),
     taskId: Int? = null,
     navigateToListScreen: (Action) -> Unit
 ) {
-    val title by sharedViewModel.title.collectAsState()
-    val description by sharedViewModel.description.collectAsState()
-    val priority by sharedViewModel.priority.collectAsState()
-    val selectedTask by sharedViewModel.selectedTask.collectAsState()
+    val state by viewModel.state.collectAsState()
     val mContext = LocalContext.current
 
     BackHandler(
@@ -34,20 +33,20 @@ fun TaskScreen(
 
     LaunchedEffect(key1 = taskId) {
         if (taskId != null) {
-            sharedViewModel.getSelectedTask(taskId = taskId)
+            viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskId))
         }
     }
 
-    LaunchedEffect(key1 = selectedTask) {
-        if (selectedTask != null || taskId == -1) {
-            sharedViewModel.updateTaskFields(selectedTask)
+    LaunchedEffect(key1 = state.taskSelected) {
+        if (state.taskSelected != null || taskId == -1) {
+            viewModel.onEvent(ListUIEvent.OnTaskFieldsUpdate(taskSelected = state.taskSelected))
         }
     }
 
     Scaffold(
         topBar = {
             TaskAppBar(
-                task = selectedTask,
+                task = state.taskSelected,
                 navigateToListScreen = { action ->
                     if (action == Action.NO_ACTION) {
                         navigateToListScreen(action)
@@ -64,11 +63,11 @@ fun TaskScreen(
     ) { paddingValues ->
         TaskContent(
             modifier = Modifier.padding(paddingValues),
-            title = title,
+            title = state.titleTask,
             onTitleChange = { sharedViewModel.setTitleTask(it) },
-            description = description,
+            description = state.description,
             onDescriptionChange = { sharedViewModel.setDescriptionTask(it) },
-            priority = priority,
+            priority = state.priority,
             onPrioritySelected = { sharedViewModel.setPriorityTask(it) }
         )
     }
