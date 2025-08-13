@@ -31,7 +31,7 @@ fun ExistingTaskAppBar(
     TopAppBar(
         title = {
             Text(
-                text = task.title,
+                text = task.title ?: "",
                 color = TopAppBarContentColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
