@@ -191,9 +191,9 @@ class ListViewModel(
             _state.update {
                 it.copy(
                     idTask = taskSelected.id,
-                    titleTask = taskSelected.title ?: "",
-                    description = taskSelected.description ?: "",
-                    priority = taskSelected.priority ?: Priority.LOW
+                    titleTask = taskSelected.title,
+                    description = taskSelected.description,
+                    priority = taskSelected.priority,
                 )
             }
         } else {
