@@ -15,7 +15,6 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -57,7 +56,7 @@ fun TaskItem(
             Row {
                 Text(
                     modifier = Modifier.weight(8F),
-                    text = toDoTaskEntity.title ?: "",
+                    text = toDoTaskEntity.title,
                     color = TaskItemTextColor,
                     style = Typography().headlineSmall,
                     fontWeight = FontWeight.Bold,
@@ -74,7 +73,7 @@ fun TaskItem(
                             .size(PRIORITY_INDICATOR_SIZE)
                     ) {
                         drawCircle(
-                            color = toDoTaskEntity.priority?.color ?: Color.Transparent
+                            color = toDoTaskEntity.priority.color
                         )
                     }
                 }
@@ -83,7 +82,7 @@ fun TaskItem(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = toDoTaskEntity.description ?: "",
+                text = toDoTaskEntity.description,
                 color = TaskItemTextColor,
                 style = Typography().titleSmall,
                 maxLines = 2,
