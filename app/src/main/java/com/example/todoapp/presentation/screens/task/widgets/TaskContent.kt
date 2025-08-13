@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.R
 import com.example.todoapp.data.model.Priority
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.task.components.PriorityDropDown
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.MEDIUM_PADDING
@@ -23,7 +24,7 @@ import com.example.todoapp.ui.theme.Typography
 fun TaskContent(
     modifier: Modifier = Modifier,
     title: String,
-    onTitleChange: (String) -> Unit,
+    onEvent: (ListUIEvent) -> Unit,
     description: String,
     onDescriptionChange: (String) -> Unit,
     priority: Priority,
@@ -39,7 +40,7 @@ fun TaskContent(
                 .fillMaxWidth()
                 .padding(bottom = MEDIUM_PADDING),
             value = title,
-            onValueChange = { onTitleChange(it) },
+            onValueChange = { onEvent() },
             label = { Text(text = stringResource(R.string.add_task_title)) },
             textStyle = Typography.bodyLarge,
             singleLine = true
@@ -74,7 +75,7 @@ fun TaskContent(
 fun TaskContentPreview() {
     TaskContent(
         title = "Lord Miau",
-        onTitleChange = {},
+        onEvent = {},
         description = "Some ramdom text",
         onDescriptionChange = {},
         priority = Priority.HIGH,

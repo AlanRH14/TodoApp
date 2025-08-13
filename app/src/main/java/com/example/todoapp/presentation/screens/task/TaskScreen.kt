@@ -1,6 +1,5 @@
 package com.example.todoapp.presentation.screens.task
 
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,7 +13,6 @@ import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
 import com.example.todoapp.presentation.viewmodel.ListViewModel
-import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
 import org.koin.androidx.compose.koinViewModel
 
@@ -56,7 +54,7 @@ fun TaskScreen(
         TaskContent(
             modifier = Modifier.padding(paddingValues),
             title = state.titleTask,
-            onTitleChange = { sharedViewModel.setTitleTask(it) },
+            onEvent = { sharedViewModel.setTitleTask(it) },
             description = state.description,
             onDescriptionChange = { sharedViewModel.setDescriptionTask(it) },
             priority = state.priority,
