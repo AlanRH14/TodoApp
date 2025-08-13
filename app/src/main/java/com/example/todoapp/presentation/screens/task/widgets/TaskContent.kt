@@ -27,7 +27,6 @@ fun TaskContent(
     onEvent: (ListUIEvent) -> Unit,
     description: String,
     priority: Priority,
-    onPrioritySelected: (Priority) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -77,8 +76,6 @@ fun TaskContentPreview() {
         title = "Lord Miau",
         onEvent = {},
         description = "Some ramdom text",
-        onDescriptionChange = {},
         priority = Priority.HIGH,
-        onPrioritySelected = {}
     )
 }
