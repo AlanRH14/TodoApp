@@ -1,5 +1,6 @@
 package com.example.todoapp.presentation.screens.task
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -41,11 +42,11 @@ fun TaskScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 is ListEffect.ShowMessage -> {
-
+                    Toast.makeText(mContext, effect.message, Toast.LENGTH_SHORT).show()
                 }
 
                 is ListEffect.NavigateToListScreen -> {
-
+                    navigateToListScreen(effect.action)
                 }
             }
         }
