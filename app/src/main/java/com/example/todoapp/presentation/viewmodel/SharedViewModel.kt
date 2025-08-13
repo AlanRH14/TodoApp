@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ListViewModel(
+class SharedViewModel(
     private val repository: ToDoRepository,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
