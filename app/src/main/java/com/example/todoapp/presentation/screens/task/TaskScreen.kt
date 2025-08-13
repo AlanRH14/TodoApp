@@ -54,11 +54,9 @@ fun TaskScreen(
         TaskContent(
             modifier = Modifier.padding(paddingValues),
             title = state.titleTask,
-            onEvent = { sharedViewModel.setTitleTask(it) },
+            onEvent = viewModel::onEvent,
             description = state.description,
-            onDescriptionChange = { sharedViewModel.setDescriptionTask(it) },
             priority = state.priority,
-            onPrioritySelected = { sharedViewModel.setPriorityTask(it) }
         )
     }
 }
