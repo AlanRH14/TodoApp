@@ -190,9 +190,9 @@ class SharedViewModel(
     fun updateTaskFields(selectedTask: ToDoTaskEntity?) {
         if (selectedTask != null) {
             _id.value = selectedTask.id
-            _title.value = selectedTask.title ?: ""
-            _description.value = selectedTask.description ?: ""
-            _priority.value = selectedTask.priority ?: Priority.LOW
+            _title.value = selectedTask.title
+            _description.value = selectedTask.description
+            _priority.value = selectedTask.priority
         } else {
             _id.value = 0
             _title.value = ""

@@ -270,9 +270,11 @@ class ListViewModel(
     private fun navigateToListScreen(action: Action) {
         viewModelScope.launch {
             if (action == Action.NO_ACTION) {
+                handleDatabaseActions(action = action)
                 _effect.emit(ListEffect.NavigateToListScreen(action = action))
             } else {
                 if (validateFields()) {
+                    handleDatabaseActions(action = action)
                     _effect.emit(ListEffect.NavigateToListScreen(action = action))
                 } else {
                     _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
