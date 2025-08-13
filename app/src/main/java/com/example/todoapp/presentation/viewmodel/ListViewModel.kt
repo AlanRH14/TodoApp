@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.screens.list
+package com.example.todoapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,8 +7,11 @@ import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
+import com.example.todoapp.presentation.screens.list.ListEffect
+import com.example.todoapp.presentation.screens.list.ListState
+import com.example.todoapp.presentation.screens.list.ListUIEvent
 import com.example.todoapp.util.Action
-import com.example.todoapp.util.Constants.MAX_TITLE_LENGTH
+import com.example.todoapp.util.Constants
 import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
@@ -212,7 +215,7 @@ class ListViewModel(
     }
 
     private fun onTitleUpdate(title: String) {
-        if (title.length < MAX_TITLE_LENGTH) {
+        if (title.length < Constants.MAX_TITLE_LENGTH) {
             _state.update { it.copy(titleTask = title) }
         }
     }
