@@ -45,7 +45,6 @@ class SharedViewModel(
             }
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
-            is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
             is ListUIEvent.OnReadSortState -> readSortState()
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
@@ -228,9 +227,6 @@ class SharedViewModel(
         return _state.value.titleTask.isNotEmpty() && _state.value.description.isNotEmpty()
     }
 
-    private fun onActionUpdate(action: Action) {
-        _state.update { it.copy(action = action) }
-    }
 
     private fun saveSortState(priority: Priority) {
         viewModelScope.launch(Dispatchers.IO) {
