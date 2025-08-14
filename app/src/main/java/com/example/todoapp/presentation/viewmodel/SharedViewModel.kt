@@ -133,7 +133,7 @@ class SharedViewModel(
         description: String,
         priority: Priority
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 title = title,
                 description = description,
@@ -150,7 +150,7 @@ class SharedViewModel(
         description: String,
         priority: Priority
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 id = id,
                 title = title,
