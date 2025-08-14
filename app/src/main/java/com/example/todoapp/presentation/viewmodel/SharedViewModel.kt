@@ -181,7 +181,7 @@ class SharedViewModel(
     }
 
     private fun deleteAllTask() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllTasks()
         }
     }
