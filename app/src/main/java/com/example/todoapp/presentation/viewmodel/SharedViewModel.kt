@@ -37,22 +37,15 @@ class SharedViewModel(
     fun onEvent(event: ListUIEvent) {
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
-
             is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
-
             is ListUIEvent.OnSnackBarActionClicked -> handleDatabaseActions(action = event.action)
-
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
-
             is ListUIEvent.OnSearchKeyAction -> searchTask()
-
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
-
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
-
             is ListUIEvent.OnReadSortState -> readSortState()
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
@@ -194,15 +187,6 @@ class SharedViewModel(
                     titleTask = taskSelected.title,
                     description = taskSelected.description,
                     priority = taskSelected.priority,
-                )
-            }
-        } else {
-            _state.update {
-                it.copy(
-                    idTask = 0,
-                    titleTask = "",
-                    description = "",
-                    priority = Priority.LOW
                 )
             }
         }
