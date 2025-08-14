@@ -33,7 +33,6 @@ fun TaskScreen(
     )
 
     LaunchedEffect(key1 = true) {
-        viewModel.onEvent(ListUIEvent.OnReadSortState)
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 is ListEffect.ShowMessage -> {
