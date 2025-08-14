@@ -21,6 +21,7 @@ import com.example.todoapp.presentation.screens.list.widgets.ListContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.SearchAppBarState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
@@ -41,15 +42,14 @@ fun ListScreen(
         }
     }
 
-
     var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
 
-    LaunchedEffect(key1 = rememberAction) {
+    /*LaunchedEffect(key1 = rememberAction) {
         if (rememberAction != mAction) {
             rememberAction = mAction
             viewModel.onEvent(ListUIEvent.OnActionUpdate(action = mAction))
         }
-    }
+    }*/
     val scaffoldState = remember { SnackbarHostState() }
 
     DisplaySnackBar(
@@ -82,9 +82,9 @@ fun ListScreen(
                 state.tasks
             },
             onSwipeToDelete = { action, task ->
-                viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))
-                //sharedViewModel.updateTaskFields(selectedTask = task)
-                scaffoldState.currentSnackbarData?.dismiss()
+                viewModel.onEvent(ListUIEvent.OnTaskFieldsUpdate(taskSelected = task))
+                viewModel.onEvent(ListUIEvent.OnSnackBarActionClicked(action = action))
+                //scaffoldState.currentSnackbarData?.dismiss()
             },
             navigateToTaskScreen = navigateToTaskScreen,
         )

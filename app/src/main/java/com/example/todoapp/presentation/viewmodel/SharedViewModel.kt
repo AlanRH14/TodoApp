@@ -37,22 +37,14 @@ class SharedViewModel(
     fun onEvent(event: ListUIEvent) {
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
-
             is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
-
             is ListUIEvent.OnSnackBarActionClicked -> handleDatabaseActions(action = event.action)
-
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
-
             is ListUIEvent.OnSearchKeyAction -> searchTask()
-
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
-
-            is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
-
             is ListUIEvent.OnReadSortState -> readSortState()
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
@@ -133,7 +125,7 @@ class SharedViewModel(
         description: String,
         priority: Priority
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 title = title,
                 description = description,
@@ -150,7 +142,7 @@ class SharedViewModel(
         description: String,
         priority: Priority
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 id = id,
                 title = title,
@@ -181,7 +173,7 @@ class SharedViewModel(
     }
 
     private fun deleteAllTask() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllTasks()
         }
     }
@@ -194,15 +186,6 @@ class SharedViewModel(
                     titleTask = taskSelected.title,
                     description = taskSelected.description,
                     priority = taskSelected.priority,
-                )
-            }
-        } else {
-            _state.update {
-                it.copy(
-                    idTask = 0,
-                    titleTask = "",
-                    description = "",
-                    priority = Priority.LOW
                 )
             }
         }
@@ -244,9 +227,6 @@ class SharedViewModel(
         return _state.value.titleTask.isNotEmpty() && _state.value.description.isNotEmpty()
     }
 
-    private fun onActionUpdate(action: Action) {
-        _state.update { it.copy(action = action) }
-    }
 
     private fun saveSortState(priority: Priority) {
         viewModelScope.launch(Dispatchers.IO) {
