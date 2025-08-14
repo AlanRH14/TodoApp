@@ -82,8 +82,8 @@ fun ListScreen(
                 state.tasks
             },
             onSwipeToDelete = { action, task ->
-                viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))
                 viewModel.onEvent(ListUIEvent.OnTaskFieldsUpdate(taskSelected = task))
+                viewModel.onEvent(ListUIEvent.OnSnackBarActionClicked(action = action))
                 //scaffoldState.currentSnackbarData?.dismiss()
             },
             navigateToTaskScreen = navigateToTaskScreen,
