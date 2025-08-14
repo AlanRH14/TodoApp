@@ -41,7 +41,6 @@ fun ListScreen(
         }
     }
 
-
     var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
 
     LaunchedEffect(key1 = rememberAction) {
@@ -83,8 +82,8 @@ fun ListScreen(
             },
             onSwipeToDelete = { action, task ->
                 viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))
-                //sharedViewModel.updateTaskFields(selectedTask = task)
-                scaffoldState.currentSnackbarData?.dismiss()
+                viewModel.onEvent(ListUIEvent.OnTaskFieldsUpdate(taskSelected = task))
+                //scaffoldState.currentSnackbarData?.dismiss()
             },
             navigateToTaskScreen = navigateToTaskScreen,
         )
