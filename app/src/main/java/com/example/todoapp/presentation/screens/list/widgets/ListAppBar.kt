@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.example.todoapp.R
 import com.example.todoapp.presentation.components.DisplayAlertDialog
-import com.example.todoapp.presentation.screens.list.ListUIEvent
+import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.DefaultListAppBar
 import com.example.todoapp.presentation.screens.list.components.ListSearchAppBar
 import com.example.todoapp.util.Action

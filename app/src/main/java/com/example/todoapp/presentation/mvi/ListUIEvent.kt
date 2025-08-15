@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.screens.list
+package com.example.todoapp.presentation.mvi
 
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.data.model.Priority

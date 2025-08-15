@@ -9,7 +9,7 @@ import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.mvi.ListEffect
 import com.example.todoapp.presentation.mvi.ListState
-import com.example.todoapp.presentation.screens.list.ListUIEvent
+import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
 import com.example.todoapp.util.RequestState
