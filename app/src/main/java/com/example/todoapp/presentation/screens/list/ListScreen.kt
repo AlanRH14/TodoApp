@@ -27,7 +27,6 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ListScreen(
-    mAction: Action,
     viewModel: SharedViewModel = koinViewModel(),
     navigateToTaskScreen: (Int) -> Unit,
 ) {
@@ -42,14 +41,6 @@ fun ListScreen(
         }
     }
 
-    var rememberAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
-
-    /*LaunchedEffect(key1 = rememberAction) {
-        if (rememberAction != mAction) {
-            rememberAction = mAction
-            viewModel.onEvent(ListUIEvent.OnActionUpdate(action = mAction))
-        }
-    }*/
     val scaffoldState = remember { SnackbarHostState() }
 
     DisplaySnackBar(
