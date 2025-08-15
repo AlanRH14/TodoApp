@@ -53,7 +53,6 @@ class SharedViewModel(
             is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
             is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
             is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
-
         }
     }
 
@@ -226,7 +225,6 @@ class SharedViewModel(
     private fun validateFields(): Boolean {
         return _state.value.titleTask.isNotEmpty() && _state.value.description.isNotEmpty()
     }
-
 
     private fun saveSortState(priority: Priority) {
         viewModelScope.launch(Dispatchers.IO) {
