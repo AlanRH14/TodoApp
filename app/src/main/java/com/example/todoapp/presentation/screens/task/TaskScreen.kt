@@ -62,9 +62,7 @@ fun TaskScreen(
         topBar = {
             TaskAppBar(
                 task = state.taskSelected,
-                navigateToListScreen = { action ->
-                    viewModel.onEvent(ListUIEvent.OnNavigateToListScreen(action = action))
-                }
+                onEvent = viewModel::onEvent
             )
         }
     ) { paddingValues ->
