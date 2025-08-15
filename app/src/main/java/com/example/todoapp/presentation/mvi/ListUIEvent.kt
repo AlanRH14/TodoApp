@@ -12,7 +12,7 @@ sealed interface ListUIEvent {
     data class OnSortTasksClicked(val priority: Priority) : ListUIEvent
     data object OnSearchKeyAction : ListUIEvent
     data class OnSearchBarActionClicked(val action: SearchAppBarState) : ListUIEvent
-    data class OnActionUpdate(val action: Action) : ListUIEvent
+    data class OnSwipeToDelete(val action: Action, val taskSelected: ToDoTaskEntity?) : ListUIEvent
 
     data class OnGetTaskSelected(val taskID: Int) : ListUIEvent
     data class OnTaskFieldsUpdate(val taskSelected: ToDoTaskEntity?) : ListUIEvent

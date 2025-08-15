@@ -20,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
+import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.TaskItem
 import com.example.todoapp.util.Action
 import kotlinx.coroutines.delay
@@ -29,7 +30,7 @@ import kotlinx.coroutines.launch
 fun ListContent(
     modifier: Modifier = Modifier,
     tasks: List<ToDoTaskEntity>,
-    onSwipeToDelete: (Action, ToDoTaskEntity) -> Unit,
+    onEvent: (ListUIEvent) -> Unit,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     if (tasks.isEmpty()) {
@@ -54,7 +55,7 @@ fun ListContent(
                             SwipeToDismissBoxValue.EndToStart -> {
                                 scope.launch {
                                     delay(300)
-                                    onSwipeToDelete(Action.DELETE, task)
+                                    onEvent(ListUIEvent.OnSwipeToDelete(Action.DELETE, task))
                                 }
                                 return@rememberSwipeToDismissBoxState true
                             }
@@ -68,7 +69,7 @@ fun ListContent(
                 val isDismissed = dismissDirection == SwipeToDismissBoxValue.EndToStart
                         && dismissState.progress == 1F
                 val degrees by animateFloatAsState(
-                    if (dismissState.progress in 0F .. 0.5F) {
+                    if (dismissState.progress in 0F..0.5F) {
                         0F
                     } else {
                         -45F
