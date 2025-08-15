@@ -45,7 +45,11 @@ class SharedViewModel(
             }
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
-            is ListUIEvent.OnSwipeToDelete -> onActionUpdate(action = event.action)
+            is ListUIEvent.OnSwipeToDelete -> {
+                onActionUpdate(action = event.action)
+                updateTaskFields(taskSelected = event.taskSelected)
+                handleDatabaseActions(action = event.action)
+            }
             is ListUIEvent.OnReadSortState -> readSortState()
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
