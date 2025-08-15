@@ -50,8 +50,8 @@ class SharedViewModel(
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
             is ListUIEvent.OnSwipeToDelete -> {
                 onActionUpdate(action = event.action)
-                updateTaskFields(taskSelected = event.taskSelected)
                 handleDatabaseActions(action = event.action)
+                updateTaskFields(taskSelected = event.taskSelected)
             }
             is ListUIEvent.OnReadSortState -> readSortState()
 
@@ -193,6 +193,15 @@ class SharedViewModel(
                     titleTask = taskSelected.title,
                     description = taskSelected.description,
                     priority = taskSelected.priority,
+                )
+            }
+        } else {
+            _state.update {
+                it.copy(
+                    idTask = 0,
+                    titleTask = "",
+                    description = "",
+                    priority = Priority.NONE,
                 )
             }
         }
