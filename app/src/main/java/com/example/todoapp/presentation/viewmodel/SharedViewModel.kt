@@ -38,7 +38,10 @@ class SharedViewModel(
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
             is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
-            is ListUIEvent.OnSnackBarActionClicked -> handleDatabaseActions(action = event.action)
+            is ListUIEvent.OnSnackBarActionClicked -> {
+                onActionUpdate(action = event.action)
+                handleDatabaseActions(action = event.action)
+            }
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
