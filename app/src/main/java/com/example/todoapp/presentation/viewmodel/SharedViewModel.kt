@@ -7,9 +7,9 @@ import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
-import com.example.todoapp.presentation.screens.list.ListEffect
-import com.example.todoapp.presentation.screens.list.ListState
-import com.example.todoapp.presentation.screens.list.ListUIEvent
+import com.example.todoapp.presentation.mvi.ListEffect
+import com.example.todoapp.presentation.mvi.ListState
+import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
 import com.example.todoapp.util.RequestState
@@ -38,13 +38,21 @@ class SharedViewModel(
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
             is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
-            is ListUIEvent.OnSnackBarActionClicked -> handleDatabaseActions(action = event.action)
+            is ListUIEvent.OnSnackBarActionClicked -> {
+                onActionUpdate(action = event.action)
+                handleDatabaseActions(action = event.action)
+            }
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
+            is ListUIEvent.OnSwipeToDelete -> {
+                onActionUpdate(action = event.action)
+                handleDatabaseActions(action = event.action)
+                updateTaskFields(taskSelected = event.taskSelected)
+            }
             is ListUIEvent.OnReadSortState -> readSortState()
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
@@ -53,7 +61,6 @@ class SharedViewModel(
             is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
             is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
             is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
-
         }
     }
 
@@ -188,6 +195,15 @@ class SharedViewModel(
                     priority = taskSelected.priority,
                 )
             }
+        } else {
+            _state.update {
+                it.copy(
+                    idTask = 0,
+                    titleTask = "",
+                    description = "",
+                    priority = Priority.NONE,
+                )
+            }
         }
     }
 
@@ -227,6 +243,9 @@ class SharedViewModel(
         return _state.value.titleTask.isNotEmpty() && _state.value.description.isNotEmpty()
     }
 
+    private fun onActionUpdate(action: Action) {
+        _state.update { it.copy(action = action) }
+    }
 
     private fun saveSortState(priority: Priority) {
         viewModelScope.launch(Dispatchers.IO) {

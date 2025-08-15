@@ -10,8 +10,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.example.todoapp.presentation.screens.list.ListEffect
-import com.example.todoapp.presentation.screens.list.ListUIEvent
+import com.example.todoapp.presentation.mvi.ListEffect
+import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
@@ -62,9 +62,7 @@ fun TaskScreen(
         topBar = {
             TaskAppBar(
                 task = state.taskSelected,
-                navigateToListScreen = { action ->
-                    viewModel.onEvent(ListUIEvent.OnNavigateToListScreen(action = action))
-                }
+                onEvent = viewModel::onEvent
             )
         }
     ) { paddingValues ->
