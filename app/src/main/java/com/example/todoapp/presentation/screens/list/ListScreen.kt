@@ -32,6 +32,8 @@ fun ListScreen(
     navigateToTaskScreen: (Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
+    val scaffoldState = remember { SnackbarHostState() }
+
     LaunchedEffect(key1 = true) {
         viewModel.onEvent(ListUIEvent.GetTasks(priority = Priority.NONE))
         viewModel.onEvent(ListUIEvent.OnReadSortState)
@@ -41,8 +43,6 @@ fun ListScreen(
             }
         }
     }
-
-    val scaffoldState = remember { SnackbarHostState() }
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
