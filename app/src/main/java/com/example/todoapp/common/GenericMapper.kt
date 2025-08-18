@@ -1,5 +1,5 @@
 package com.example.todoapp.common
 
-interface EntityMapper<Entity, Domain> {
+interface GenericMapper<Entity, Domain> {
     fun mapToDomain(entity: Entity): Domain
 }

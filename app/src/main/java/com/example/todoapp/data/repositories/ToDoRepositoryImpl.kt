@@ -1,7 +1,7 @@
 package com.example.todoapp.data.repositories
 
 import android.util.Log
-import com.example.todoapp.common.EntityMapper
+import com.example.todoapp.common.GenericMapper
 import com.example.todoapp.data.local.database.dao.ToDoDao
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.data.model.Priority
@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.flow
 
 class ToDoRepositoryImpl(
     private val toDoDao: ToDoDao,
-    private val entityMapper: EntityMapper<ToDoTaskEntity, ToDoTask>,
+    private val entityMapper: GenericMapper<ToDoTaskEntity, ToDoTask>,
+    private val domainMapper: GenericMapper<ToDoTask, ToDoTaskEntity>
 ) : ToDoRepository {
     override fun sortByLowPriority(): Flow<RequestState<List<ToDoTask>>> = flow {
         emit(RequestState.Loading)
@@ -87,15 +88,15 @@ class ToDoRepositoryImpl(
     }
 
     override suspend fun addTask(toDoTask: ToDoTask) {
-        toDoDao.addTask(toDoTaskEntity = entityMapper.mapToDomain(toDoTask))
+        toDoDao.addTask(toDoTaskEntity = domainMapper.mapToDomain(toDoTask))
     }
 
     override suspend fun updateTask(toDoTask: ToDoTask) {
-        toDoDao.updateTask(toDoTaskEntity = toDoTask)
+        toDoDao.updateTask(toDoTaskEntity = domainMapper.mapToDomain(toDoTask))
     }
 
     override suspend fun deleteTask(toDoTask: ToDoTask) {
-        toDoDao.deleteTask(toDoTaskEntity = toDoTask)
+        toDoDao.deleteTask(toDoTaskEntity = domainMapper.mapToDomain(toDoTask))
     }
 
     override suspend fun deleteAllTasks() {
@@ -106,7 +107,7 @@ class ToDoRepositoryImpl(
         emit(RequestState.Loading)
         try {
             toDoDao.searchDatabase(searchQuery = searchQuery).collect {
-                emit(RequestState.Success(it))
+                emit(RequestState.Success(it.map { task -> entityMapper.mapToDomain(task) }))
             }
         } catch (e: Exception) {
             emit(RequestState.Error(e))
