@@ -187,7 +187,7 @@ class SharedViewModel(
         }
     }
 
-    private fun updateTaskFields(taskSelected: ToDoTaskEntity?) {
+    private fun updateTaskFields(taskSelected: ToDoTask?) {
         if (taskSelected != null) {
             _state.update {
                 it.copy(

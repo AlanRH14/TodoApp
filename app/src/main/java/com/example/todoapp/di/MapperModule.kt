@@ -5,6 +5,7 @@ import com.example.todoapp.data.DomainMapper
 import com.example.todoapp.data.ToDoTaskEntityMapperImpl
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.domain.ToDoTask
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val mapperModule = module {
