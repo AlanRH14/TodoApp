@@ -37,9 +37,7 @@ fun NavGraph(navController: NavHostController) {
             val taskId = navBackStackEntry.toRoute<Screen.Task>().taskId
             TaskScreen(
                 taskId = taskId,
-                navigateToListScreen = { action ->
-
-                }
+                navController = navController
             )
         }
     }
