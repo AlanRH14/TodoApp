@@ -75,7 +75,6 @@ fun ListScreen(
             modifier = Modifier.padding(paddingValues),
             tasks = state.tasks,
             onEvent = viewModel::onEvent,
-            navigateToTaskScreen = navigateToTaskScreen,
         )
     }
 }
