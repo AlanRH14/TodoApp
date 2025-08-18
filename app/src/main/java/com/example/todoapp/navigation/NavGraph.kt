@@ -38,9 +38,7 @@ fun NavGraph(navController: NavHostController) {
             TaskScreen(
                 taskId = taskId,
                 navigateToListScreen = { action ->
-                    navController.navigate(Screen.List(action = action)) {
-                        popUpTo(Screen.List()) { inclusive = true }
-                    }
+
                 }
             )
         }
