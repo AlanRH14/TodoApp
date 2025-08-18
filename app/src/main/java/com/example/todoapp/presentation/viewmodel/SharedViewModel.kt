@@ -54,6 +54,7 @@ class SharedViewModel(
                 updateTaskFields(taskSelected = event.taskSelected)
             }
             is ListUIEvent.OnReadSortState -> readSortState()
+            is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
             is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)

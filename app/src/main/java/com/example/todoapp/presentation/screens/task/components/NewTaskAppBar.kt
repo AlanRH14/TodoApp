@@ -57,7 +57,6 @@ fun NewTaskAppBar(
     )
 }
 
-
 @Composable
 @Preview
 fun NewTaskAppBarPreview() {
