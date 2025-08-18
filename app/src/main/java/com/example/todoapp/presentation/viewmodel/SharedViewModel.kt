@@ -37,7 +37,7 @@ class SharedViewModel(
     fun onEvent(event: ListUIEvent) {
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
-            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
+            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchText = event.searchText)
             is ListUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
@@ -119,7 +119,7 @@ class SharedViewModel(
 
     private fun searchTask() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.searchTask(searchQuery = "%${_state.value.searchBarState}%")
+            repository.searchTask(searchQuery = "%${_state.value.searchText}%")
                 .collect { searchTasks ->
                     when (searchTasks) {
                         is RequestState.Success -> {
@@ -226,8 +226,8 @@ class SharedViewModel(
         _state.update { it.copy(searchAppBarState = searchAppBarState) }
     }
 
-    private fun onSearchTextUpdate(searchBar: String) {
-        _state.update { it.copy(searchBarState = searchBar) }
+    private fun onSearchTextUpdate(searchText: String) {
+        _state.update { it.copy(searchText = searchText) }
     }
 
     private fun onTitleUpdate(title: String) {

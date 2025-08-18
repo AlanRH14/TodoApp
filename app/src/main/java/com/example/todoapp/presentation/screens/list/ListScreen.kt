@@ -63,7 +63,7 @@ fun ListScreen(
         topBar = {
             ListAppBar(
                 searchAppBarState = state.searchAppBarState,
-                searchText = state.searchBarState,
+                searchText = state.searchText,
                 onEvent = viewModel::onEvent,
             )
         },
