@@ -1,4 +1,8 @@
 package com.example.todoapp.domain
 
-class model {
-}
+data class ToDoTask(
+    val id: Int,
+    val title: String,
+    val description: String,
+    val priority: String
+)
