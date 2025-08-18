@@ -140,7 +140,7 @@ class SharedViewModel(
                 priority = priority
             )
 
-            repository.addTask(toDoTaskEntity = toDoTask)
+            repository.addTask(toDoTask = toDoTask)
         }
     }
 
@@ -158,7 +158,7 @@ class SharedViewModel(
                 priority = priority
             )
 
-            repository.updateTask(toDoTaskEntity = toDoTask)
+            repository.updateTask(toDoTask = toDoTask)
         }
     }
 
@@ -176,7 +176,7 @@ class SharedViewModel(
                 priority = priority,
             )
 
-            repository.deleteTask(toDoTaskEntity = toDoTask)
+            repository.deleteTask(toDoTask = toDoTask)
         }
     }
 
