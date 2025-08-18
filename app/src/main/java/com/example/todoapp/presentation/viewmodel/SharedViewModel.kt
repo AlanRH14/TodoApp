@@ -262,7 +262,7 @@ class SharedViewModel(
             dataStoreRepository.readSate(key = ConstantsPreferences.PriorityPreferences)
                 .map { Priority.valueOf(it) }
                 .collect { priority ->
-                    _state.update { it.copy(sortState = priority) }
+                    _state.update { it.copy(priority = priority) }
                 }
         }
     }
