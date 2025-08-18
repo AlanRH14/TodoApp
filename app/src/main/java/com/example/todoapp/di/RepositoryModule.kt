@@ -8,7 +8,11 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single<ToDoRepository> {
-        ToDoRepositoryImpl(get())
+        ToDoRepositoryImpl(
+            toDoDao = get(),
+            entityMapper = get(),
+            domainMapper = get()
+        )
     }
 
     single<DataStoreRepository> { DataStoreRepositoryImpl(dataStore = get()) }
