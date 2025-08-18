@@ -68,11 +68,7 @@ fun ListScreen(
     ) { paddingValues ->
         ListContent(
             modifier = Modifier.padding(paddingValues),
-            tasks = if (state.searchAppBarState == SearchAppBarState.TRIGGERED) {
-                state.searchTasks
-            } else {
-                state.tasks
-            },
+            tasks = state.tasks,
             onEvent = viewModel::onEvent,
             navigateToTaskScreen = navigateToTaskScreen,
         )

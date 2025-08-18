@@ -20,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
+import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.TaskItem
 import com.example.todoapp.util.Action
@@ -29,7 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListContent(
     modifier: Modifier = Modifier,
-    tasks: List<ToDoTaskEntity>,
+    tasks: List<ToDoTask>,
     onEvent: (ListUIEvent) -> Unit,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {

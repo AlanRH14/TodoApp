@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
+import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.mvi.ListEffect
@@ -119,7 +120,7 @@ class SharedViewModel(
                 .collect { searchTasks ->
                     when (searchTasks) {
                         is RequestState.Success -> {
-                            _state.update { it.copy(searchTasks = searchTasks.data) }
+                            _state.update { it.copy(tasks = searchTasks.data) }
                         }
 
                         else -> Unit
@@ -134,7 +135,7 @@ class SharedViewModel(
         priority: Priority
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val toDoTask = ToDoTaskEntity(
+            val toDoTask = ToDoTask(
                 title = title,
                 description = description,
                 priority = priority
@@ -151,7 +152,7 @@ class SharedViewModel(
         priority: Priority
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val toDoTask = ToDoTaskEntity(
+            val toDoTask = ToDoTask(
                 id = id,
                 title = title,
                 description = description,
@@ -169,7 +170,7 @@ class SharedViewModel(
         priority: Priority
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val toDoTask = ToDoTaskEntity(
+            val toDoTask = ToDoTask(
                 id = id,
                 title = title,
                 description = description,
