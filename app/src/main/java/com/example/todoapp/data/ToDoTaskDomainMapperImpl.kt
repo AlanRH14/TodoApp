@@ -4,7 +4,7 @@ import com.example.todoapp.common.GenericMapper
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.domain.ToDoTask
 
-class DomainMapper : GenericMapper<ToDoTask, ToDoTaskEntity> {
+class ToDoTaskDomainMapperImpl : GenericMapper<ToDoTask, ToDoTaskEntity> {
 
     override fun mapToDomain(entity: ToDoTask): ToDoTaskEntity = ToDoTaskEntity(
         title = entity.title,
