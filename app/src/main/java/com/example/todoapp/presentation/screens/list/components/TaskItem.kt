@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todoapp.data.local.mock_data.TaskProvider.taskItemTest
-import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
+import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.presentation.screens.list.widgets.RedBackground
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.PRIORITY_INDICATOR_SIZE
@@ -31,7 +31,7 @@ import com.example.todoapp.ui.theme.TaskItemTextColor
 
 @Composable
 fun TaskItem(
-    toDoTaskEntity: ToDoTaskEntity,
+    toDoTask: ToDoTask,
     navigationToTaskScreen: (taskId: Int) -> Unit
 ) {
     Card(
@@ -45,7 +45,7 @@ fun TaskItem(
             TASK_ITEM_ELEVATION
         ),
         onClick = {
-            navigationToTaskScreen(toDoTaskEntity.id)
+            navigationToTaskScreen(toDoTask.id)
         }
     ) {
         Column(
@@ -56,7 +56,7 @@ fun TaskItem(
             Row {
                 Text(
                     modifier = Modifier.weight(8F),
-                    text = toDoTaskEntity.title,
+                    text = toDoTask.title,
                     color = TaskItemTextColor,
                     style = Typography().headlineSmall,
                     fontWeight = FontWeight.Bold,
@@ -73,7 +73,7 @@ fun TaskItem(
                             .size(PRIORITY_INDICATOR_SIZE)
                     ) {
                         drawCircle(
-                            color = toDoTaskEntity.priority.color
+                            color = toDoTask.priority.color
                         )
                     }
                 }
@@ -82,7 +82,7 @@ fun TaskItem(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = toDoTaskEntity.description,
+                text = toDoTask.description,
                 color = TaskItemTextColor,
                 style = Typography().titleSmall,
                 maxLines = 2,
@@ -96,7 +96,7 @@ fun TaskItem(
 @Preview
 private fun TaskItemPreview() {
     TaskItem(
-        toDoTaskEntity = taskItemTest
+        toDoTask = taskItemTest
     ) { }
 }
 
