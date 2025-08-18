@@ -34,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.example.todoapp.R
-import com.example.todoapp.data.model.PriorityEntity
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.presentation.screens.list.components.PriorityItem
 import com.example.todoapp.ui.theme.BORDER_RADIUS_DROPDOWN
 import com.example.todoapp.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
@@ -44,8 +44,8 @@ import com.example.todoapp.ui.theme.Typography
 @Composable
 fun PriorityDropDown(
     modifier: Modifier = Modifier,
-    priorityEntity: PriorityEntity,
-    onPrioritySelected: (PriorityEntity) -> Unit
+    priority: Priority,
+    onPrioritySelected: (Priority) -> Unit
 ) {
     var expended by remember { mutableStateOf(false) }
     val angle: Float by animateFloatAsState(
@@ -73,14 +73,14 @@ fun PriorityDropDown(
                 .weight(weight = 1F),
         ) {
             drawCircle(
-                color = priorityEntity.color
+                color = priority.color
             )
         }
 
         Text(
             modifier = Modifier
                 .weight(weight = 8F),
-            text = priorityEntity.name,
+            text = priority.name,
             style = Typography.bodyLarge,
         )
         IconButton(
@@ -106,15 +106,15 @@ fun PriorityDropDown(
                 expended = false
             }
         ) {
-            PriorityEntity.entries.forEach { priority ->
-                if (priority != PriorityEntity.NONE) {
+            Priority.entries.forEach { priority ->
+                if (priority != Priority.NONE) {
                     DropdownMenuItem(
                         onClick = {
                             expended = false
                             onPrioritySelected(priority)
                         },
                         text = {
-                            PriorityItem(priorityEntity = priority)
+                            PriorityItem(priority = priority)
                         }
                     )
                 }
@@ -127,7 +127,7 @@ fun PriorityDropDown(
 @Preview
 fun PriorityDropDownPreview() {
     PriorityDropDown(
-        priorityEntity = PriorityEntity.LOW,
+        priority = Priority.LOW,
         onPrioritySelected = {}
     )
 }

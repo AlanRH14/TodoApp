@@ -1,7 +1,7 @@
 package com.example.todoapp.presentation.mvi
 
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
-import com.example.todoapp.data.model.PriorityEntity
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.SearchAppBarState
 
@@ -16,7 +16,7 @@ data class ListState(
     val idTask: Int = 0,
     val titleTask: String = "",
     val description: String = "",
-    val priorityEntity: PriorityEntity = PriorityEntity.NONE,
-    val sortState: PriorityEntity = PriorityEntity.NONE,
+    val priority: Priority = Priority.NONE,
+    val sortState: Priority = Priority.NONE,
     val searchTasks: List<ToDoTaskEntity> = emptyList()
 )

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.todoapp.R
-import com.example.todoapp.data.model.PriorityEntity
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.TopAppBarBackgroundColor
 import com.example.todoapp.ui.theme.TopAppBarContentColor
@@ -30,7 +30,7 @@ import com.example.todoapp.ui.theme.Typography
 @Composable
 fun DefaultListAppBar(
     onSearchClicked: () -> Unit,
-    onSortClicked: (PriorityEntity) -> Unit,
+    onSortClicked: (Priority) -> Unit,
     onDeleteClicked: () -> Unit
 ) {
     var expandedSort by remember { mutableStateOf(false) }
@@ -67,7 +67,7 @@ fun DefaultListAppBar(
                     onDismissRequest = { expandedSort = false }
                 ) {
 
-                    PriorityEntity.entries.slice(setOf(0, 1, 2)).forEach { priority ->
+                    Priority.entries.slice(setOf(0, 1, 2)).forEach { priority ->
                         DropdownMenuItem(
                             text = { PriorityItem(priority) },
                             onClick = {

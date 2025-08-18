@@ -10,7 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.todoapp.data.model.PriorityEntity
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.DisplaySnackBar
 import com.example.todoapp.presentation.screens.list.components.ListFab
@@ -32,7 +32,7 @@ fun ListScreen(
     val scaffoldState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = true) {
-        viewModel.onEvent(ListUIEvent.GetTasks(priorityEntity = PriorityEntity.NONE))
+        viewModel.onEvent(ListUIEvent.GetTasks(priority = Priority.NONE))
         viewModel.onEvent(ListUIEvent.OnReadSortState)
         if (action != state.action) {
             viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))

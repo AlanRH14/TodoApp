@@ -1,6 +1,6 @@
 package com.example.todoapp.data.local.mock_data
 
-import com.example.todoapp.data.model.PriorityEntity
+import com.example.todoapp.data.model.Priority
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 
 object TaskProvider {
@@ -8,6 +8,6 @@ object TaskProvider {
         id = 0,
         title = "Title",
         description = "Some random text",
-        priorityEntity = PriorityEntity.MEDIUM
+        priority = Priority.MEDIUM
     )
 }

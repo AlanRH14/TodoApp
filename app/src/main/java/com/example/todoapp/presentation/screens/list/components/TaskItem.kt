@@ -73,7 +73,7 @@ fun TaskItem(
                             .size(PRIORITY_INDICATOR_SIZE)
                     ) {
                         drawCircle(
-                            color = toDoTaskEntity.priorityEntity.color
+                            color = toDoTaskEntity.priority.color
                         )
                     }
                 }
