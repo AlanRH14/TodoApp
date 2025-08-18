@@ -2,7 +2,6 @@ package com.example.todoapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
