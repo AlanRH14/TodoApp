@@ -68,7 +68,9 @@ fun ListScreen(
             )
         },
         floatingActionButton = {
-            ListFab(onFabClicked = navigateToTaskScreen)
+            ListFab(onFabClicked = {
+                viewModel.onEvent(ListUIEvent.OnNavigateToTaskScreen(taskID = it))
+            })
         }
     ) { paddingValues ->
         ListContent(

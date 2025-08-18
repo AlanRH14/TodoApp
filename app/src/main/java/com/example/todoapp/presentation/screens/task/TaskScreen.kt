@@ -42,6 +42,8 @@ fun TaskScreen(
                 is ListEffect.NavigateToListScreen -> {
                     navigateToListScreen(effect.action)
                 }
+
+                else -> Unit
             }
         }
     }
