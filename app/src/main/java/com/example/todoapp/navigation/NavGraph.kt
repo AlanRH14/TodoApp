@@ -19,6 +19,7 @@ fun NavGraph(navController: NavHostController) {
         composable<Screen.List>{ navBackStackEntry ->
             val mAction = navBackStackEntry.toRoute<Screen.List>().action
             ListScreen(
+                action = mAction,
                 navigateToTaskScreen = { taskId ->
                     navController.navigate(Screen.Task(taskId = taskId))
                 },

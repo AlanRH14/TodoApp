@@ -7,7 +7,6 @@ import com.example.todoapp.data.model.Priority
 import com.example.todoapp.util.PreferencesConstants.PREFERENCE_KEY
 
 internal sealed interface ConstantsPreferences<T>: PreferencesKey<T> {
-
     data object PriorityPreferences: ConstantsPreferences<String> {
         override val key: String = PREFERENCE_KEY
         override val default: String = Priority.NONE.name

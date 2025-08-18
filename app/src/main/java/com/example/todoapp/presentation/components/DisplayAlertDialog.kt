@@ -33,7 +33,6 @@ fun DisplayAlertDialog(
     closeDialog: () -> Unit,
     onConfirmClicked: () -> Unit
 ) {
-
     if (openDialog) {
         BasicAlertDialog(
             onDismissRequest = { closeDialog() }
