@@ -10,6 +10,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import com.example.todoapp.navigation.Screen
+import com.example.todoapp.presentation.mvi.ListEffect
 import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.DisplaySnackBar
 import com.example.todoapp.presentation.screens.list.components.ListFab
@@ -24,7 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ListScreen(
     action: Action = Action.NO_ACTION,
     viewModel: SharedViewModel = koinViewModel(),
-    navigateToTaskScreen: (Int) -> Unit,
+    navController: NavHostController,
 ) {
     val state by viewModel.state.collectAsState()
     val scaffoldState = remember { SnackbarHostState() }
@@ -37,6 +40,10 @@ fun ListScreen(
         }
         viewModel.effect.collectLatest { effect ->
             when (effect) {
+                is ListEffect.NavigateToTaskScreen -> {
+                    navController.navigate(Screen.Task(taskId = effect.taskID))
+                }
+
                 else -> Unit
             }
         }
@@ -56,19 +63,20 @@ fun ListScreen(
         topBar = {
             ListAppBar(
                 searchAppBarState = state.searchAppBarState,
-                searchText = state.searchBarState,
+                searchText = state.searchText,
                 onEvent = viewModel::onEvent,
             )
         },
         floatingActionButton = {
-            ListFab(onFabClicked = navigateToTaskScreen)
+            ListFab(onFabClicked = {
+                viewModel.onEvent(ListUIEvent.OnNavigateToTaskScreen(taskID = it))
+            })
         }
     ) { paddingValues ->
         ListContent(
             modifier = Modifier.padding(paddingValues),
             tasks = state.tasks,
             onEvent = viewModel::onEvent,
-            navigateToTaskScreen = navigateToTaskScreen,
         )
     }
 }

@@ -31,7 +31,6 @@ fun ListContent(
     modifier: Modifier = Modifier,
     tasks: List<ToDoTask>,
     onEvent: (ListUIEvent) -> Unit,
-    navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     if (tasks.isEmpty()) {
         EmptyContent(
@@ -100,7 +99,9 @@ fun ListContent(
                     ) {
                         TaskItem(
                             toDoTask = task,
-                            navigationToTaskScreen = navigateToTaskScreen
+                            navigationToTaskScreen = {
+                                onEvent(ListUIEvent.OnNavigateToTaskScreen(taskID = it))
+                            }
                         )
                     }
                 }

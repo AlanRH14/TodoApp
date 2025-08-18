@@ -10,7 +10,7 @@ data class ListState(
     val isError: String = "",
     val action: Action = Action.NO_ACTION,
     val tasks: List<ToDoTask> = emptyList(),
-    val searchBarState: String = "",
+    val searchText: String = "",
     val taskSelected: ToDoTask? = null,
     val searchAppBarState: SearchAppBarState = SearchAppBarState.CLOSED,
     val idTask: Int = 0,

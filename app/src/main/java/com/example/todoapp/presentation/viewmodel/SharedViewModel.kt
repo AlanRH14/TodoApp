@@ -37,15 +37,17 @@ class SharedViewModel(
     fun onEvent(event: ListUIEvent) {
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
-            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
+            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchText = event.searchText)
             is ListUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
+
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
+
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
             is ListUIEvent.OnSwipeToDelete -> {
@@ -53,8 +55,10 @@ class SharedViewModel(
                 handleDatabaseActions(action = event.action)
                 updateTaskFields(taskSelected = event.taskSelected)
             }
+
             is ListUIEvent.OnReadSortState -> readSortState()
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
+            is ListUIEvent.OnNavigateToTaskScreen -> navigateToTaskScreen(taskID = event.taskID)
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
             is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
@@ -115,7 +119,7 @@ class SharedViewModel(
 
     private fun searchTask() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.searchTask(searchQuery = "%${_state.value.searchBarState}%")
+            repository.searchTask(searchQuery = "%${_state.value.searchText}%")
                 .collect { searchTasks ->
                     when (searchTasks) {
                         is RequestState.Success -> {
@@ -222,8 +226,8 @@ class SharedViewModel(
         _state.update { it.copy(searchAppBarState = searchAppBarState) }
     }
 
-    private fun onSearchTextUpdate(searchBar: String) {
-        _state.update { it.copy(searchBarState = searchBar) }
+    private fun onSearchTextUpdate(searchText: String) {
+        _state.update { it.copy(searchText = searchText) }
     }
 
     private fun onTitleUpdate(title: String) {
@@ -280,6 +284,12 @@ class SharedViewModel(
                     _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
                 }
             }
+        }
+    }
+
+    private fun navigateToTaskScreen(taskID: Int) {
+        viewModelScope.launch {
+            _effect.emit(ListEffect.NavigateToTaskScreen(taskID = taskID))
         }
     }
 }

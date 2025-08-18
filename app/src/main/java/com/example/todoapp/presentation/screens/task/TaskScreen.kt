@@ -10,12 +10,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
+import com.example.todoapp.navigation.Screen
 import com.example.todoapp.presentation.mvi.ListEffect
 import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
 import com.example.todoapp.presentation.viewmodel.SharedViewModel
-import com.example.todoapp.util.Action
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
@@ -23,13 +24,13 @@ import org.koin.androidx.compose.koinViewModel
 fun TaskScreen(
     viewModel: SharedViewModel = koinViewModel(),
     taskId: Int? = null,
-    navigateToListScreen: (Action) -> Unit
+    navController: NavHostController
 ) {
     val state by viewModel.state.collectAsState()
     val mContext = LocalContext.current
 
     BackHandler(
-        onBack = { navigateToListScreen(Action.NO_ACTION) }
+        onBack = { navController.popBackStack() }
     )
 
     LaunchedEffect(key1 = true) {
@@ -40,8 +41,14 @@ fun TaskScreen(
                 }
 
                 is ListEffect.NavigateToListScreen -> {
-                    navigateToListScreen(effect.action)
+                    navController.navigate(Screen.List(action = effect.action)) {
+                        popUpTo(Screen.List()) {
+                            inclusive = true
+                        }
+                    }
                 }
+
+                else -> Unit
             }
         }
     }
