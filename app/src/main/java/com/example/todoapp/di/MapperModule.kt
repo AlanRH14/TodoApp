@@ -2,7 +2,7 @@ package com.example.todoapp.di
 
 import com.example.todoapp.common.GenericMapper
 import com.example.todoapp.data.mapper_impl.ToDoTaskDomainMapperImpl
-import com.example.todoapp.data.ToDoTaskEntityMapperImpl
+import com.example.todoapp.data.mapper_impl.ToDoTaskEntityMapperImpl
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.domain.ToDoTask
 import org.koin.core.qualifier.named

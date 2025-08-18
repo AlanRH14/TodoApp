@@ -1,4 +1,4 @@
-package com.example.todoapp.data
+package com.example.todoapp.data.mapper_impl
 
 import com.example.todoapp.common.GenericMapper
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
