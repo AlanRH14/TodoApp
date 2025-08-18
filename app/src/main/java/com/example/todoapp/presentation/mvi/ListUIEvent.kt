@@ -14,6 +14,7 @@ sealed interface ListUIEvent {
     data class OnSearchBarActionClicked(val action: SearchAppBarState) : ListUIEvent
     data class OnSwipeToDelete(val action: Action, val taskSelected: ToDoTask?) : ListUIEvent
     data class OnActionUpdate(val action: Action): ListUIEvent
+    data class OnNavigateToTaskScreen(val taskID: Int): ListUIEvent
 
     data class OnGetTaskSelected(val taskID: Int) : ListUIEvent
     data class OnTaskFieldsUpdate(val taskSelected: ToDoTask?) : ListUIEvent
