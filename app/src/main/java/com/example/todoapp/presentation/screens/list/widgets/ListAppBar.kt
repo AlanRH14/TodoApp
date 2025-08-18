@@ -36,7 +36,7 @@ fun ListAppBar(
                 onSearchClicked = {
                     onEvent(ListUIEvent.OnSearchBarActionClicked(action = SearchAppBarState.OPENED))
                 },
-                onSortClicked = { onEvent(ListUIEvent.OnSortTasksClicked(priority = it)) },
+                onSortClicked = { onEvent(ListUIEvent.OnSortTasksClicked(priorityEntity = it)) },
                 onDeleteClicked = {
                     openDialog = true
                 },

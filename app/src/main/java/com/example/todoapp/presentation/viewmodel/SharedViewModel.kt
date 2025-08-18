@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
 import com.example.todoapp.data.local.preferences.ConstantsPreferences
-import com.example.todoapp.data.model.Priority
+import com.example.todoapp.data.model.PriorityEntity
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.mvi.ListEffect
@@ -36,15 +36,15 @@ class SharedViewModel(
 
     fun onEvent(event: ListUIEvent) {
         when (event) {
-            is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
+            is ListUIEvent.GetTasks -> getTasks(priorityEntity = event.priorityEntity)
             is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchBar = event.searchText)
             is ListUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
             is ListUIEvent.OnSortTasksClicked -> {
-                saveSortState(priority = event.priority)
-                getTasks(priority = event.priority)
+                saveSortState(priorityEntity = event.priorityEntity)
+                getTasks(priorityEntity = event.priorityEntity)
             }
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
@@ -61,13 +61,13 @@ class SharedViewModel(
             is ListUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
             is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
             is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
-            is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
+            is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priorityEntity = event.priorityEntity)
         }
     }
 
-    private fun getTasks(priority: Priority) {
+    private fun getTasks(priorityEntity: PriorityEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getTasksByPriority(sortTasks = priority).collect { tasks ->
+            repository.getTasksByPriority(sortTasks = priorityEntity).collect { tasks ->
                 when (tasks) {
                     is RequestState.Success -> {
                         _state.update { it.copy(tasks = tasks.data) }
@@ -84,21 +84,21 @@ class SharedViewModel(
             Action.ADD -> addTask(
                 title = _state.value.titleTask,
                 description = _state.value.description,
-                priority = _state.value.priority
+                priorityEntity = _state.value.priorityEntity
             )
 
             Action.UPDATE -> updateTask(
                 id = _state.value.idTask,
                 title = _state.value.titleTask,
                 description = _state.value.description,
-                priority = _state.value.priority
+                priorityEntity = _state.value.priorityEntity
             )
 
             Action.DELETE -> deleteTask(
                 id = _state.value.idTask,
                 title = _state.value.titleTask,
                 description = _state.value.description,
-                priority = _state.value.priority
+                priorityEntity = _state.value.priorityEntity
             )
 
             Action.DELETE_ALL -> deleteAllTask()
@@ -106,7 +106,7 @@ class SharedViewModel(
             Action.UNDO -> addTask(
                 title = _state.value.titleTask,
                 description = _state.value.description,
-                priority = _state.value.priority
+                priorityEntity = _state.value.priorityEntity
             )
 
             else -> Unit
@@ -131,13 +131,13 @@ class SharedViewModel(
     private fun addTask(
         title: String,
         description: String,
-        priority: Priority
+        priorityEntity: PriorityEntity
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 title = title,
                 description = description,
-                priority = priority
+                priorityEntity = priorityEntity
             )
 
             repository.addTask(toDoTaskEntity = toDoTask)
@@ -148,14 +148,14 @@ class SharedViewModel(
         id: Int,
         title: String,
         description: String,
-        priority: Priority
+        priorityEntity: PriorityEntity
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 id = id,
                 title = title,
                 description = description,
-                priority = priority
+                priorityEntity = priorityEntity
             )
 
             repository.updateTask(toDoTaskEntity = toDoTask)
@@ -166,14 +166,14 @@ class SharedViewModel(
         id: Int,
         title: String,
         description: String,
-        priority: Priority
+        priorityEntity: PriorityEntity
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTaskEntity(
                 id = id,
                 title = title,
                 description = description,
-                priority = priority,
+                priorityEntity = priorityEntity,
             )
 
             repository.deleteTask(toDoTaskEntity = toDoTask)
@@ -193,7 +193,7 @@ class SharedViewModel(
                     idTask = taskSelected.id,
                     titleTask = taskSelected.title,
                     description = taskSelected.description,
-                    priority = taskSelected.priority,
+                    priorityEntity = taskSelected.priorityEntity,
                 )
             }
         } else {
@@ -202,7 +202,7 @@ class SharedViewModel(
                     idTask = 0,
                     titleTask = "",
                     description = "",
-                    priority = Priority.NONE,
+                    priorityEntity = PriorityEntity.NONE,
                 )
             }
         }
@@ -236,8 +236,8 @@ class SharedViewModel(
         _state.update { it.copy(description = description) }
     }
 
-    private fun onPriorityUpdate(priority: Priority) {
-        _state.update { it.copy(priority = priority) }
+    private fun onPriorityUpdate(priorityEntity: PriorityEntity) {
+        _state.update { it.copy(priorityEntity = priorityEntity) }
     }
 
     private fun validateFields(): Boolean {
@@ -248,11 +248,11 @@ class SharedViewModel(
         _state.update { it.copy(action = action) }
     }
 
-    private fun saveSortState(priority: Priority) {
+    private fun saveSortState(priorityEntity: PriorityEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveState(
                 key = ConstantsPreferences.PriorityPreferences,
-                value = priority.name
+                value = priorityEntity.name
             )
         }
     }
@@ -260,7 +260,7 @@ class SharedViewModel(
     private fun readSortState() {
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.readSate(key = ConstantsPreferences.PriorityPreferences)
-                .map { Priority.valueOf(it) }
+                .map { PriorityEntity.valueOf(it) }
                 .collect { priority ->
                     _state.update { it.copy(sortState = priority) }
                 }

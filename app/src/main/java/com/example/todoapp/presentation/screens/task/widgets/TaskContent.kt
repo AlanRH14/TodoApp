@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.R
-import com.example.todoapp.data.model.Priority
+import com.example.todoapp.data.model.PriorityEntity
 import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.task.components.PriorityDropDown
 import com.example.todoapp.ui.theme.LARGE_PADDING
@@ -26,7 +26,7 @@ fun TaskContent(
     title: String,
     onEvent: (ListUIEvent) -> Unit,
     description: String,
-    priority: Priority,
+    priorityEntity: PriorityEntity,
 ) {
     Column(
         modifier = modifier
@@ -50,8 +50,8 @@ fun TaskContent(
         )
 
         PriorityDropDown(
-            priority = priority,
-            onPrioritySelected = { onEvent(ListUIEvent.OnPriorityUpdate(priority = it)) }
+            priorityEntity = priorityEntity,
+            onPrioritySelected = { onEvent(ListUIEvent.OnPriorityUpdate(priorityEntity = it)) }
         )
 
         HorizontalDivider(
@@ -76,6 +76,6 @@ fun TaskContentPreview() {
         title = "Lord Miau",
         onEvent = {},
         description = "Some ramdom text",
-        priority = Priority.HIGH,
+        priorityEntity = PriorityEntity.HIGH,
     )
 }

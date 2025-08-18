@@ -3,7 +3,7 @@ package com.example.todoapp.data.repositories
 import android.util.Log
 import com.example.todoapp.data.local.database.dao.ToDoDao
 import com.example.todoapp.data.local.database.entities.ToDoTaskEntity
-import com.example.todoapp.data.model.Priority
+import com.example.todoapp.data.model.PriorityEntity
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.flow.Flow
@@ -43,14 +43,14 @@ class ToDoRepositoryImpl(private val toDoDao: ToDoDao) : ToDoRepository {
         }
     }
 
-    override fun getTasksByPriority(sortTasks: Priority): Flow<RequestState<List<ToDoTaskEntity>>> =
+    override fun getTasksByPriority(sortTasks: PriorityEntity): Flow<RequestState<List<ToDoTaskEntity>>> =
         flow {
             emit(RequestState.Loading)
             try {
                 val tasks = when (sortTasks) {
-                    Priority.LOW -> toDoDao.sortByLowPriority()
+                    PriorityEntity.LOW -> toDoDao.sortByLowPriority()
 
-                    Priority.HIGH -> toDoDao.sortByHighPriority()
+                    PriorityEntity.HIGH -> toDoDao.sortByHighPriority()
 
                     else -> toDoDao.getAllTasks()
                 }

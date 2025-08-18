@@ -71,7 +71,7 @@ fun TaskScreen(
             title = state.titleTask,
             onEvent = viewModel::onEvent,
             description = state.description,
-            priority = state.priority,
+            priorityEntity = state.priorityEntity,
         )
     }
 }
