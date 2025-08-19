@@ -18,7 +18,6 @@ import com.example.todoapp.presentation.screens.list.components.DisplaySnackBar
 import com.example.todoapp.presentation.screens.list.components.ListFab
 import com.example.todoapp.presentation.screens.list.widgets.ListAppBar
 import com.example.todoapp.presentation.screens.list.widgets.ListContent
-import com.example.todoapp.presentation.viewmodel.SharedViewModel
 import com.example.todoapp.util.Action
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
@@ -26,7 +25,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ListScreen(
     action: Action = Action.NO_ACTION,
-    viewModel: SharedViewModel = koinViewModel(),
+    viewModel: ListViewModel = koinViewModel(),
     navController: NavHostController,
 ) {
     val state by viewModel.state.collectAsState()

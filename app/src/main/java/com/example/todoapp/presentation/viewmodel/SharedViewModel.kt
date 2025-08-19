@@ -2,10 +2,8 @@ package com.example.todoapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
-import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.mvi.ListEffect
 import com.example.todoapp.presentation.mvi.ListState
@@ -13,19 +11,16 @@ import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
 import com.example.todoapp.util.RequestState
-import com.example.todoapp.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SharedViewModel(
     private val repository: ToDoRepository,
-    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ListState())
@@ -36,29 +31,15 @@ class SharedViewModel(
 
     fun onEvent(event: ListUIEvent) {
         when (event) {
-            is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
-            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchText = event.searchText)
             is ListUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
 
             is ListUIEvent.OnSortTasksClicked -> {
-                saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
-
-            is ListUIEvent.OnSearchKeyAction -> searchTask()
-            is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
-            is ListUIEvent.OnSwipeToDelete -> {
-                onActionUpdate(action = event.action)
-                handleDatabaseActions(action = event.action)
-                updateTaskFields(taskSelected = event.taskSelected)
-            }
-
-            is ListUIEvent.OnReadSortState -> readSortState()
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
-            is ListUIEvent.OnNavigateToTaskScreen -> navigateToTaskScreen(taskID = event.taskID)
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
             is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
@@ -66,6 +47,7 @@ class SharedViewModel(
             is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
             is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
             is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
+            else -> Unit
         }
     }
 
@@ -105,8 +87,6 @@ class SharedViewModel(
                 priority = _state.value.priority
             )
 
-            Action.DELETE_ALL -> deleteAllTask()
-
             Action.UNDO -> addTask(
                 title = _state.value.titleTask,
                 description = _state.value.description,
@@ -114,21 +94,6 @@ class SharedViewModel(
             )
 
             else -> Unit
-        }
-    }
-
-    private fun searchTask() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.searchTask(searchQuery = "%${_state.value.searchText}%")
-                .collect { searchTasks ->
-                    when (searchTasks) {
-                        is RequestState.Success -> {
-                            _state.update { it.copy(tasks = searchTasks.data) }
-                        }
-
-                        else -> Unit
-                    }
-                }
         }
     }
 
@@ -184,12 +149,6 @@ class SharedViewModel(
         }
     }
 
-    private fun deleteAllTask() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllTasks()
-        }
-    }
-
     private fun updateTaskFields(taskSelected: ToDoTask?) {
         if (taskSelected != null) {
             _state.update {
@@ -222,14 +181,6 @@ class SharedViewModel(
         }
     }
 
-    private fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
-        _state.update { it.copy(searchAppBarState = searchAppBarState) }
-    }
-
-    private fun onSearchTextUpdate(searchText: String) {
-        _state.update { it.copy(searchText = searchText) }
-    }
-
     private fun onTitleUpdate(title: String) {
         if (title.length < Constants.MAX_TITLE_LENGTH) {
             _state.update { it.copy(titleTask = title) }
@@ -252,25 +203,6 @@ class SharedViewModel(
         _state.update { it.copy(action = action) }
     }
 
-    private fun saveSortState(priority: Priority) {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataStoreRepository.saveState(
-                key = ConstantsPreferences.PriorityPreferences,
-                value = priority.name
-            )
-        }
-    }
-
-    private fun readSortState() {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataStoreRepository.readSate(key = ConstantsPreferences.PriorityPreferences)
-                .map { Priority.valueOf(it) }
-                .collect { priority ->
-                    _state.update { it.copy(priority = priority) }
-                }
-        }
-    }
-
     private fun navigateToListScreen(action: Action) {
         viewModelScope.launch {
             if (action == Action.NO_ACTION) {
@@ -284,12 +216,6 @@ class SharedViewModel(
                     _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
                 }
             }
-        }
-    }
-
-    private fun navigateToTaskScreen(taskID: Int) {
-        viewModelScope.launch {
-            _effect.emit(ListEffect.NavigateToTaskScreen(taskID = taskID))
         }
     }
 }
