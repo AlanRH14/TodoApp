@@ -1,6 +1,5 @@
 package com.example.todoapp.presentation.screens.list
 
-import androidx.datastore.dataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.local.preferences.ConstantsPreferences
@@ -37,8 +36,10 @@ class ListViewModel(
     fun onEvent(event: ListUIEvent) {
         when (event) {
             is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
-            is ListUIEvent.OnSearchTextUpdate -> {}
-            is ListUIEvent.OnSnackBarActionClicked -> {}
+            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchText = event.searchText)
+            is ListUIEvent.OnSnackBarActionClicked -> {
+                onActionUpdate(action = event.action)
+            }
             is ListUIEvent.OnSortTasksClicked -> {}
             is ListUIEvent.OnSearchKeyAction -> {}
             is ListUIEvent.OnSearchBarActionClicked -> {}
@@ -182,6 +183,12 @@ class ListViewModel(
                 .collect { priority ->
                     _state.update { it.copy(priority = priority) }
                 }
+        }
+    }
+
+    private fun navigationToTaskScreen(taskID: Int) {
+        viewModelScope.launch {
+            _effect.emit(ListEffect.NavigateToTaskScreen(taskID = taskID))
         }
     }
 }
