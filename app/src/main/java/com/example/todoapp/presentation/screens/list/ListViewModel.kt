@@ -39,14 +39,25 @@ class ListViewModel(
             is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchText = event.searchText)
             is ListUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
+                handleDatabaseActions(action = event.action)
             }
-            is ListUIEvent.OnSortTasksClicked -> {}
-            is ListUIEvent.OnSearchKeyAction -> {}
-            is ListUIEvent.OnSearchBarActionClicked -> {}
-            is ListUIEvent.OnSwipeToDelete -> {}
-            is ListUIEvent.OnReadSortState -> {}
-            is ListUIEvent.OnActionUpdate -> {}
-            is ListUIEvent.OnNavigateToTaskScreen -> {}
+
+            is ListUIEvent.OnSortTasksClicked -> {
+                saveSortState(priority = event.priority)
+                getTasks(priority = event.priority)
+            }
+
+            is ListUIEvent.OnSearchKeyAction -> searchTask()
+            is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
+            is ListUIEvent.OnSwipeToDelete -> {
+                onActionUpdate(action = event.action)
+                handleDatabaseActions(action = event.action)
+                updateTaskSelected(taskSelected = event.taskSelected)
+            }
+
+            is ListUIEvent.OnReadSortState -> readSortState()
+            is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
+            is ListUIEvent.OnNavigateToTaskScreen -> navigationToTaskScreen(taskID = event.taskID)
 
             else -> Unit
         }
@@ -189,6 +200,28 @@ class ListViewModel(
     private fun navigationToTaskScreen(taskID: Int) {
         viewModelScope.launch {
             _effect.emit(ListEffect.NavigateToTaskScreen(taskID = taskID))
+        }
+    }
+
+    private fun updateTaskSelected(taskSelected: ToDoTask?) {
+        if (taskSelected != null) {
+            _state.update {
+                it.copy(
+                    idTask = taskSelected.id,
+                    titleTask = taskSelected.title,
+                    description = taskSelected.description,
+                    priority = taskSelected.priority,
+                )
+            }
+        } else {
+            _state.update {
+                it.copy(
+                    idTask = 0,
+                    titleTask = "",
+                    description = "",
+                    priority = Priority.NONE,
+                )
+            }
         }
     }
 }
