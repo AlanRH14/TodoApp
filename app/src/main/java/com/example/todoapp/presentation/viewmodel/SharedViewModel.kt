@@ -44,7 +44,6 @@ class SharedViewModel(
             }
 
             is ListUIEvent.OnSortTasksClicked -> {
-                saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
 
@@ -56,9 +55,7 @@ class SharedViewModel(
                 updateTaskFields(taskSelected = event.taskSelected)
             }
 
-            is ListUIEvent.OnReadSortState -> readSortState()
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
-            is ListUIEvent.OnNavigateToTaskScreen -> navigateToTaskScreen(taskID = event.taskID)
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
             is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
@@ -66,6 +63,7 @@ class SharedViewModel(
             is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
             is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
             is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
+            else -> Unit
         }
     }
 
@@ -252,25 +250,6 @@ class SharedViewModel(
         _state.update { it.copy(action = action) }
     }
 
-    private fun saveSortState(priority: Priority) {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataStoreRepository.saveState(
-                key = ConstantsPreferences.PriorityPreferences,
-                value = priority.name
-            )
-        }
-    }
-
-    private fun readSortState() {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataStoreRepository.readSate(key = ConstantsPreferences.PriorityPreferences)
-                .map { Priority.valueOf(it) }
-                .collect { priority ->
-                    _state.update { it.copy(priority = priority) }
-                }
-        }
-    }
-
     private fun navigateToListScreen(action: Action) {
         viewModelScope.launch {
             if (action == Action.NO_ACTION) {
@@ -284,12 +263,6 @@ class SharedViewModel(
                     _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
                 }
             }
-        }
-    }
-
-    private fun navigateToTaskScreen(taskID: Int) {
-        viewModelScope.launch {
-            _effect.emit(ListEffect.NavigateToTaskScreen(taskID = taskID))
         }
     }
 }
