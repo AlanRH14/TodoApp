@@ -36,8 +36,6 @@ class SharedViewModel(
 
     fun onEvent(event: ListUIEvent) {
         when (event) {
-            is ListUIEvent.GetTasks -> getTasks(priority = event.priority)
-            is ListUIEvent.OnSearchTextUpdate -> onSearchTextUpdate(searchText = event.searchText)
             is ListUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
@@ -46,9 +44,6 @@ class SharedViewModel(
             is ListUIEvent.OnSortTasksClicked -> {
                 getTasks(priority = event.priority)
             }
-
-            is ListUIEvent.OnSearchKeyAction -> searchTask()
-            is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
             is ListUIEvent.OnSwipeToDelete -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
@@ -103,8 +98,6 @@ class SharedViewModel(
                 priority = _state.value.priority
             )
 
-            Action.DELETE_ALL -> deleteAllTask()
-
             Action.UNDO -> addTask(
                 title = _state.value.titleTask,
                 description = _state.value.description,
@@ -112,21 +105,6 @@ class SharedViewModel(
             )
 
             else -> Unit
-        }
-    }
-
-    private fun searchTask() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.searchTask(searchQuery = "%${_state.value.searchText}%")
-                .collect { searchTasks ->
-                    when (searchTasks) {
-                        is RequestState.Success -> {
-                            _state.update { it.copy(tasks = searchTasks.data) }
-                        }
-
-                        else -> Unit
-                    }
-                }
         }
     }
 
@@ -182,12 +160,6 @@ class SharedViewModel(
         }
     }
 
-    private fun deleteAllTask() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllTasks()
-        }
-    }
-
     private fun updateTaskFields(taskSelected: ToDoTask?) {
         if (taskSelected != null) {
             _state.update {
@@ -218,14 +190,6 @@ class SharedViewModel(
                 }
             }
         }
-    }
-
-    private fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
-        _state.update { it.copy(searchAppBarState = searchAppBarState) }
-    }
-
-    private fun onSearchTextUpdate(searchText: String) {
-        _state.update { it.copy(searchText = searchText) }
     }
 
     private fun onTitleUpdate(title: String) {
