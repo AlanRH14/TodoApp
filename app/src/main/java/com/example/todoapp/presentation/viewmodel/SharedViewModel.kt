@@ -2,10 +2,8 @@ package com.example.todoapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoapp.data.local.preferences.ConstantsPreferences
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
-import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.mvi.ListEffect
 import com.example.todoapp.presentation.mvi.ListState
@@ -13,19 +11,16 @@ import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
 import com.example.todoapp.util.RequestState
-import com.example.todoapp.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SharedViewModel(
     private val repository: ToDoRepository,
-    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ListState())
@@ -44,12 +39,6 @@ class SharedViewModel(
             is ListUIEvent.OnSortTasksClicked -> {
                 getTasks(priority = event.priority)
             }
-            is ListUIEvent.OnSwipeToDelete -> {
-                onActionUpdate(action = event.action)
-                handleDatabaseActions(action = event.action)
-                updateTaskFields(taskSelected = event.taskSelected)
-            }
-
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
