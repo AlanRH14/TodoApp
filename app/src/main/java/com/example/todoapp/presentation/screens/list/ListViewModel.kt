@@ -55,8 +55,6 @@ class ListViewModel(
             is ListUIEvent.OnReadSortState -> readSortState()
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
             is ListUIEvent.OnNavigateToTaskScreen -> navigationToTaskScreen(taskID = event.taskID)
-
-            else -> Unit
         }
     }
 
