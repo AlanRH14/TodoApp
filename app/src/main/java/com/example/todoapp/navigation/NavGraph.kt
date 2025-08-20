@@ -16,12 +16,13 @@ fun NavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Screen.List(),
     ) {
-        composable<Screen.List>{ navBackStackEntry ->
+        composable<Screen.List> { navBackStackEntry ->
             val mAction = navBackStackEntry.toRoute<Screen.List>().action
-            val taskID  = navBackStackEntry.toRoute<Screen.List>().taskID
+            val taskID = navBackStackEntry.toRoute<Screen.List>().taskID
             ListScreen(
                 action = mAction,
-                navController = navController
+                taskID = taskID,
+                navController = navController,
             )
         }
 
