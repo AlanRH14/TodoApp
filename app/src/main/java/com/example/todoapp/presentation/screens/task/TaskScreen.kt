@@ -39,8 +39,8 @@ fun TaskScreen(
                 }
 
                 is TaskEffect.NavigateToListScreen -> {
-                    navController.navigate(Screen.List(action = effect.action)) {
-                        popUpTo(Screen.List()) {
+                    navController.navigate(Screen.List(action = effect.action, taskID = effect.taskID)) {
+                        popUpTo(Screen.List) {
                             inclusive = true
                         }
                     }
