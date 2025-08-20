@@ -21,7 +21,14 @@ fun TaskAppBar(
 ) {
     if (task == null) {
         NewTaskAppBar(
-            navigateToListScreen = { onEvent(TaskUIEvent.OnNavigateToListScreen(action = it)) }
+            navigateToListScreen = {
+                onEvent(
+                    TaskUIEvent.OnNavigateToListScreen(
+                        action = it,
+                        taskID = -1
+                    )
+                )
+            }
         )
     } else {
         var openDialog by remember { mutableStateOf(false) }
@@ -31,12 +38,26 @@ fun TaskAppBar(
             message = stringResource(R.string.delete_task_confirmation, task.title),
             openDialog = openDialog,
             closeDialog = { openDialog = false },
-            onConfirmClicked = { onEvent(TaskUIEvent.OnNavigateToListScreen(action = Action.DELETE)) }
+            onConfirmClicked = {
+                onEvent(
+                    TaskUIEvent.OnNavigateToListScreen(
+                        action = Action.DELETE,
+                        taskID = task.id
+                    )
+                )
+            }
         )
 
         ExistingTaskAppBar(
             task = task,
-            navigateToListScreen = { onEvent(TaskUIEvent.OnNavigateToListScreen(action = it)) },
+            navigateToListScreen = {
+                onEvent(
+                    TaskUIEvent.OnNavigateToListScreen(
+                        action = it,
+                        taskID = task.id
+                    )
+                )
+            },
             onDeleteClicked = {
                 openDialog = true
             }

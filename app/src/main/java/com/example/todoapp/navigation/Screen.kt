@@ -4,10 +4,10 @@ import com.example.todoapp.util.Action
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Screen {
+sealed interface Screen {
     @Serializable
-    data class List (val action: Action = Action.NO_ACTION): Screen()
+    data class List(val action: Action = Action.NO_ACTION, val taskID: Int = -1) : Screen
 
     @Serializable
-    data class Task(val taskId: Int): Screen()
+    data class Task(val taskId: Int = -1) : Screen
 }

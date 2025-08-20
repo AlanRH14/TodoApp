@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.todoapp.navigation.Screen
-import com.example.todoapp.presentation.screens.list.mvi.ListEffect
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
 import com.example.todoapp.presentation.viewmodel.TaskViewModel
@@ -35,19 +34,17 @@ fun TaskScreen(
     LaunchedEffect(key1 = true) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                is ListEffect.ShowMessage -> {
+                is TaskEffect.ShowMessage -> {
                     Toast.makeText(mContext, effect.message, Toast.LENGTH_SHORT).show()
                 }
 
-                is ListEffect.NavigateToListScreen -> {
-                    navController.navigate(Screen.List(action = effect.action)) {
+                is TaskEffect.NavigateToListScreen -> {
+                    navController.navigate(Screen.List(action = effect.action, taskID = effect.taskID)) {
                         popUpTo(Screen.List()) {
                             inclusive = true
                         }
                     }
                 }
-
-                else -> Unit
             }
         }
     }

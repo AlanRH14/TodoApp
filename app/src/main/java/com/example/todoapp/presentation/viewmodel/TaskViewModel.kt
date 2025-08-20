@@ -5,9 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.domain.repository.ToDoRepository
-import com.example.todoapp.presentation.screens.list.mvi.ListEffect
 import com.example.todoapp.presentation.screens.list.mvi.ListState
-import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.task.TaskEffect
 import com.example.todoapp.presentation.screens.task.TaskUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
@@ -26,7 +25,7 @@ class TaskViewModel(
     private val _state = MutableStateFlow(ListState())
     val state = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<ListEffect>()
+    private val _effect = MutableSharedFlow<TaskEffect>()
     val effect = _effect.asSharedFlow()
 
     fun onEvent(event: TaskUIEvent) {
@@ -38,11 +37,13 @@ class TaskViewModel(
 
             is TaskUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
             is TaskUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
-            is TaskUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
+            is TaskUIEvent.OnNavigateToListScreen -> navigateToListScreen(
+                action = event.action,
+                taskID = event.taskID
+            )
             is TaskUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTitle)
             is TaskUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
             is TaskUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
-            else -> Unit
         }
     }
 
@@ -178,17 +179,17 @@ class TaskViewModel(
         _state.update { it.copy(action = action) }
     }
 
-    private fun navigateToListScreen(action: Action) {
+    private fun navigateToListScreen(action: Action, taskID: Int) {
         viewModelScope.launch {
             if (action == Action.NO_ACTION) {
                 handleDatabaseActions(action = action)
-                _effect.emit(ListEffect.NavigateToListScreen(action = action))
+                _effect.emit(TaskEffect.NavigateToListScreen(action = action, taskID = taskID))
             } else {
                 if (validateFields()) {
                     handleDatabaseActions(action = action)
-                    _effect.emit(ListEffect.NavigateToListScreen(action = action))
+                    _effect.emit(TaskEffect.NavigateToListScreen(action = action, taskID = taskID))
                 } else {
-                    _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
+                    _effect.emit(TaskEffect.ShowMessage(message = "Fields Empty."))
                 }
             }
         }
