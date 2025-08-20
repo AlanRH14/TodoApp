@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Screen {
     @Serializable
-    data class List (val action: Action = Action.NO_ACTION): Screen()
+    data class List (val action: Action = Action.NO_ACTION, val taskID: Int): Screen()
 
     @Serializable
     data class Task(val taskId: Int): Screen()
