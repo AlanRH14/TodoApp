@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.R
 import com.example.todoapp.data.model.Priority
-import com.example.todoapp.presentation.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.task.components.PriorityDropDown
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.MEDIUM_PADDING
