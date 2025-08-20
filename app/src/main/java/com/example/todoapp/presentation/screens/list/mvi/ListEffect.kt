@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.mvi
+package com.example.todoapp.presentation.screens.list.mvi
 
 import com.example.todoapp.util.Action
 
