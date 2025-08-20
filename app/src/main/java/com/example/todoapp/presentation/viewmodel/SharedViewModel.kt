@@ -10,7 +10,6 @@ import com.example.todoapp.presentation.mvi.ListState
 import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
-import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -65,12 +64,6 @@ class SharedViewModel(
 
             Action.DELETE -> deleteTask(
                 id = _state.value.idTask,
-                title = _state.value.titleTask,
-                description = _state.value.description,
-                priority = _state.value.priority
-            )
-
-            Action.UNDO -> addTask(
                 title = _state.value.titleTask,
                 description = _state.value.description,
                 priority = _state.value.priority
