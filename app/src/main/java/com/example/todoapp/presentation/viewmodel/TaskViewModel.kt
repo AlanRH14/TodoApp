@@ -8,6 +8,7 @@ import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.screens.list.mvi.ListEffect
 import com.example.todoapp.presentation.screens.list.mvi.ListState
 import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.task.TaskUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
 import kotlinx.coroutines.Dispatchers
@@ -28,19 +29,19 @@ class TaskViewModel(
     private val _effect = MutableSharedFlow<ListEffect>()
     val effect = _effect.asSharedFlow()
 
-    fun onEvent(event: ListUIEvent) {
+    fun onEvent(event: TaskUIEvent) {
         when (event) {
-            is ListUIEvent.OnSnackBarActionClicked -> {
+            is TaskUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
 
-            is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
-            is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
-            is ListUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
-            is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
-            is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
-            is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
+            is TaskUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
+            is TaskUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
+            is TaskUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
+            is TaskUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTitle)
+            is TaskUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
+            is TaskUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
             else -> Unit
         }
     }
