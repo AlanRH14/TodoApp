@@ -8,6 +8,7 @@ import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.screens.list.mvi.ListEffect
 import com.example.todoapp.presentation.screens.list.mvi.ListState
 import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.task.TaskEffect
 import com.example.todoapp.presentation.screens.task.TaskUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
@@ -26,7 +27,7 @@ class TaskViewModel(
     private val _state = MutableStateFlow(ListState())
     val state = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<ListEffect>()
+    private val _effect = MutableSharedFlow<TaskEffect>()
     val effect = _effect.asSharedFlow()
 
     fun onEvent(event: TaskUIEvent) {
