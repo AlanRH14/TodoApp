@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { ListViewModel(get(), get()) }
-    viewModel { SharedViewModel(get(), get()) }
+    viewModel { SharedViewModel(get()) }
 }

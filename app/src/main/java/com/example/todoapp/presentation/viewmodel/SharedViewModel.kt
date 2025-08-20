@@ -35,8 +35,6 @@ class SharedViewModel(
                 handleDatabaseActions(action = event.action)
             }
 
-            is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
-
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
             is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
             is ListUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
