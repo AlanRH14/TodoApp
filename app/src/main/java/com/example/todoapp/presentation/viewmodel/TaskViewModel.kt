@@ -39,7 +39,10 @@ class TaskViewModel(
 
             is TaskUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
             is TaskUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
-            is TaskUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
+            is TaskUIEvent.OnNavigateToListScreen -> navigateToListScreen(
+                action = event.action,
+                taskID = event.taskID
+            )
             is TaskUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTitle)
             is TaskUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
             is TaskUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)

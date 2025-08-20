@@ -8,7 +8,7 @@ interface TaskUIEvent {
     data class OnSnackBarActionClicked(val action: Action) : TaskUIEvent
     data class OnGetTaskSelected(val taskID: Int) : TaskUIEvent
     data class OnTaskFieldsUpdate(val taskSelected: ToDoTask?) : TaskUIEvent
-    data class OnNavigateToListScreen(val action: Action) : TaskUIEvent
+    data class OnNavigateToListScreen(val action: Action, val taskID: Int) : TaskUIEvent
     data class OnTaskTitleUpdate(val taskTitle: String) : TaskUIEvent
     data class OnDescriptionUpdate(val description: String): TaskUIEvent
     data class OnPriorityUpdate(val priority: Priority): TaskUIEvent
