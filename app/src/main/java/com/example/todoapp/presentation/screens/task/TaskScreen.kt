@@ -35,19 +35,17 @@ fun TaskScreen(
     LaunchedEffect(key1 = true) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                is ListEffect.ShowMessage -> {
+                is TaskEffect.ShowMessage -> {
                     Toast.makeText(mContext, effect.message, Toast.LENGTH_SHORT).show()
                 }
 
-                is ListEffect.NavigateToListScreen -> {
+                is TaskEffect.NavigateToListScreen -> {
                     navController.navigate(Screen.List(action = effect.action)) {
                         popUpTo(Screen.List()) {
                             inclusive = true
                         }
                     }
                 }
-
-                else -> Unit
             }
         }
     }
