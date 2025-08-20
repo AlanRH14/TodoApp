@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.todoapp.R
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.task.TaskUIEvent
 import com.example.todoapp.presentation.screens.task.components.PriorityDropDown
 import com.example.todoapp.ui.theme.LARGE_PADDING
 import com.example.todoapp.ui.theme.MEDIUM_PADDING
@@ -24,7 +25,7 @@ import com.example.todoapp.ui.theme.Typography
 fun TaskContent(
     modifier: Modifier = Modifier,
     title: String,
-    onEvent: (ListUIEvent) -> Unit,
+    onEvent: (TaskUIEvent) -> Unit,
     description: String,
     priority: Priority,
 ) {
@@ -38,7 +39,7 @@ fun TaskContent(
                 .fillMaxWidth()
                 .padding(bottom = MEDIUM_PADDING),
             value = title,
-            onValueChange = { onEvent(ListUIEvent.OnTaskTitleUpdate(taskTile = it)) },
+            onValueChange = { onEvent(TaskUIEvent.OnTaskTitleUpdate(taskTitle = it)) },
             label = { Text(text = stringResource(R.string.add_task_title)) },
             textStyle = Typography.bodyLarge,
             singleLine = true
@@ -51,7 +52,7 @@ fun TaskContent(
 
         PriorityDropDown(
             priority = priority,
-            onPrioritySelected = { onEvent(ListUIEvent.OnPriorityUpdate(priority = it)) }
+            onPrioritySelected = { onEvent(TaskUIEvent.OnPriorityUpdate(priority = it)) }
         )
 
         HorizontalDivider(
@@ -62,7 +63,7 @@ fun TaskContent(
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
             value = description,
-            onValueChange = { onEvent(ListUIEvent.OnDescriptionUpdate(description = it)) },
+            onValueChange = { onEvent(TaskUIEvent.OnDescriptionUpdate(description = it)) },
             label = { Text(text = stringResource(R.string.description)) },
             textStyle = Typography.bodyLarge
         )
