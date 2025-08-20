@@ -179,17 +179,17 @@ class TaskViewModel(
         _state.update { it.copy(action = action) }
     }
 
-    private fun navigateToListScreen(action: Action) {
+    private fun navigateToListScreen(action: Action, taskID: Int) {
         viewModelScope.launch {
             if (action == Action.NO_ACTION) {
                 handleDatabaseActions(action = action)
-                _effect.emit(ListEffect.NavigateToListScreen(action = action))
+                _effect.emit(TaskEffect.NavigateToListScreen(action = action, taskID = taskID))
             } else {
                 if (validateFields()) {
                     handleDatabaseActions(action = action)
-                    _effect.emit(ListEffect.NavigateToListScreen(action = action))
+                    _effect.emit(TaskEffect.NavigateToListScreen(action = action, taskID = taskID))
                 } else {
-                    _effect.emit(ListEffect.ShowMessage(message = "Fields Empty."))
+                    _effect.emit(TaskEffect.ShowMessage(message = "Fields Empty."))
                 }
             }
         }
