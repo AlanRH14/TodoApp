@@ -12,17 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.todoapp.navigation.Screen
-import com.example.todoapp.presentation.mvi.ListEffect
-import com.example.todoapp.presentation.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.list.mvi.ListEffect
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
-import com.example.todoapp.presentation.viewmodel.SharedViewModel
+import com.example.todoapp.presentation.viewmodel.TaskViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TaskScreen(
-    viewModel: SharedViewModel = koinViewModel(),
+    viewModel: TaskViewModel = koinViewModel(),
     taskId: Int? = null,
     navController: NavHostController
 ) {
@@ -55,13 +54,13 @@ fun TaskScreen(
 
     LaunchedEffect(key1 = taskId) {
         if (taskId != null) {
-            viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskId))
+            viewModel.onEvent(TaskUIEvent.OnGetTaskSelected(taskID = taskId))
         }
     }
 
     LaunchedEffect(key1 = state.taskSelected) {
         if (state.taskSelected != null || taskId == -1) {
-            viewModel.onEvent(ListUIEvent.OnTaskFieldsUpdate(taskSelected = state.taskSelected))
+            viewModel.onEvent(TaskUIEvent.OnTaskFieldsUpdate(taskSelected = state.taskSelected))
         }
     }
 

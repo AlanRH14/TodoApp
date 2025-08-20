@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.domain.repository.ToDoRepository
-import com.example.todoapp.presentation.mvi.ListEffect
-import com.example.todoapp.presentation.mvi.ListState
-import com.example.todoapp.presentation.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.list.mvi.ListEffect
+import com.example.todoapp.presentation.screens.list.mvi.ListState
+import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.task.TaskUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
-import com.example.todoapp.util.RequestState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SharedViewModel(
+class TaskViewModel(
     private val repository: ToDoRepository,
 ) : ViewModel() {
 
@@ -29,39 +29,20 @@ class SharedViewModel(
     private val _effect = MutableSharedFlow<ListEffect>()
     val effect = _effect.asSharedFlow()
 
-    fun onEvent(event: ListUIEvent) {
+    fun onEvent(event: TaskUIEvent) {
         when (event) {
-            is ListUIEvent.OnSnackBarActionClicked -> {
+            is TaskUIEvent.OnSnackBarActionClicked -> {
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
 
-            is ListUIEvent.OnSortTasksClicked -> {
-                getTasks(priority = event.priority)
-            }
-            is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
-
-            is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
-            is ListUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
-            is ListUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
-            is ListUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTile)
-            is ListUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
-            is ListUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
+            is TaskUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
+            is TaskUIEvent.OnTaskFieldsUpdate -> updateTaskFields(taskSelected = event.taskSelected)
+            is TaskUIEvent.OnNavigateToListScreen -> navigateToListScreen(action = event.action)
+            is TaskUIEvent.OnTaskTitleUpdate -> onTitleUpdate(title = event.taskTitle)
+            is TaskUIEvent.OnDescriptionUpdate -> onDescriptionUpdate(event.description)
+            is TaskUIEvent.OnPriorityUpdate -> onPriorityUpdate(priority = event.priority)
             else -> Unit
-        }
-    }
-
-    private fun getTasks(priority: Priority) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getTasksByPriority(sortTasks = priority).collect { tasks ->
-                when (tasks) {
-                    is RequestState.Success -> {
-                        _state.update { it.copy(tasks = tasks.data) }
-                    }
-
-                    else -> Unit
-                }
-            }
         }
     }
 
@@ -82,12 +63,6 @@ class SharedViewModel(
 
             Action.DELETE -> deleteTask(
                 id = _state.value.idTask,
-                title = _state.value.titleTask,
-                description = _state.value.description,
-                priority = _state.value.priority
-            )
-
-            Action.UNDO -> addTask(
                 title = _state.value.titleTask,
                 description = _state.value.description,
                 priority = _state.value.priority

@@ -7,9 +7,9 @@ import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.domain.repository.DataStoreRepository
 import com.example.todoapp.domain.repository.ToDoRepository
-import com.example.todoapp.presentation.mvi.ListEffect
-import com.example.todoapp.presentation.mvi.ListState
-import com.example.todoapp.presentation.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.list.mvi.ListEffect
+import com.example.todoapp.presentation.screens.list.mvi.ListState
+import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.RequestState
 import com.example.todoapp.util.SearchAppBarState
@@ -41,12 +41,10 @@ class ListViewModel(
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
-
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
-
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
             is ListUIEvent.OnSwipeToDelete -> {
@@ -54,12 +52,9 @@ class ListViewModel(
                 handleDatabaseActions(action = event.action)
                 updateTaskSelected(taskSelected = event.taskSelected)
             }
-
             is ListUIEvent.OnReadSortState -> readSortState()
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
             is ListUIEvent.OnNavigateToTaskScreen -> navigationToTaskScreen(taskID = event.taskID)
-
-            else -> Unit
         }
     }
 

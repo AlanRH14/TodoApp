@@ -12,8 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.todoapp.navigation.Screen
-import com.example.todoapp.presentation.mvi.ListEffect
-import com.example.todoapp.presentation.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.list.mvi.ListEffect
+import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
 import com.example.todoapp.presentation.screens.list.components.DisplaySnackBar
 import com.example.todoapp.presentation.screens.list.components.ListFab
 import com.example.todoapp.presentation.screens.list.widgets.ListAppBar
