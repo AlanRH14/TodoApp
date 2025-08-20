@@ -55,13 +55,13 @@ fun TaskScreen(
 
     LaunchedEffect(key1 = taskId) {
         if (taskId != null) {
-            viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskId))
+            viewModel.onEvent(TaskUIEvent.OnGetTaskSelected(taskID = taskId))
         }
     }
 
     LaunchedEffect(key1 = state.taskSelected) {
         if (state.taskSelected != null || taskId == -1) {
-            viewModel.onEvent(ListUIEvent.OnTaskFieldsUpdate(taskSelected = state.taskSelected))
+            viewModel.onEvent(TaskUIEvent.OnTaskFieldsUpdate(taskSelected = state.taskSelected))
         }
     }
 

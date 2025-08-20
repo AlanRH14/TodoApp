@@ -10,6 +10,7 @@ import com.example.todoapp.R
 import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.presentation.components.DisplayAlertDialog
 import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
+import com.example.todoapp.presentation.screens.task.TaskUIEvent
 import com.example.todoapp.presentation.screens.task.components.ExistingTaskAppBar
 import com.example.todoapp.presentation.screens.task.components.NewTaskAppBar
 import com.example.todoapp.util.Action
@@ -17,11 +18,11 @@ import com.example.todoapp.util.Action
 @Composable
 fun TaskAppBar(
     task: ToDoTask?,
-    onEvent: (ListUIEvent) -> Unit,
+    onEvent: (TaskUIEvent) -> Unit,
 ) {
     if (task == null) {
         NewTaskAppBar(
-            navigateToListScreen = { onEvent(ListUIEvent.OnNavigateToListScreen(action = it)) }
+            navigateToListScreen = { onEvent(TaskUIEvent.OnNavigateToListScreen(action = it)) }
         )
     } else {
         var openDialog by remember { mutableStateOf(false) }
@@ -31,12 +32,12 @@ fun TaskAppBar(
             message = stringResource(R.string.delete_task_confirmation, task.title),
             openDialog = openDialog,
             closeDialog = { openDialog = false },
-            onConfirmClicked = { onEvent(ListUIEvent.OnNavigateToListScreen(action = Action.DELETE)) }
+            onConfirmClicked = { onEvent(TaskUIEvent.OnNavigateToListScreen(action = Action.DELETE)) }
         )
 
         ExistingTaskAppBar(
             task = task,
-            navigateToListScreen = { onEvent(ListUIEvent.OnNavigateToListScreen(action = it)) },
+            navigateToListScreen = { onEvent(TaskUIEvent.OnNavigateToListScreen(action = it)) },
             onDeleteClicked = {
                 openDialog = true
             }

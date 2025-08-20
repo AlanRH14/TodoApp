@@ -2,7 +2,6 @@ package com.example.todoapp.presentation.screens.task
 
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
-import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 
 interface TaskUIEvent {
