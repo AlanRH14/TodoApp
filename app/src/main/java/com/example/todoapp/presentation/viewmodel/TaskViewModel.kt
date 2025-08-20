@@ -6,7 +6,7 @@ import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.screens.list.mvi.ListEffect
-import com.example.todoapp.presentation.mvi.ListState
+import com.example.todoapp.presentation.screens.list.mvi.ListState
 import com.example.todoapp.presentation.mvi.ListUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
