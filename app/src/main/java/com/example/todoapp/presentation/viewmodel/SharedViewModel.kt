@@ -48,20 +48,6 @@ class SharedViewModel(
         }
     }
 
-    private fun getTasks(priority: Priority) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getTasksByPriority(sortTasks = priority).collect { tasks ->
-                when (tasks) {
-                    is RequestState.Success -> {
-                        _state.update { it.copy(tasks = tasks.data) }
-                    }
-
-                    else -> Unit
-                }
-            }
-        }
-    }
-
     private fun handleDatabaseActions(action: Action) {
         when (action) {
             Action.ADD -> addTask(
