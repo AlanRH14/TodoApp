@@ -36,9 +36,6 @@ class SharedViewModel(
                 handleDatabaseActions(action = event.action)
             }
 
-            is ListUIEvent.OnSortTasksClicked -> {
-                getTasks(priority = event.priority)
-            }
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
 
             is ListUIEvent.OnGetTaskSelected -> getSelectedTask(taskID = event.taskID)
