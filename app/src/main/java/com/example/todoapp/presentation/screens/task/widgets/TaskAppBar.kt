@@ -25,7 +25,7 @@ fun TaskAppBar(
                 onEvent(
                     TaskUIEvent.OnNavigateToListScreen(
                         action = it,
-                        taskID = -1
+                        taskTitle = ""
                     )
                 )
             }
@@ -42,7 +42,7 @@ fun TaskAppBar(
                 onEvent(
                     TaskUIEvent.OnNavigateToListScreen(
                         action = Action.DELETE,
-                        taskID = task.id
+                        taskTitle = task.title
                     )
                 )
             }
@@ -54,7 +54,7 @@ fun TaskAppBar(
                 onEvent(
                     TaskUIEvent.OnNavigateToListScreen(
                         action = it,
-                        taskID = task.id
+                        taskTitle = task.title
                     )
                 )
             },

@@ -37,9 +37,6 @@ fun ListScreen(
         viewModel.onEvent(ListUIEvent.OnReadSortState)
         if (action != state.action) {
             viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))
-            if (taskID > -1) {
-                viewModel.onEvent(ListUIEvent.OnGetTaskSelected(taskID = taskID))
-            }
         }
 
         viewModel.effect.collectLatest { effect ->
