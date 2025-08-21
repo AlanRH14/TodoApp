@@ -35,7 +35,9 @@ fun ListScreen(
     LaunchedEffect(key1 = true) {
         viewModel.onEvent(ListUIEvent.GetTasks(priority = state.priority))
         viewModel.onEvent(ListUIEvent.OnReadSortState)
-        viewModel.onEvent(ListUIEvent.)
+        if (taskTitle.isNotEmpty()) {
+            viewModel.onEvent(ListUIEvent.OnUpdateTitleTask(titleTask = taskTitle))
+        }
         if (action != state.action) {
             viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))
         }
