@@ -16,4 +16,5 @@ sealed interface ListUIEvent {
     data class OnActionUpdate(val action: Action): ListUIEvent
     data class OnNavigateToTaskScreen(val taskID: Int): ListUIEvent
     data object OnReadSortState : ListUIEvent
+    data class OnUpdateTitleTask(val titleTask: String): ListUIEvent
 }

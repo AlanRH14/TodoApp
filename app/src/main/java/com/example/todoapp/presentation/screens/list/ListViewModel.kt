@@ -41,10 +41,13 @@ class ListViewModel(
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
+
+            is ListUIEvent.OnUpdateTitleTask -> onUpdateTitleTask(titleTask = event.titleTask)
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
+
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
             is ListUIEvent.OnSwipeToDelete -> {
@@ -52,6 +55,7 @@ class ListViewModel(
                 handleDatabaseActions(action = event.action)
                 updateTaskSelected(taskSelected = event.taskSelected)
             }
+
             is ListUIEvent.OnReadSortState -> readSortState()
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
             is ListUIEvent.OnNavigateToTaskScreen -> navigationToTaskScreen(taskID = event.taskID)
@@ -153,14 +157,6 @@ class ListViewModel(
         }
     }
 
-    private fun getSelectTask(taskID: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getSelectedTask(taskId = taskID).collect { task ->
-                _state.update { it.copy(taskSelected = task) }
-            }
-        }
-    }
-
     private fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
         _state.update { it.copy(searchAppBarState = searchAppBarState) }
     }
@@ -199,24 +195,17 @@ class ListViewModel(
     }
 
     private fun updateTaskSelected(taskSelected: ToDoTask?) {
-        if (taskSelected != null) {
-            _state.update {
-                it.copy(
-                    idTask = taskSelected.id,
-                    titleTask = taskSelected.title,
-                    description = taskSelected.description,
-                    priority = taskSelected.priority,
-                )
-            }
-        } else {
-            _state.update {
-                it.copy(
-                    idTask = 0,
-                    titleTask = "",
-                    description = "",
-                    priority = Priority.NONE,
-                )
-            }
+        _state.update {
+            it.copy(
+                idTask = taskSelected?.id ?: -1,
+                titleTask = taskSelected?.title ?: "",
+                description = taskSelected?.description ?: "",
+                priority = taskSelected?.priority ?: Priority.NONE,
+            )
         }
+    }
+
+    private fun onUpdateTitleTask(titleTask: String) {
+        _state.update { it.copy(titleTask = titleTask) }
     }
 }
