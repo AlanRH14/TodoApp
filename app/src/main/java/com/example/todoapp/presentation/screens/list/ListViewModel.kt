@@ -157,14 +157,6 @@ class ListViewModel(
         }
     }
 
-    private fun getSelectTask(taskID: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getSelectedTask(taskId = taskID).collect { task ->
-                _state.update { it.copy(taskSelected = task) }
-            }
-        }
-    }
-
     private fun setSearchAppBarState(searchAppBarState: SearchAppBarState) {
         _state.update { it.copy(searchAppBarState = searchAppBarState) }
     }
