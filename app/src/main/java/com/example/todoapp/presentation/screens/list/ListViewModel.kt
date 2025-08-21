@@ -41,10 +41,13 @@ class ListViewModel(
                 onActionUpdate(action = event.action)
                 handleDatabaseActions(action = event.action)
             }
+
+            is ListUIEvent.OnGetTaskSelected -> getSelectTask(taskID = event.taskID)
             is ListUIEvent.OnSortTasksClicked -> {
                 saveSortState(priority = event.priority)
                 getTasks(priority = event.priority)
             }
+
             is ListUIEvent.OnSearchKeyAction -> searchTask()
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
             is ListUIEvent.OnSwipeToDelete -> {
@@ -52,6 +55,7 @@ class ListViewModel(
                 handleDatabaseActions(action = event.action)
                 updateTaskSelected(taskSelected = event.taskSelected)
             }
+
             is ListUIEvent.OnReadSortState -> readSortState()
             is ListUIEvent.OnActionUpdate -> onActionUpdate(action = event.action)
             is ListUIEvent.OnNavigateToTaskScreen -> navigationToTaskScreen(taskID = event.taskID)
