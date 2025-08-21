@@ -7,7 +7,7 @@ import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.domain.repository.ToDoRepository
 import com.example.todoapp.presentation.screens.list.mvi.ListState
 import com.example.todoapp.presentation.screens.task.mvi.TaskEffect
-import com.example.todoapp.presentation.screens.task.TaskUIEvent
+import com.example.todoapp.presentation.screens.task.mvi.TaskUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
 import kotlinx.coroutines.Dispatchers
