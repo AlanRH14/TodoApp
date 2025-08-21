@@ -25,7 +25,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ListScreen(
     action: Action = Action.NO_ACTION,
-    taskID: Int,
+    taskTitle: String,
     viewModel: ListViewModel = koinViewModel(),
     navController: NavHostController,
 ) {
@@ -53,7 +53,7 @@ fun ListScreen(
     DisplaySnackBar(
         scaffoldState = scaffoldState,
         onEvent = viewModel::onEvent,
-        taskTitle = state.titleTask,
+        taskTitle = taskTitle.ifEmpty { state.titleTask },
         action = state.action,
     )
 
