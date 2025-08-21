@@ -187,7 +187,7 @@ class TaskViewModel(
             } else {
                 if (validateFields()) {
                     handleDatabaseActions(action = action)
-                    _effect.emit(TaskEffect.NavigateToListScreen(action = action, taskTitle = taskTitle))
+                    _effect.emit(TaskEffect.NavigateToListScreen(action = action, taskTitle = taskTitle.ifEmpty { _state.value.titleTask }))
                 } else {
                     _effect.emit(TaskEffect.ShowMessage(message = "Fields Empty."))
                 }
