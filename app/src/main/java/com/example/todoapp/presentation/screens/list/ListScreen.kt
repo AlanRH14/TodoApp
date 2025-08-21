@@ -35,6 +35,7 @@ fun ListScreen(
     LaunchedEffect(key1 = true) {
         viewModel.onEvent(ListUIEvent.GetTasks(priority = state.priority))
         viewModel.onEvent(ListUIEvent.OnReadSortState)
+        viewModel.onEvent(ListUIEvent.)
         if (action != state.action) {
             viewModel.onEvent(ListUIEvent.OnActionUpdate(action = action))
         }
@@ -53,7 +54,7 @@ fun ListScreen(
     DisplaySnackBar(
         scaffoldState = scaffoldState,
         onEvent = viewModel::onEvent,
-        taskTitle = taskTitle.ifEmpty { state.titleTask },
+        taskTitle = state.titleTask,
         action = state.action,
     )
 

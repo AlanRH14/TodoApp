@@ -203,24 +203,18 @@ class ListViewModel(
     }
 
     private fun updateTaskSelected(taskSelected: ToDoTask?) {
-        if (taskSelected != null) {
-            _state.update {
-                it.copy(
-                    idTask = taskSelected.id,
-                    titleTask = taskSelected.title,
-                    description = taskSelected.description,
-                    priority = taskSelected.priority,
-                )
-            }
-        } else {
-            _state.update {
-                it.copy(
-                    idTask = 0,
-                    titleTask = "",
-                    description = "",
-                    priority = Priority.NONE,
-                )
-            }
+        _state.update {
+            it.copy(
+                idTask = taskSelected?.id ?: -1,
+                titleTask = taskSelected?.title ?: "",
+                description = taskSelected?.description ?: "",
+                priority = taskSelected?.priority ?: Priority.NONE,
+            )
         }
+
+    }
+
+    private fun onUpdateTitleTask(titleTask: String) {
+        _state.update { it.copy(titleTask = titleTask) }
     }
 }
