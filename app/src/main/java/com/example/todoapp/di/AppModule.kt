@@ -1,7 +1,7 @@
 package com.example.todoapp.di
 
 import com.example.todoapp.presentation.screens.list.ListViewModel
-import com.example.todoapp.presentation.viewmodel.TaskViewModel
+import com.example.todoapp.presentation.screens.task.TaskViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 

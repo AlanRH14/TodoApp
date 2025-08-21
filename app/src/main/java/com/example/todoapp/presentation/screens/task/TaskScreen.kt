@@ -12,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.todoapp.navigation.Screen
+import com.example.todoapp.presentation.screens.task.mvi.TaskEffect
+import com.example.todoapp.presentation.screens.task.mvi.TaskUIEvent
 import com.example.todoapp.presentation.screens.task.widgets.TaskAppBar
 import com.example.todoapp.presentation.screens.task.widgets.TaskContent
-import com.example.todoapp.presentation.viewmodel.TaskViewModel
+import com.example.todoapp.presentation.screens.task.TaskViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 

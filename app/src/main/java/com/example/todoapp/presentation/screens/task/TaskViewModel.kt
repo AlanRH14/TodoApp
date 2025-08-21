@@ -1,13 +1,13 @@
-package com.example.todoapp.presentation.viewmodel
+package com.example.todoapp.presentation.screens.task
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.Priority
 import com.example.todoapp.domain.ToDoTask
 import com.example.todoapp.domain.repository.ToDoRepository
-import com.example.todoapp.presentation.screens.list.mvi.ListState
-import com.example.todoapp.presentation.screens.task.TaskEffect
-import com.example.todoapp.presentation.screens.task.TaskUIEvent
+import com.example.todoapp.presentation.screens.task.mvi.TaskEffect
+import com.example.todoapp.presentation.screens.task.mvi.TaskState
+import com.example.todoapp.presentation.screens.task.mvi.TaskUIEvent
 import com.example.todoapp.util.Action
 import com.example.todoapp.util.Constants
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ class TaskViewModel(
     private val repository: ToDoRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ListState())
+    private val _state = MutableStateFlow(TaskState())
     val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<TaskEffect>()
@@ -56,14 +56,14 @@ class TaskViewModel(
             )
 
             Action.UPDATE -> updateTask(
-                id = _state.value.idTask,
+                id = _state.value.taskID,
                 title = _state.value.titleTask,
                 description = _state.value.description,
                 priority = _state.value.priority
             )
 
             Action.DELETE -> deleteTask(
-                id = _state.value.idTask,
+                id = _state.value.taskID,
                 title = _state.value.titleTask,
                 description = _state.value.description,
                 priority = _state.value.priority
@@ -129,7 +129,7 @@ class TaskViewModel(
         if (taskSelected != null) {
             _state.update {
                 it.copy(
-                    idTask = taskSelected.id,
+                    taskID = taskSelected.id,
                     titleTask = taskSelected.title,
                     description = taskSelected.description,
                     priority = taskSelected.priority,
@@ -138,7 +138,7 @@ class TaskViewModel(
         } else {
             _state.update {
                 it.copy(
-                    idTask = 0,
+                    taskID = 0,
                     titleTask = "",
                     description = "",
                     priority = Priority.NONE,
