@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import com.example.todoapp.presentation.screens.list.mvi.ListUIEvent
 import com.example.todoapp.util.Action
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -28,11 +29,17 @@ fun DisplaySnackBar(
                 undoDeletedTask(
                     action = action,
                     snackBarResult = snackBarResult,
-                    onUndoClicked = { onEvent(ListUIEvent.OnSnackBarActionClicked(action = it)) }
+                    onUndoClicked = {
+                        onEvent(ListUIEvent.OnSnackBarActionClicked(action = it))
+                        scaffoldState.currentSnackbarData?.dismiss()
+                    }
                 )
             }
             onEvent(ListUIEvent.OnSnackBarActionClicked(Action.NO_ACTION))
         }
+
+        delay(3000L)
+        scaffoldState.currentSnackbarData?.dismiss()
     }
 }
 
