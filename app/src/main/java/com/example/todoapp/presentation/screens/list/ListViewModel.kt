@@ -52,8 +52,8 @@ class ListViewModel(
             is ListUIEvent.OnSearchBarActionClicked -> setSearchAppBarState(searchAppBarState = event.action)
             is ListUIEvent.OnSwipeToDelete -> {
                 onActionUpdate(action = event.action)
-                handleDatabaseActions(action = event.action)
                 updateTaskSelected(taskSelected = event.taskSelected)
+                handleDatabaseActions(action = event.action)
             }
 
             is ListUIEvent.OnReadSortState -> readSortState()
