@@ -31,9 +31,7 @@ fun DisplaySnackBar(
                     snackBarResult = snackBarResult,
                     onUndoClicked = {
                         onEvent(ListUIEvent.OnSnackBarActionClicked(action = it))
-                        if (action.name == "OK") {
-                            scaffoldState.currentSnackbarData?.dismiss()
-                        }
+                        scaffoldState.currentSnackbarData?.dismiss()
                     }
                 )
             }
